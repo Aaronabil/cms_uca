@@ -6,12 +6,28 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+    return Inertia::render('Index', [
     ]);
+});
+
+Route::get('/sambutan-rektor', function (){
+    return Inertia::render('TentangUca/SambutanRektor');
+});
+
+Route::get('/visi-misi-dan-tujuan', function (){
+    return Inertia::render('TentangUca/VisiMisi');
+});
+
+Route::get('/newscoba', function (){
+    return Inertia::render('News/Index');
+});
+
+Route::get('semua-berita', function (){
+    return Inertia::render('News/SemuaBerita');
+});
+
+Route::get('/fasilitas-kampus', function (){
+    return Inertia::render('FasilitasKampus/Index');
 });
 
 Route::get('/dashboard', function () {
