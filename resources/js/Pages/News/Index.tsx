@@ -112,6 +112,102 @@ export default function NewsPage() {
                         </div>
                     </div>
                 </section>
+                <section className="max-w-4xl mx-auto px-4 py-12 border-t border-slate-200">
+                    <h3 className="text-2xl font-bold mb-8">Komentar (3)</h3>
+
+                    {/* Comment List */}
+                    <div className="space-y-8 mb-12">
+                        {/* Comment 1 */}
+                        <div className="flex gap-4">
+                            <div className="w-10 h-10 rounded-full bg-slate-200 flex-shrink-0 flex items-center justify-center text-slate-500 font-bold">
+                                JD
+                            </div>
+                            <div className="space-y-2">
+                                <div className="flex items-center gap-2">
+                                    <span className="font-bold text-slate-900">John Doe</span>
+                                    <span className="text-xs text-slate-500">• 2 jam yang lalu</span>
+                                </div>
+                                <p className="text-slate-700 leading-relaxed">
+                                    Artikel yang sangat inspiratif! Semoga prestasi ini bisa memotivasi mahasiswa lainnya untuk terus berkarya.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Comment 2 */}
+                        <div className="flex gap-4">
+                            <div className="w-10 h-10 rounded-full bg-slate-200 flex-shrink-0 flex items-center justify-center text-slate-500 font-bold">
+                                SA
+                            </div>
+                            <div className="space-y-2">
+                                <div className="flex items-center gap-2">
+                                    <span className="font-bold text-slate-900">Sarah Amalia</span>
+                                    <span className="text-xs text-slate-500">• 5 jam yang lalu</span>
+                                </div>
+                                <p className="text-slate-700 leading-relaxed">
+                                    Keren banget! Selamat buat tim yang menang. Ditunggu inovasi-inovasi selanjutnya.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Comment 3 */}
+                        <div className="flex gap-4">
+                            <div className="w-10 h-10 rounded-full bg-slate-200 flex-shrink-0 flex items-center justify-center text-slate-500 font-bold">
+                                BP
+                            </div>
+                            <div className="space-y-2">
+                                <div className="flex items-center gap-2">
+                                    <span className="font-bold text-slate-900">Budi Pratama</span>
+                                    <span className="text-xs text-slate-500">• 1 hari yang lalu</span>
+                                </div>
+                                <p className="text-slate-700 leading-relaxed">
+                                    Program Project Swim ini sangat bagus. Apakah ada info lebih lanjut untuk menjadi volunteer?
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Comment Form */}
+                    <div className="bg-slate-50 p-6 md:p-8 rounded-2xl">
+                        <h4 className="text-xl font-bold mb-6">Tinggalkan Komentar</h4>
+                        <form className="space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label htmlFor="name" className="text-sm font-medium text-slate-700">Nama Lengkap</label>
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                        placeholder="Nama Anda"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label htmlFor="email" className="text-sm font-medium text-slate-700">Email</label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                        placeholder="email@contoh.com"
+                                    />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <label htmlFor="comment" className="text-sm font-medium text-slate-700">Komentar</label>
+                                <textarea
+                                    id="comment"
+                                    rows={4}
+                                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none"
+                                    placeholder="Tulis komentar Anda di sini..."
+                                ></textarea>
+                            </div>
+                            <button
+                                type="submit"
+                                className="px-8 py-3 bg-primary text-white font-bold rounded-full hover:bg-primary/90 transition-colors"
+                            >
+                                Kirim Komentar
+                            </button>
+                        </form>
+                    </div>
+                </section>
 
                 {/* 4. MORE NEWS GRID (Optional / Tambahan biar tidak sepi) */}
                 <section className="max-w-7xl mx-auto px-4 py-12 border-t border-slate-200">
@@ -129,13 +225,13 @@ export default function NewsPage() {
                                 <div className="text-xs font-bold text-primary uppercase mb-2">Academics</div>
                                 <div className="text-xs font-bold uppercase mb-2">{MAIN_ARTICLE.date}</div>
                                 <h4 className="text-xl font-bold leading-tight group-hover:underline decoration-primary decoration-2 underline-offset-4">
-                                    <AnimatedTitle title={MAIN_ARTICLE.title}/>
+                                    <AnimatedTitle title={MAIN_ARTICLE.title} />
                                 </h4>
                             </div>
                         ))}
                     </div>
                 </section>
-            </div>
-        </GuestLayout>
+            </div >
+        </GuestLayout >
     );
 }
