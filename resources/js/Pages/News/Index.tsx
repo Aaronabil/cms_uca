@@ -72,7 +72,7 @@ export default function NewsPage() {
                         </div>
 
                         {/* THE RED BOX OVERLAY */}
-                        <div className="relative md:absolute -bottom-10 left-0 right-0 w-full md:w-[70%] lg:w-[60%] bg-green-900 p-6 md:p-10 lg:p-12 shadow-lg">
+                        <div className="relative md:absolute -bottom-10 left-0 right-0 w-full md:w-[70%] lg:w-[60%] bg-primary p-6 md:p-10 lg:p-12 shadow-lg">
                             <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
                                 {MAIN_ARTICLE.title}
                             </h2>
@@ -86,7 +86,7 @@ export default function NewsPage() {
 
                         {/* Sidebar / Meta Data */}
                         <div className="md:w-1/4 flex flex-col gap-2 text-xs md:text-sm font-bold uppercase tracking-wide text-slate-500 pt-2">
-                            <div className="text-green-900 flex flex-col-2">
+                            <div className="text-primary flex flex-col-2">
                                 <Tag
                                     className="w-5 h-5 mr-1"
                                 />
@@ -126,9 +126,9 @@ export default function NewsPage() {
                                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                     />
                                 </div>
-                                <div className="text-xs font-bold text-green-900 uppercase mb-2">Academics</div>
+                                <div className="text-xs font-bold text-primary uppercase mb-2">Academics</div>
                                 <div className="text-xs font-bold uppercase mb-2">{MAIN_ARTICLE.date}</div>
-                                <h4 className="text-xl font-bold leading-tight group-hover:underline decoration-green-900 decoration-2 underline-offset-4">
+                                <h4 className="text-xl font-bold leading-tight group-hover:underline decoration-primary decoration-2 underline-offset-4">
                                     <AnimatedTitle title={MAIN_ARTICLE.title}/>
                                 </h4>
                             </div>

@@ -15,53 +15,32 @@ const facilities = [
     },
     {
         id: 2,
-        name: "Laboratory",
-        description: "State-of-the-art laboratories equipped with the latest technology for groundbreaking research.",
-        image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=2000&auto=format&fit=crop",
-        category: "AVAILABLE FACILITY"
-    },
-    {
-        id: 3,
-        name: "Sports Center",
-        description: "Comprehensive sports facilities including a gym, swimming pool, and indoor courts.",
-        image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2000&auto=format&fit=crop",
-        category: "AVAILABLE FACILITY"
-    },
-    {
-        id: 4,
         name: "Auditorium",
         description: "A grand venue for conferences, performances, and university-wide events.",
         image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=2000&auto=format&fit=crop",
         category: "AVAILABLE FACILITY"
     },
     {
-        id: 5,
+        id: 3,
         name: "Dormitory",
         description: "Comfortable and secure on-campus housing fostering a vibrant student community.",
         image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?q=80&w=2000&auto=format&fit=crop",
         category: "AVAILABLE FACILITY"
     },
     {
-        id: 6,
+        id: 4,
         name: "Cafeteria",
         description: "A variety of dining options serving healthy and delicious meals for students and staff.",
         image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=2000&auto=format&fit=crop",
         category: "AVAILABLE FACILITY"
     },
     {
-        id: 7,
+        id: 5,
         name: "Computer Lab",
         description: "High-performance computing centers available 24/7 for student projects and research.",
         image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2000&auto=format&fit=crop",
         category: "AVAILABLE FACILITY"
     },
-    {
-        id: 8,
-        name: "Study Hall",
-        description: "Quiet and dedicated spaces designed for focused individual and group study.",
-        image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2000&auto=format&fit=crop",
-        category: "AVAILABLE FACILITY"
-    }
 ]
 
 export default function FasilitasKampus() {
@@ -79,7 +58,7 @@ export default function FasilitasKampus() {
             opacity: 1
         },
         exit: (direction: number) => ({
-            zIndex: 0,
+            zIndex: 0,  
             x: direction < 0 ? 1000 : -1000,
             opacity: 0
         })
@@ -161,19 +140,19 @@ export default function FasilitasKampus() {
                                     {/* Counter & Large Text */}
                                     <div className="relative">
                                         <div className="flex items-baseline gap-2 mb-[-2vw] md:mb-[-4vw] relative z-20">
-                                            <span className="text-4xl md:text-6xl font-light text-orange-200">
+                                            <span className="text-4xl md:text-6xl font-light text-secondary">
                                                 {String(currentIndex + 1).padStart(2, '0')}
                                             </span>
                                             <span className="text-xl md:text-2xl text-white/50">
                                                 /{String(facilities.length).padStart(2, '0')}
                                             </span>
                                         </div>
-                                        <h2 className="text-[18vw] font-bold leading-none tracking-tighter text-transparent stroke-text select-none mix-blend-overlay opacity-50">
+                                        <h2 className="mt-16 text-[4vw] font-bold leading-none tracking-tighter text-primary text-transparent stroke-text select-none mix-blend-overlay opacity-50">
                                             {facilities[currentIndex].name}
                                         </h2>
-                                        <h2 className="absolute bottom-0 left-0 text-[18vw] font-bold leading-none tracking-tighter text-white select-none overflow-hidden h-[30%] flex items-end">
+                                        {/* <h2 className="absolute bottom-0 left-0 text-[7vw] font-bold leading-none tracking-tighter text-white select-none overflow-hidden h-[30%] flex items-end">
                                             {facilities[currentIndex].name}
-                                        </h2>
+                                        </h2> */}
                                     </div>
 
                                     {/* Description & Navigation */}
@@ -202,7 +181,7 @@ export default function FasilitasKampus() {
                                         <div className="flex gap-4">
                                             <button
                                                 onClick={() => paginate(-1)}
-                                                className="p-4 rounded-full border border-white/20 hover:bg-orange-200 hover:text-black transition-colors duration-300"
+                                                className="p-4 rounded-full border border-white/20 hover:bg-secondary hover:text-black transition-colors duration-300"
                                             >
                                                 <ChevronLeft className="w-6 h-6" />
                                             </button>

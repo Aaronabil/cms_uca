@@ -12,7 +12,7 @@ export default function AnimatedTitle({
     title, 
     href = '/newscoba', 
     className = "", 
-    underlineColor = "bg-orange-200" 
+    underlineColor = "bg-secondary" 
 }: AnimatedTitleProps) {
 
     const words = title.split(' ');

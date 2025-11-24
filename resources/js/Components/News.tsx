@@ -100,7 +100,7 @@ export default function NewsSection() {
                             key={cat}
                             onClick={() => setActiveCategory(cat)}
                             className={`uppercase tracking-wider transition-colors duration-200 whitespace-nowrap ${activeCategory === cat
-                                ? 'text-green-900 font-bold border-b-2 border-green-900 md:border-none'
+                                ? 'text-primary font-bold border-b-2 border-primary md:border-none'
                                 : 'text-slate-400 hover:text-slate-900'
                                 }`}
                         >
@@ -122,7 +122,7 @@ export default function NewsSection() {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-90" />
 
                         <div className="absolute bottom-0 left-0 p-6 md:p-8 w-full text-white">
-                            <Badge className="bg-green-900 text-white mb-3 inline-block">
+                            <Badge className="bg-primary text-white mb-3 inline-block">
                                 {featuredNews.category}
                             </Badge>
 
@@ -171,7 +171,7 @@ export default function NewsSection() {
                                 {/* Content */}
                                 <div className="flex-1 flex flex-col">
                                     {/* Meta Info */}
-                                    <div className="flex items-center justify-between text-xs text-green-900 font-semibold uppercase tracking-wider mb-2">
+                                    <div className="flex items-center justify-between text-xs text-primary font-semibold uppercase tracking-wider mb-2">
                                         <span>{news.category}</span>
                                         <span className="text-slate-400 font-normal flex items-center normal-case">
                                             <MessageCircle className="w-3 h-3 mr-1" /> {news.comments}
@@ -200,7 +200,7 @@ export default function NewsSection() {
                     {/* View All Button (Optional) */}
                     {otherNews.length > 0 && (
                         <div className="mt-8 text-right">
-                            <Link href="/semua-berita" className="inline-flex items-center text-sm font-bold text-green-900 hover:underline">
+                            <Link href="/semua-berita" className="inline-flex items-center text-sm font-bold text-primary hover:underline">
                                 Lihat Semua Berita <ArrowRight className="w-4 h-4 ml-1" />
                             </Link>
                         </div>

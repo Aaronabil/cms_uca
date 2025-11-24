@@ -10,7 +10,7 @@ import {
     CarouselPrevious,
 } from '@/Components/ui/carousel';
 import { Card, CardContent, CardHeader } from '@/Components/ui/card'
-import { Building2, GraduationCap, CircleQuestionMark, ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react'
+import { Building2, GraduationCap, CircleQuestionMark, ChevronLeft, ChevronRight, ArrowUpRight, ArrowRight } from 'lucide-react'
 import { ReactNode } from 'react'
 import FAQSeputarUCA from '@/Components/FAQ';
 import NewsSection from '@/Components/News';
@@ -34,65 +34,54 @@ export default function Index() {
             <GuestLayout>
                 <main className="[--color-primary:var(--color-indigo-500)]">
                     <AnimatedSection delay={200}>
-                        <section ref={containerRef} className="relative w-full h-screen px-4 py-4 md:px-6 md:py-6 mt-12">
-                            <div className="relative w-full h-full overflow-hidden rounded-[2rem] md:rounded-[3rem]">
+                        <section ref={containerRef} className="relative w-full h-screen">
+                            <div className="relative w-full h-full overflow-hidden">
                                 {/* Background Image */}
                                 <motion.img
-                                    style={{ y, scale: 1.1 }}
-                                    src="/uca.jpg"
+                                    style={{ y, scale: 1.1, translateY: "30px" }}
+                                    src="/ucanew2-min.jpg"
                                     alt="UCA Campus"
-                                    className="absolute inset-0 w-full h-full object-cover"
+                                    className="absolute inset-0 w-full h-full object-cover object-[center_-60px]"
                                 />
 
                                 {/* Overlay */}
-                                <div className="absolute inset-0 bg-black/20" />
+                                <div className="absolute inset-0 bg-primary/30" />
 
                                 {/* Watermark Text */}
 
-                                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 z-10">
                                     <AnimatedSection delay={400}>
-                                        <h1 className="text-[20vw] font-bold text-green-900 opacity-70 select-none tracking-tighter">
-                                            UCA
+                                        {/* Pill Badge */}
+                                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm mb-8 hover:bg-white/20 transition-colors cursor-pointer group">
+                                            <span className="font-medium">Penerimaan Mahasiswa Baru 2025</span>
+                                            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                                        </div>
+
+                                        {/* Heading */}
+                                        <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight mb-6 max-w-5xl text-balance drop-shadow-sm">
+                                            Universitas Cendekia Abditama
                                         </h1>
-                                    </AnimatedSection>
-                                </div>
 
+                                        {/* Subtext */}
+                                        <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-10 text-balance drop-shadow-sm">
+                                            Mempersiapkan mahasiswa untuk memberikan kontribusi yang berarti pada masyarakat, bangsa dan dunia.
+                                        </p>
 
-                                {/* Bottom Content */}
-                                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12 text-white">
-                                    <AnimatedSection delay={600}>
-                                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                                        {/* Year */}
-                                        <div className="text-lg md:text-xl font-medium">
-                                            2025
+                                        {/* Buttons */}
+                                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                                            <Button size="lg" className="bg-white text-primary hover:bg-primary hover:text-white font-semibold rounded-full px-8 h-12 text-base">
+                                                Daftar Sekarang
+                                            </Button>
+                                            <Button size="lg" variant="ghost" className="text-white hover:bg-white/10 hover:text-white font-semibold rounded-full px-8 h-12 text-base">
+                                                Tentang Kami
+                                            </Button>
                                         </div>
-
-                                        {/* Description */}
-                                        <div className="max-w-md">
-                                            <h2 className="text-xl md:text-2xl font-semibold mb-2">
-                                                Universitas Cendekia Abditama
-                                            </h2>
-                                            <p className="text-white/80 text-sm md:text-base">
-                                                Check our selection of studentship accepting applications now
-                                            </p>
-                                        </div>
-
-                                        {/* Navigation Buttons */}
-                                        <div className="flex gap-3">
-                                            <button className="p-3 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors">
-                                                <ChevronLeft className="w-6 h-6 text-white" />
-                                            </button>
-                                            <button className="p-3 rounded-full bg-white text-black hover:bg-gray-100 transition-colors">
-                                                <ChevronRight className="w-6 h-6" />
-                                            </button>
-                                        </div>
-                                    </div>
                                     </AnimatedSection>
                                 </div>
                             </div>
                         </section>
                     </AnimatedSection>
-                    <section className="bg-green-900 py-20">
+                    <section className="bg-primary py-20">
                         <div className="mx-auto max-w-5xl px-6">
                             <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
                                 <div>
@@ -109,32 +98,37 @@ export default function Index() {
                                             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore sequi iure aliquam exercitationem, inventore debitis iusto, ipsa a ipsum id quasi? Impedit itaque officia beatae consequatur quisquam, nobis velit optio.
                                         </p>
                                         <Link href="/sambutan-rektor">
-                                            <Button className="mt-8 bg-white text-green-900 hover:bg-orange-300 hover:text-white">
+                                            <Button className="mt-8 bg-white text-primary hover:bg-orange-300 hover:text-white">
                                                 Sambutan Rektor &rarr;
                                             </Button>
                                         </Link>
                                     </AnimatedSection>
                                 </div>
                                 <AnimatedSection delay={800}>
-                                    <div>
-                                        <img
-                                            src="https://i1.rgstatic.net/ii/profile.image/660888327569408-1534579464650_Q512/Muhammad-Subali.jpg"
-                                            alt="Rektor"
-                                            className="rounded-lg"
-                                            width=""
-                                            height=""
-                                        />
+                                    <div className="relative mx-auto w-full max-w-sm pt-4 pr-4">
+                                        {/* Offset Border */}
+                                        <div className="absolute top-0 right-0 bottom-4 left-4 rounded-[2.5rem] border-2 border-secondary-foreground" />
+
+                                        {/* Image Container */}
+                                        <div className="relative rounded-[2.5rem] border-[6px] border-secondary bg-secondary overflow-hidden shadow-2xl">
+                                            <img
+                                                src="/rektor.jpg"
+                                                alt="Rektor"
+                                                className="w-full h-[400px] object-cover scale-110  object-[center_20%]"
+                                            />
+                                            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-primary to-transparent" />
+                                        </div>
                                     </div>
                                 </AnimatedSection>
                             </div>
                         </div>
                     </section>
 
-                    <section className="bg-gradient-to-br from-green-200 to-orange-200 py-16 md:py-32 dark:bg-transparent">
+                    <section className=" py-16 md:py-32 dark:bg-transparent">
                         <div className="@container mx-auto max-w-5xl px-6">
                             <AnimatedSection delay={200}>
                                 <div className="text-center">
-                                    <h2 className="text-balance text-4xl font-semibold lg:text-5xl text-green-900">Akademik</h2>
+                                    <h2 className="text-balance text-4xl font-semibold lg:text-5xl text-primary">Akademik</h2>
                                     <p className="mt-4">Mempersiapkan mahasiswa untuk memberikan kontribusi yang berarti pada masyarakat, bangsa dan dunia</p>
                                 </div>
                             </AnimatedSection>
@@ -144,11 +138,11 @@ export default function Index() {
                                         <CardHeader className="pb-3">
                                             <CardDecorator>
                                                 <CircleQuestionMark
-                                                    className="size-6 text-green-900"
+                                                    className="size-6 text-primary"
                                                     aria-hidden
                                                 />
                                             </CardDecorator>
-                                            <h3 className="mt-6 font-medium text-green-900">Mengapa UCA</h3>
+                                            <h3 className="mt-6 font-medium text-primary">Mengapa UCA</h3>
                                         </CardHeader>
                                         <CardContent>
                                             <p className="text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis ipsum dolore inventore molestias natus fugiat cumque illum consequatur quisquam. Expedita, itaque corrupti voluptates repellendus quae totam nesciunt architecto aperiam quia!</p>
@@ -158,11 +152,11 @@ export default function Index() {
                                         <CardHeader className="pb-3">
                                             <CardDecorator>
                                                 <Building2
-                                                    className="size-6 text-green-900"
+                                                    className="size-6 text-primary"
                                                     aria-hidden
                                                 />
                                             </CardDecorator>
-                                            <h3 className="mt-6 font-medium text-green-900">Tentang Fakultas</h3>
+                                            <h3 className="mt-6 font-medium text-primary">Tentang Fakultas</h3>
                                         </CardHeader>
                                         <CardContent>
                                             <p className="mt-3 text-sm">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Omnis placeat culpa atque alias ratione voluptatibus rem natus tenetur animi sapiente! Dolorem quasi maxime officiis enim magni eveniet necessitatibus eligendi. Tempore.</p>
@@ -172,11 +166,11 @@ export default function Index() {
                                         <CardHeader className="pb-3">
                                             <CardDecorator>
                                                 <GraduationCap
-                                                    className="size-6 text-green-900"
+                                                    className="size-6 text-primary"
                                                     aria-hidden
                                                 />
                                             </CardDecorator>
-                                            <h3 className="mt-6 font-medium text-green-900">Berkuliah di UCA</h3>
+                                            <h3 className="mt-6 font-medium text-primary">Berkuliah di UCA</h3>
                                         </CardHeader>
                                         <CardContent>
                                             <p className="mt-3 text-sm">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque distinctio tempore, similique expedita cupiditate ab laudantium neque sit iste nihil! Suscipit, vitae. Aspernatur laborum optio dolores. Deserunt incidunt aspernatur quis.</p>
@@ -187,31 +181,31 @@ export default function Index() {
                         </div>
                     </section>
                     <section>
-                        <div className="bg-green-900 py-24">
+                        <div className="bg-primary py-24">
                             <div className="mx-auto max-w-5xl px-6">
                                 <AnimatedSection delay={200}>
                                     <div>
                                         <h2 className="text-4xl text-white font-semibold lg:text-5xl">Fakta Universitas Cendekia Abditama</h2>
-                                        <p className="text-orange-200 mt-4 text-balance text-lg">Our platform continues to grow with developers and businesses using our tools to create innovative solutions and enhance productivity.</p>
+                                        <p className="text-secondary-foreground mt-4 text-balance text-lg">Our platform continues to grow with developers and businesses using our tools to create innovative solutions and enhance productivity.</p>
                                     </div>
                                 </AnimatedSection>
                                 <AnimatedSection delay={400}>
                                     <div className="mt-8 grid grid-cols-2 gap-4 md:mt-16 md:grid-cols-4">
                                         <div>
                                             <NumberTicker value={3000} className="text-white text-4xl font-bold" /><span className="text-white text-4xl font-bold">+</span>
-                                            <p className="text-orange-200">Mahasiswa</p>
+                                            <p className="text-secondary-foreground">Mahasiswa</p>
                                         </div>
                                         <div>
                                             <NumberTicker value={200} className="text-white text-4xl font-bold" /><span className="text-white text-4xl font-bold">+</span>
-                                            <p className="text-orange-200">Dosen</p>
+                                            <p className="text-secondary-foreground">Dosen</p>
                                         </div>
                                         <div>
                                             <NumberTicker value={50} className="text-white text-4xl font-bold" /><span className="text-white text-4xl font-bold">+</span>
-                                            <p className="text-orange-200">Program Studi</p>
+                                            <p className="text-secondary-foreground">Program Studi</p>
                                         </div>
                                         <div>
                                             <NumberTicker value={5000} className="text-white text-4xl font-bold" /><span className="text-white text-4xl font-bold">+</span>
-                                            <p className="text-orange-200">Alumni</p>
+                                            <p className="text-secondary-foreground">Alumni</p>
                                         </div>
                                     </div>
                                 </AnimatedSection>
@@ -220,12 +214,12 @@ export default function Index() {
                     </section>
 
                     {/* Faculty Section */}
-                    <section className="bg-orange-200 py-20 text-white">
+                    <section className="bg-secondary-foreground py-20 text-white">
                         <div className="mx-auto max-w-6xl px-6">
                             {/* Header */}
                             <div className="mb-16">
                                 <AnimatedSection delay={200}>
-                                    <p className="text-sm font-medium tracking-wider text-green-900 uppercase mb-4">Fakultas</p>
+                                    <p className="text-sm font-medium tracking-wider text-primary uppercase mb-4">Fakultas</p>
                                 </AnimatedSection>
                                 <AnimatedSection delay={250}>
                                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium leading-tight max-w-4xl">
@@ -246,7 +240,7 @@ export default function Index() {
                                     </div>
 
                                     {/* Item 2: Text Card */}
-                                    <div className="bg-green-800 rounded-3xl p-8 md:p-12 flex flex-col justify-between h-[400px] group hover:bg-green-900 transition-colors">
+                                    <div className="bg-primary rounded-3xl p-8 md:p-12 flex flex-col justify-between h-[400px] group hover:bg-green-900 transition-colors">
                                         <div>
                                             <span className="inline-block bg-white text-[#153d3d] px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
                                                 Sarjana
@@ -261,7 +255,7 @@ export default function Index() {
                                     </div>
 
                                     {/* Item 3: Text Card */}
-                                    <div className="bg-green-800 rounded-3xl p-8 md:p-12 flex flex-col justify-between h-[400px] group hover:bg-green-900 transition-colors">
+                                    <div className="bg-primary rounded-3xl p-8 md:p-12 flex flex-col justify-between h-[400px] group hover:bg-green-900 transition-colors">
                                         <div>
                                             <span className="inline-block bg-white text-[#153d3d] px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
                                                 Diploma dan Sarjana
@@ -293,7 +287,7 @@ export default function Index() {
                                     </div>
 
                                     {/* Item 2: Text Card */}
-                                    <div className="bg-green-800 rounded-3xl p-8 md:p-12 flex flex-col justify-between h-[400px] group hover:bg-green-900 transition-colors">
+                                    <div className="bg-primary rounded-3xl p-8 md:p-12 flex flex-col justify-between h-[400px] group hover:bg-green-900 transition-colors">
                                         <div>
                                             <span className="inline-block bg-white text-[#153d3d] px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
                                                 Sarjana
@@ -308,7 +302,7 @@ export default function Index() {
                                     </div>
 
                                     {/* Item 3: Text Card */}
-                                    <div className="bg-green-800 rounded-3xl p-8 md:p-12 flex flex-col justify-between h-[400px] group hover:bg-green-900 transition-colors">
+                                    <div className="bg-primary rounded-3xl p-8 md:p-12 flex flex-col justify-between h-[400px] group hover:bg-green-900 transition-colors">
                                         <div>
                                             <span className="inline-block bg-white text-[#153d3d] px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
                                                 Sarjana

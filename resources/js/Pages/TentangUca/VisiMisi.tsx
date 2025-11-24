@@ -32,8 +32,7 @@ export default function VisiMisi() {
                         <div className="overflow-hidden rounded-[2.5rem] bg-gray-100">
                             {/* Placeholder for the abstract spiral image */}
                             <img
-                                src="https://plus.unsplash.com/premium_photo-1691962725044-d80a7145f7ee?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="Abstract spiral architecture"
+                                src="/ucanew3.jpg"
                                 className="h-[400px] w-full object-cover md:h-[500px] lg:h-[600px]"
                             />
                         </div>
@@ -42,7 +41,7 @@ export default function VisiMisi() {
                         <div className="absolute -bottom-6 right-8 md:-bottom-8 md:right-12">
                             <Button
                                 size="icon"
-                                className="h-16 w-16 rounded-full bg-[#00C995] shadow-lg transition-transform hover:scale-105 hover:bg-[#00b585] md:h-20 md:w-20"
+                                className="h-16 w-16 rounded-full bg-primary shadow-lg transition-transform hover:scale-105 hover:bg-secondary md:h-20 md:w-20"
                             >
                                 <ArrowDown className="h-15 w-15 text-white md:h-10 md:w-10" />
                             </Button>
@@ -50,14 +49,14 @@ export default function VisiMisi() {
                     </div>
                     <div className="mt-10 gap-8 lg:gap-12">
                         {/* Vision Card */}
-                        <div id="vision" className="group relative bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border-t-8 border-green-900 overflow-hidden">
+                        <div id="vision" className="group relative bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border-t-8 border-primary overflow-hidden">
                             <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
-                                <Eye className="w-32 h-32 text-green-600" />
+                                <Eye className="w-32 h-32 text-primary" />
                             </div>
                             <div className="relative z-10">
                                 <div className="flex items-center space-x-3 mb-6">
                                     <div className="bg-green-100 p-3 rounded-xl">
-                                        <Eye className="w-8 h-8 text-green-700" />
+                                        <Eye className="w-8 h-8 text-primary" />
                                     </div>
                                     <h2 className="text-3xl font-bold text-slate-900">Visi</h2>
                                 </div>
@@ -70,7 +69,7 @@ export default function VisiMisi() {
                             <div className="flex items-center justify-between mb-8 px-2">
                                 <div className="flex items-center space-x-4">
                                     <div className="p-2 bg-orange-100 rounded-lg shadow-sm">
-                                        <Sparkles className="w-6 h-6 text-orange-600" />
+                                        <Sparkles className="w-6 h-6 text-secondary" />
                                     </div>
                                     <h2 className="text-3xl font-bold text-slate-900">Misi</h2>
                                 </div>
@@ -81,8 +80,8 @@ export default function VisiMisi() {
                                     Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
                                 ) : (
                                     data.mission.map((item, index) => (
-                                        <div key={index} className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow border-l-4 border-orange-500 flex items-start space-x-4">
-                                            <span className="text-4xl font-black text-orange-200 leading-none">{index + 1}</span>
+                                        <div key={index} className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow border-l-4 border-secondary-foreground flex items-start space-x-4">
+                                            <span className="text-4xl font-black text-secondary leading-none">{index + 1}</span>
                                             <p className="text-slate-700 text-lg leading-relaxed font-medium">{item}</p>
                                         </div>
                                     ))
