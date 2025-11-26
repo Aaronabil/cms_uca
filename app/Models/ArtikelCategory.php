@@ -9,3 +9,4 @@ class ArtikelCategory extends Model
     use HasFactory;
 
     protected $table = 'artikel_category';
+}

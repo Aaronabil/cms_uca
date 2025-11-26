@@ -24,6 +24,10 @@ class ArtikelsTable
                     ->label('Featured Image'),
                 TextColumn::make('title')
                     ->searchable(),
+                TextColumn::make('categories.category_name')
+                    ->badge()
+                    ->label('Kategori')
+                    ->wrap(),
                 TextColumn::make('slug')
                     ->searchable(),
                 TextColumn::make('status'),
