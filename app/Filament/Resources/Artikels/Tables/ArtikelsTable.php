@@ -3,11 +3,13 @@
 namespace App\Filament\Resources\Artikels\Tables;
 
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class ArtikelsTable
@@ -30,7 +32,13 @@ class ArtikelsTable
                     ->wrap(),
                 TextColumn::make('slug')
                     ->searchable(),
-                TextColumn::make('status'),
+                TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'draft' => 'gray',
+                        'published' => 'success',
+                        'archived' => 'warning',
+                    }),
                 TextColumn::make('published_at')
                     ->dateTime()
                     ->sortable(),
@@ -44,11 +52,20 @@ class ArtikelsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'published' => 'Published',
+                        'archived' => 'Archived',
+                    ]),
+                SelectFilter::make('categories')
+                    ->relationship('categories', 'category_name')
+                    ->label('Kategori'),
             ])
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\Login;
+use App\Filament\Widgets\StatsOverview;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -12,7 +13,6 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -28,11 +28,12 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login(Login::class)
+            ->login(\App\Filament\Pages\Auth\Login::class)
+            ->spa() // Makes navigation smoother
             ->sidebarCollapsibleOnDesktop()
             ->globalSearch(true)
-            ->favicon(asset('favicon.ico')) // NOTE: Pastikan file ini ada di folder public/
-            ->brandLogo(fn () => '<img src="https://images.unsplash.com/photo-1596526131083-0424a18144bb?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Unsplash Logo" class="h-8" />') // Menggunakan URL gambar langsung
+            ->favicon(asset('favicon.ico'))
+            ->brandLogo(fn () => '<img src="https://images.unsplash.com/photo-1596526131083-0424a18144bb?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Logo" class="h-8" />')
             ->darkMode(true)
             ->colors([
                 'primary' => Color::Amber,
@@ -45,7 +46,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
                 AccountWidget::class,
-                FilamentInfoWidget::class,
+                StatsOverview::class,
             ])
             ->middleware([
                 EncryptCookies::class,

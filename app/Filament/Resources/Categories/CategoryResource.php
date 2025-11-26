@@ -52,7 +52,6 @@ class CategoryResource extends Resource
     {
         return [
             'index' => ListCategories::route('/'),
-            'create' => CreateCategory::route('/create'),
             'view' => ViewCategory::route('/{record}'),
             'edit' => EditCategory::route('/{record}/edit'),
         ];

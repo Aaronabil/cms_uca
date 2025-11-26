@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ArtikelImage extends Model
 {
-    //
+    use HasFactory;
+
+    protected $fillable = ['artikel_id', 'image_url', 'caption'];
 }

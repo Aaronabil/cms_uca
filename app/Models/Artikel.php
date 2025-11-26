@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Storage;
 
 class Artikel extends Model
 {
@@ -22,6 +23,19 @@ class Artikel extends Model
         'status',
         'published_at',
     ];
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (Artikel $artikel) {
+            if ($artikel->featuredImage) {
+                Storage::disk('public')->delete($artikel->featuredImage->image_url);
+                $artikel->featuredImage->delete();
+            }
+        });
+    }
 
     /**
      * Get the featured image for the artikel.

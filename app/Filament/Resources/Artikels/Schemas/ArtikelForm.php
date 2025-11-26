@@ -8,11 +8,13 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Set;
+use Filament\Forms\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Components\Wizard;
 use Filament\Schemas\Components\Wizard\Step;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 
@@ -30,7 +32,6 @@ class ArtikelForm
                         ->schema([
                             Select::make('categories')
                                 ->relationship('categories', 'category_name')
-                                ->multiple()
                                 ->preload()
                                 ->required()
                                 ->label('Kategori Artikel'),
@@ -46,11 +47,14 @@ class ArtikelForm
                             TextInput::make('title')
                                 ->required()
                                 ->live(onBlur: true)
-                                ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state)))
+                                ->afterStateUpdated(function (Get $get, Set $set, ?string $state) {
+                                    if (blank($get('slug'))) {
+                                        $set('slug', Str::slug($state));
+                                    }
+                                })
                                 ->maxLength(255),
-                            TextInput::make('slug')
+                            Hidden::make('slug')
                                 ->required()
-                                ->maxLength(255)
                                 ->unique(ignoreRecord: true),
                             RichEditor::make('content')
                                 ->columnSpanFull(),
@@ -63,8 +67,13 @@ class ArtikelForm
                                 ->default('draft')
                                 ->required(),
                             DateTimePicker::make('published_at'),
-                            FileUpload::make('featured_image_id')
-                                ->image()->label('Gambar Unggulan'),
+                            FileUpload::make('featured_image_upload')
+                                ->id('featured_image_upload_field')
+                                ->image()
+                                ->label('Gambar Unggulan')
+                                ->disk('public')
+                                ->directory('images/artikels')
+                                ->maxSize(2048), // Max 2MB
                         ]),
                 ])
                 ->submitAction(new HtmlString(Blade::render(<<<BLADE

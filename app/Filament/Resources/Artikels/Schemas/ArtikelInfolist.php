@@ -11,20 +11,35 @@ class ArtikelInfolist
     public static function configure(Schema $schema): Schema
     {
         return $schema
+            ->columns(3)
             ->components([
-                TextEntry::make('users_id')
-                    ->numeric(),
-                ImageEntry::make('featured_image_id')
-                    ->numeric(),
-                TextEntry::make('title'),
-                TextEntry::make('slug'),
-                TextEntry::make('status'),
+                TextEntry::make('user.name')
+                    ->label('Author')
+                    ->columnSpan(1),
+                TextEntry::make('title')
+                    ->columnSpan(2),
+                TextEntry::make('slug')
+                    ->columnSpan(3),
+                ImageEntry::make('featuredImage.image_url')
+                    ->label('Featured Image')
+                    ->disk('public')
+                    ->height(200)
+                    ->columnSpanFull(),
+                TextEntry::make('status')
+                    ->badge()
+                    ->columnSpan(1),
                 TextEntry::make('published_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->columnSpan(1),
                 TextEntry::make('created_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->columnSpan(1),
                 TextEntry::make('updated_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->columnSpan(1),
+                TextEntry::make('content')
+                    ->html()
+                    ->columnSpanFull(),
             ]);
     }
 }
