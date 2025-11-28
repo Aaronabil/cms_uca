@@ -15,13 +15,17 @@ class StudyProgramsTable
     {
         return $table
             ->columns([
-                TextColumn::make('faculty_id')
-                    ->numeric()
-                    ->sortable(),
                 TextColumn::make('name')
+                    ->label('Program Studi')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('faculty.name')
+                    ->label('Fakultas')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('slug')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

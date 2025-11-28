@@ -2,10 +2,8 @@
 
 namespace App\Filament\Resources\Pages\Schemas;
 
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Str;
 
 class PageForm
 {
@@ -13,20 +11,26 @@ class PageForm
     {
         return $schema
             ->components([
-                TextInput::make('users_id')
+                \Filament\Forms\Components\TextInput::make('title')
                     ->required()
-                    ->numeric(),
-                TextInput::make('title')
-                    ->required(),
-                TextInput::make('slug')
-                    ->required(),
-                Textarea::make('content')
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn ($set, ?string $state) => $set('slug', Str::slug($state))),
+                \Filament\Forms\Components\TextInput::make('slug')
                     ->required()
-                    ->columnSpanFull(),
-                Select::make('status')
-                    ->options(['draft' => 'Draft', 'published' => 'Published'])
+                    ->unique(ignoreRecord: true),
+                \Filament\Forms\Components\Select::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'published' => 'Published',
+                    ])
                     ->default('draft')
                     ->required(),
+                \Filament\Forms\Components\Hidden::make('users_id')
+                    ->default(fn () => auth()->id())
+                    ->required(),
+                \Filament\Forms\Components\RichEditor::make('content')
+                    ->required()
+                    ->columnSpanFull(),
             ]);
     }
 }

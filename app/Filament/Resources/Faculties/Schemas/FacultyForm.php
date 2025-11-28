@@ -2,9 +2,8 @@
 
 namespace App\Filament\Resources\Faculties\Schemas;
 
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Str;
 
 class FacultyForm
 {
@@ -12,13 +11,27 @@ class FacultyForm
     {
         return $schema
             ->components([
-                TextInput::make('name')
-                    ->required(),
-                FileUpload::make('image_url')
-                    ->image()
-                    ->required(),
-                TextInput::make('slug')
-                    ->required(),
+                \Filament\Schemas\Components\Section::make()
+                    ->columns(2)
+                    ->schema([
+                        \Filament\Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255)
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(fn ($set, ?string $state) => $set('slug', Str::slug($state))),
+
+                        \Filament\Forms\Components\TextInput::make('slug')
+                            ->required()
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true),
+
+                        \Filament\Forms\Components\FileUpload::make('image_url')
+                            ->label('Logo / Foto Fakultas')
+                            ->image()
+                            ->directory('faculties')
+                            ->required()
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\StudyPrograms\Schemas;
 
-use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Str;
 
 class StudyProgramForm
 {
@@ -11,13 +11,29 @@ class StudyProgramForm
     {
         return $schema
             ->components([
-                TextInput::make('faculty_id')
-                    ->required()
-                    ->numeric(),
-                TextInput::make('name')
-                    ->required(),
-                TextInput::make('slug')
-                    ->required(),
+                \Filament\Schemas\Components\Section::make()
+                    ->columns(2)
+                    ->schema([
+                        \Filament\Forms\Components\Select::make('faculty_id')
+                            ->relationship('faculty', 'name')
+                            ->label('Fakultas')
+                            ->searchable()
+                            ->preload()
+                            ->required()
+                            ->columnSpanFull(),
+
+                        \Filament\Forms\Components\TextInput::make('name')
+                            ->label('Nama Program Studi')
+                            ->required()
+                            ->maxLength(255)
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(fn ($set, ?string $state) => $set('slug', Str::slug($state))),
+
+                        \Filament\Forms\Components\TextInput::make('slug')
+                            ->required()
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true),
+                    ]),
             ]);
     }
 }
