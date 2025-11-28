@@ -122,7 +122,7 @@ export default function SambutanRektor() {
                                     key={index}
                                     className="group overflow-hidden">
                                     <img
-                                        className={`h-96 w-full rounded-md object-cover grayscale transition-all duration-500 hover:grayscale-0 group-hover:h-[22.5rem] group-hover:rounded-xl ${member.position || 'object-center'}`}
+                                        className={`h-96 w-full rounded-md object-cover transition-all duration-500 group-hover:h-[22.5rem] group-hover:rounded-xl ${member.position || 'object-center'}`}
                                         src={member.avatar}
                                         alt="team member"
                                         width="826"

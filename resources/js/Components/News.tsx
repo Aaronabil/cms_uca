@@ -86,7 +86,7 @@ export default function NewsSection() {
     if (!featuredNews) return <div className="py-20 text-center">Belum ada berita di kategori ini.</div>;
 
     return (
-        <section className="py-16 px-4 max-w-7xl mx-auto font-sans text-slate-800 bg-white">
+        <section className="py-16 px-4 max-w-7xl mx-auto font-sans text-slate-800 bg-gray-50">
 
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 space-y-4 md:space-y-0">
                 <div>

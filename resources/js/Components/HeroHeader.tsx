@@ -1,7 +1,7 @@
 'use client'
 import { Link } from '@inertiajs/react'
 import ApplicationLogo from '@/Components/ApplicationLogo'
-import { Menu, X, CircleHelpIcon, CircleIcon, CircleCheckIcon, Plus, Minus } from 'lucide-react'
+import { Menu, X, CircleHelpIcon, CircleIcon, CircleCheckIcon, Plus, Minus, ChevronRight } from 'lucide-react'
 import { Button } from '@/Components/ui/button'
 import React, { useState } from 'react'
 import { cn } from '@/lib/utils'
@@ -20,12 +20,9 @@ import { AnimatePresence, motion } from 'framer-motion'
 type NavItem = {
     title: string;
     href?: string;
-    items?: {
-        title: string;
-        href: string;
-        description?: string;
-        icon?: React.ReactNode;
-    }[];
+    items?: NavItem[];
+    description?: string;
+    icon?: React.ReactNode;
 }
 
 const navItems: NavItem[] = [
@@ -34,11 +31,57 @@ const navItems: NavItem[] = [
         title: "Tentang UCA",
         items: [
             { title: "Sejarah UCA", href: "/sejarah-uca" },
-            { title: "Sambutan Rektor", href: "/sambutan-rektor" },
+            { title: "Pimpinan Universitas", href: "/sambutan-rektor" },
             { title: "Visi, Misi dan Tujuan", href: "/visi-misi-dan-tujuan" },
         ]
     },
-    { title: "Docs", href: "/docs" },
+    {
+        title: "Akademik",
+        items: [
+            { title: "Kalender Akademik", href: "/kalender-akademik" },
+            { title: "Data Dosen", href: "/data-dosen" },
+            {
+                title: "Fakultas & Prodi",
+                items: [
+                    {
+                        title: "Fakultas Ekonomi dan Bisnis Islam",
+                        href: "/fakultas/ekonomi-dan-bisnis-islam",
+                        items: [
+                            { title: "Akuntansi", href: "/prodi/akuntansi" },
+                            { title: "Bisnis Digital", href: "/prodi/bisnis-digital" },
+                            { title: "Perbankan Syariah", href: "/prodi/perbankan-syariah" },
+                            { title: "Ekonomi Syariah", href: "/prodi/ekonomi-syariah" },
+                        ]
+                    },
+                    {
+                        title: "Fakultas Ilmu Keperawatan",
+                        href: "/fakultas/ilmu-keperawatan",
+                        items: [
+                            { title: "Keperawatan", href: "/prodi/keperawatan" },
+                        ]
+                    },
+                    {
+                        title: "Fakultas Tarbiyah dan Ilmu Keguruan",
+                        href: "/fakultas/tarbiyah-dan-ilmu-keguruan",
+                        items: [
+                            { title: "Pendidikan Agama Islam", href: "/prodi/pendidikan-agama-islam" },
+                            { title: "Pendidikan Islam Anak Usia Dini", href: "/prodi/pendidikan-islam-anak-usia-dini" },
+                            { title: "Manajemen Pendidikan Islam", href: "/prodi/manajemen-pendidikan-islam" },
+                        ]
+                    },
+                    {
+                        title: "Fakultas Teknik",
+                        href: "/fakultas/teknik",
+                        items: [
+                            { title: "Teknik Informatika", href: "/prodi/teknik-informatika" },
+                            { title: "Teknik Elektro", href: "/prodi/teknik-elektro" },
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    { title: "Fasilitas Kampus", href: "/fasilitas-kampus" },
     {
         title: "List",
         items: [
@@ -65,10 +108,44 @@ const navItems: NavItem[] = [
     }
 ]
 
+const faculties = [
+    {
+        name: "Fakultas Ekonomi dan Bisnis Islam",
+        href: "/fakultas/ekonomi-dan-bisnis-islam",
+        prodi: ["Akuntansi", "Bisnis Digital", "Perbankan Syariah", "Ekonomi Syariah"]
+    },
+    {
+        name: "Fakultas Ilmu Keperawatan",
+        href: "/fakultas/ilmu-keperawatan",
+        prodi: ["Keperawatan"]
+    },
+    {
+        name: "Fakultas Tarbiyah dan Ilmu Keguruan",
+        href: "/fakultas/tarbiyah-dan-ilmu-keguruan",
+        prodi: ["Pendidikan Agama Islam", "Pendidikan Islam Anak Usia Dini", "Manajemen Pendidikan Islam"]
+    },
+    {
+        name: "Fakultas Teknik",
+        href: "/fakultas/teknik",
+        prodi: ["Teknik Informatika", "Teknik Elektro"]
+    }
+];
+
+const createSlug = (text: string) => {
+    return text
+        .toLowerCase()
+        .replace(/ /g, '-')
+        .replace(/[^\w-]+/g, '');
+};
+
 export const HeroHeader = () => {
     const [menuState, setMenuState] = React.useState(false)
     const [isScrolled, setIsScrolled] = React.useState(false)
     const [expandedItem, setExpandedItem] = useState<string | null>(null)
+
+    // State for the nested Mega Menu
+    const [showFaculties, setShowFaculties] = useState(false);
+    const [activeFaculty, setActiveFaculty] = useState<string | null>(null);
 
     React.useEffect(() => {
         const handleScroll = () => {
@@ -116,11 +193,13 @@ export const HeroHeader = () => {
                                             <ul className="grid w-[200px] gap-4 px-3 py-3">
                                                 <li>
                                                     <NavigationMenuLink asChild>
-                                                        <ListItem href="/sejarah-uca" title="Sejarah UCA"></ListItem>
+                                                        <Link href="/sejarah-uca">
+                                                            <ListItem title="Sejarah UCA"></ListItem>
+                                                        </Link>
                                                     </NavigationMenuLink>
                                                     <NavigationMenuLink asChild>
                                                         <Link href="/sambutan-rektor">
-                                                            <ListItem title="Sambutan Rektor"></ListItem>
+                                                            <ListItem title="Pimpinan Universitas"></ListItem>
                                                         </Link>
                                                     </NavigationMenuLink>
                                                     <NavigationMenuLink asChild>
@@ -130,6 +209,79 @@ export const HeroHeader = () => {
                                                     </NavigationMenuLink>
                                                 </li>
                                             </ul>
+                                        </NavigationMenuContent>
+                                    </NavigationMenuItem>
+                                    <NavigationMenuItem className="hidden md:block">
+                                        <NavigationMenuTrigger className="hover:text-green-900 text-black">Akademik</NavigationMenuTrigger>
+                                        <NavigationMenuContent>
+                                            <div className="flex w-max" onMouseLeave={() => { setShowFaculties(false); setActiveFaculty(null); }}>
+                                                {/* Column 1: Main Menu */}
+                                                <ul className="w-[200px] gap-4 px-3 py-3">
+                                                    <li>
+                                                        <div
+                                                            onMouseEnter={() => setShowFaculties(true)}
+                                                            className="flex items-center justify-between w-full p-2 text-sm font-medium leading-none no-underline rounded-md outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer"
+                                                        >
+                                                            <span>Fakultas & Prodi</span>
+                                                            <ChevronRight className="w-4 h-4 ml-2" />
+                                                        </div>
+                                                        <NavigationMenuLink asChild>
+                                                            <Link href="/kalender-akademik">
+                                                                <ListItem title="Kalender Akademik"></ListItem>
+                                                            </Link>
+                                                        </NavigationMenuLink>
+                                                        <NavigationMenuLink asChild>
+                                                            <Link href="/data-dosen">
+                                                                <ListItem title="Data Dosen"></ListItem>
+                                                            </Link>
+                                                        </NavigationMenuLink>
+                                                    </li>
+                                                </ul>
+
+                                                {/* Column 2: Faculties */}
+                                                {showFaculties && (
+                                                    <ul className="w-[300px] border-l border-gray-100 bg-gray-50/50 px-3 py-3 animate-in fade-in slide-in-from-left-2 duration-200">
+                                                        {faculties.map((faculty) => (
+                                                            <li key={faculty.name}>
+                                                                <NavigationMenuLink asChild>
+                                                                    <Link
+                                                                        href={faculty.href}
+                                                                        onMouseEnter={() => setActiveFaculty(faculty.name)}
+                                                                        className={cn(
+                                                                            "flex items-center justify-between w-full p-2 text-sm font-medium leading-none no-underline rounded-md outline-none transition-colors hover:bg-white hover:text-green-900 cursor-pointer",
+                                                                            activeFaculty === faculty.name && "bg-white text-green-900 shadow-sm"
+                                                                        )}
+                                                                    >
+                                                                        <span>{faculty.name}</span>
+                                                                        <ChevronRight className="w-4 h-4 ml-2" />
+                                                                    </Link>
+                                                                </NavigationMenuLink>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                )}
+
+                                                {/* Column 3: Prodi */}
+                                                {activeFaculty && (
+                                                    <ul className="w-[250px] border-l border-gray-100 bg-white px-3 py-3 animate-in fade-in slide-in-from-left-2 duration-200">
+                                                        <li className="mb-2 px-2 text-xs font-bold text-gray-400 uppercase tracking-wider">
+                                                            Program Studi
+                                                        </li>
+                                                        {faculties.find(f => f.name === activeFaculty)?.prodi.map((prodi) => (
+                                                            <li key={prodi}>
+                                                                <NavigationMenuLink asChild>
+                                                                    <Link
+                                                                        href={`/prodi/${createSlug(prodi)}`}
+                                                                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                                                                    >
+                                                                        <div className="text-sm font-medium leading-none">{prodi}</div>
+                                                                    </Link>
+                                                                </NavigationMenuLink>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                )}
+                                            </div>
                                         </NavigationMenuContent>
                                     </NavigationMenuItem>
                                     <NavigationMenuItem>
@@ -257,54 +409,7 @@ export const HeroHeader = () => {
 
                                 <ul className="space-y-4">
                                     {navItems.map((item, index) => (
-                                        <li key={index} className="border-b border-gray-100 pb-4 last:border-0">
-                                            {item.items ? (
-                                                <div>
-                                                    <button
-                                                        onClick={() => toggleExpand(item.title)}
-                                                        className="flex w-full items-center justify-between font-semibold text-gray-900"
-                                                    >
-                                                        <span>{item.title}</span>
-                                                        {expandedItem === item.title ? (
-                                                            <Minus className="size-4 text-gray-500" />
-                                                        ) : (
-                                                            <Plus className="size-4 text-gray-500" />
-                                                        )}
-                                                    </button>
-                                                    <AnimatePresence>
-                                                        {expandedItem === item.title && (
-                                                            <motion.div
-                                                                initial={{ height: 0, opacity: 0 }}
-                                                                animate={{ height: 'auto', opacity: 1 }}
-                                                                exit={{ height: 0, opacity: 0 }}
-                                                                className="overflow-hidden"
-                                                            >
-                                                                <ul className="mt-4 space-y-3 pl-4">
-                                                                    {item.items.map((subItem, subIndex) => (
-                                                                        <li key={subIndex}>
-                                                                            <Link
-                                                                                href={subItem.href}
-                                                                                className="flex items-center gap-2 text-sm text-gray-600 hover:text-green-900"
-                                                                            >
-                                                                                {subItem.icon && <span>{subItem.icon}</span>}
-                                                                                <span>{subItem.title}</span>
-                                                                            </Link>
-                                                                        </li>
-                                                                    ))}
-                                                                </ul>
-                                                            </motion.div>
-                                                        )}
-                                                    </AnimatePresence>
-                                                </div>
-                                            ) : (
-                                                <Link
-                                                    href={item.href || '#'}
-                                                    className="block font-semibold text-gray-900 hover:text-green-900"
-                                                >
-                                                    {item.title}
-                                                </Link>
-                                            )}
-                                        </li>
+                                        <MobileMenuItem key={index} item={item} />
                                     ))}
                                 </ul>
                             </div>
@@ -315,3 +420,72 @@ export const HeroHeader = () => {
         </header>
     )
 }
+
+const MobileMenuItem = ({ item }: { item: NavItem }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    if (item.items) {
+        return (
+            <li className="border-b border-gray-100 pb-4 last:border-0">
+                <div className="flex items-center justify-between">
+                    {item.href ? (
+                        <Link
+                            href={item.href}
+                            className="font-semibold text-gray-900 hover:text-green-900 flex-1"
+                        >
+                            {item.title}
+                        </Link>
+                    ) : (
+                        <button
+                            onClick={() => setIsOpen(!isOpen)}
+                            className="font-semibold text-gray-900 flex-1 text-left"
+                        >
+                            {item.title}
+                        </button>
+                    )}
+
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="p-2 -mr-2 text-gray-500"
+                    >
+                        {isOpen ? (
+                            <Minus className="size-4" />
+                        ) : (
+                            <Plus className="size-4" />
+                        )}
+                    </button>
+                </div>
+                <AnimatePresence>
+                    {isOpen && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="overflow-hidden"
+                        >
+                            <ul className="mt-4 space-y-3 pl-4">
+                                {item.items.map((subItem, subIndex) => (
+                                    <MobileMenuItem key={subIndex} item={subItem} />
+                                ))}
+                            </ul>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </li>
+        );
+    }
+
+    return (
+        <li className="border-b border-gray-100 pb-4 last:border-0">
+            <Link
+                href={item.href || '#'}
+                className="flex items-center gap-2 text-sm font-semibold text-gray-900 hover:text-green-900"
+            >
+                {item.icon && <span>{item.icon}</span>}
+                <span>{item.title}</span>
+            </Link>
+        </li>
+    );
+};
+
+

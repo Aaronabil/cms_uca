@@ -10,12 +10,36 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/sejarah-uca', function (){
+    return Inertia::render('TentangUca/Sejarah');
+});
+
 Route::get('/sambutan-rektor', function (){
     return Inertia::render('TentangUca/SambutanRektor');
 });
 
 Route::get('/visi-misi-dan-tujuan', function (){
     return Inertia::render('TentangUca/VisiMisi');
+});
+
+Route::get('/fakultas/ekonomi-dan-bisnis-islam', function (){
+    return Inertia::render('Akademik/Fakultas/FEBI');
+});
+
+Route::get('/fakultas/ilmu-keperawatan', function (){
+    return Inertia::render('Akademik/Fakultas/FIK');
+});
+
+Route::get('/fakultas/tarbiyah-dan-ilmu-keguruan', function (){
+    return Inertia::render('Akademik/Fakultas/FTIK');
+});
+
+Route::get('/fakultas/teknik', function (){
+    return Inertia::render('Akademik/Fakultas/FT');
+});
+
+Route::get('/prodi/{slug}', function (){
+    return Inertia::render('Akademik/Fakultas/Prodi');
 });
 
 Route::get('/newscoba', function (){

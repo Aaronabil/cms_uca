@@ -10,7 +10,7 @@ import {
     CarouselPrevious,
 } from '@/Components/ui/carousel';
 import { Card, CardContent, CardHeader } from '@/Components/ui/card'
-import { Building2, GraduationCap, CircleQuestionMark, ChevronLeft, ChevronRight, ArrowUpRight, ArrowRight } from 'lucide-react'
+import { Building2, GraduationCap, CircleQuestionMark, ChevronLeft, ChevronRight, ArrowUpRight, ArrowRight, Star, Sparkles } from 'lucide-react'
 import { ReactNode } from 'react'
 import FAQSeputarUCA from '@/Components/FAQ';
 import NewsSection from '@/Components/News';
@@ -81,8 +81,18 @@ export default function Index() {
                             </div>
                         </section>
                     </AnimatedSection>
-                    <section className="bg-primary py-20">
-                        <div className="mx-auto max-w-5xl px-6">
+                    <section className="bg-primary py-20 relative overflow-hidden">
+                        {/* Decorative Background Elements */}
+                        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                            <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
+                            <div className="absolute top-1/2 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
+                            <Star className="absolute top-12 left-12 text-white/10 w-8 h-8 animate-pulse" />
+                            <Star className="absolute bottom-20 right-10 text-white/5 w-12 h-12 rotate-12" />
+                            <div className="absolute top-20 right-1/4 w-2 h-2 bg-white/20 rounded-full" />
+                            <div className="absolute bottom-10 left-1/3 w-3 h-3 bg-white/10 rounded-full" />
+                        </div>
+
+                        <div className="mx-auto max-w-5xl px-6 relative z-10">
                             <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
                                 <div>
                                     <AnimatedSection delay={400}>
@@ -98,7 +108,7 @@ export default function Index() {
                                             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore sequi iure aliquam exercitationem, inventore debitis iusto, ipsa a ipsum id quasi? Impedit itaque officia beatae consequatur quisquam, nobis velit optio.
                                         </p>
                                         <Link href="/sambutan-rektor">
-                                            <Button className="mt-8 bg-white text-primary hover:bg-orange-300 hover:text-white">
+                                            <Button className="mt-8 bg-white text-primary hover:bg-secondary hover:text-white">
                                                 Sambutan Rektor &rarr;
                                             </Button>
                                         </Link>
@@ -124,7 +134,7 @@ export default function Index() {
                         </div>
                     </section>
 
-                    <section className=" py-16 md:py-32 dark:bg-transparent">
+                    <section className=" py-16 md:py-32 dark:bg-transparent bg-gray-50">
                         <div className="@container mx-auto max-w-5xl px-6">
                             <AnimatedSection delay={200}>
                                 <div className="text-center">
@@ -181,8 +191,20 @@ export default function Index() {
                         </div>
                     </section>
                     <section>
-                        <div className="bg-primary py-24">
-                            <div className="mx-auto max-w-5xl px-6">
+                        <div className="bg-primary py-24 relative overflow-hidden">
+                            {/* Decorative Background Elements */}
+                            <div className="absolute inset-0 pointer-events-none">
+                                <Sparkles className="absolute top-10 right-10 text-white/10 w-16 h-16" />
+                                <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                                <div className="absolute -bottom-1/2 -left-20 w-[500px] h-[500px] border border-white/10 rounded-full" />
+                                <div className="absolute top-20 left-10 grid grid-cols-3 gap-2 opacity-10">
+                                    {[...Array(9)].map((_, i) => (
+                                        <div key={i} className="w-1.5 h-1.5 bg-white rounded-full" />
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="mx-auto max-w-5xl px-6 relative z-10">
                                 <AnimatedSection delay={200}>
                                     <div>
                                         <h2 className="text-4xl text-white font-semibold lg:text-5xl">Fakta Universitas Cendekia Abditama</h2>
@@ -328,10 +350,10 @@ export default function Index() {
                             </AnimatedSection>
                         </div>
                     </section>
-                    <AnimatedSection delay={800}>
+                    <AnimatedSection delay={200}>
                         <NewsSection />
                     </AnimatedSection>
-                    <AnimatedSection delay={1000}>
+                    <AnimatedSection delay={200}>
                         <FAQSeputarUCA />
                     </AnimatedSection>
                 </main>

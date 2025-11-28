@@ -1,5 +1,6 @@
 import ApplicationLogo from "@/Components/ApplicationLogo"
 import { Link } from "@inertiajs/react"
+import { MapPin, Phone, Mail } from "lucide-react"
 
 const links = [
     {
@@ -85,7 +86,7 @@ const links = [
 
 export default function FooterSection() {
     return (
-        <footer className="bg-background border-b pt-20">
+        <footer className="bg-primary border-b pt-20">
             <div className="mx-auto max-w-5xl px-6">
                 <div className="grid gap-12 md:grid-cols-5">
                     <div className="md:col-span-2">
@@ -95,6 +96,21 @@ export default function FooterSection() {
                             className="flex items-center space-x-2 py-3">
                             <ApplicationLogo className="h-10 w-10 fill-current text-gray-500" />
                         </Link>
+                        <p className="text-md text-white font-bold">
+                            Universitas Cendekia Abditama
+                        </p>
+                        <p className="text-md text-white mt-4 w-90">
+                            <MapPin className="inline-block mr-2 w-6 h-6" />
+                            Komplek Pendidikan Islamic Village, Jl. Islamic Raya, Kelapa Dua, Tangerang, Banten – 15811
+                        </p>
+                        <p className="text-md text-white mt-4 w-90">
+                            <Phone className="inline-block mr-2 w-6 h-6" />
+                            0888888888
+                        </p>
+                        <p className="text-md text-white mt-4 w-90">
+                            <Mail className="inline-block mr-2 w-6 h-6" />
+                            info@uca
+                        </p>
                     </div>
 
                     <div className="col-span-3 grid grid-cols-3 gap-6">
@@ -102,12 +118,12 @@ export default function FooterSection() {
                             <div
                                 key={index}
                                 className="space-y-4">
-                                <span className="block font-medium">{link.group}</span>
+                                <span className="block font-medium text-secondary">{link.group}</span>
                                 {link.items.map((item, index) => (
                                     <Link
                                         key={index}
                                         href={item.href}
-                                        className="text-muted-foreground hover:text-primary block duration-150">
+                                        className="text-white hover:text-secondary-foreground block duration-150">
                                         <span>{item.title}</span>
                                     </Link>
                                 ))}
@@ -116,14 +132,14 @@ export default function FooterSection() {
                     </div>
                 </div>
                 <div className="mt-12 flex flex-wrap items-end justify-between gap-6 border-t py-6">
-                    <span className="text-muted-foreground order-last block text-center text-sm md:order-first">© {new Date().getFullYear()} Tailark Mist, All rights reserved</span>
+                    <span className="text-white order-last block text-center text-sm md:order-first">© {new Date().getFullYear()} Universitas Cendekia Abditama, All rights reserved</span>
                     <div className="order-first flex flex-wrap justify-center gap-6 text-sm md:order-last">
                         <Link
                             href="#"
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="X/Twitter"
-                            className="text-muted-foreground hover:text-primary block">
+                            className="text-white hover:text-secondary-foreground block">
                             <svg
                                 className="size-6"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -140,7 +156,7 @@ export default function FooterSection() {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="LinkedIn"
-                            className="text-muted-foreground hover:text-primary block">
+                            className="text-white hover:text-secondary-foreground block">
                             <svg
                                 className="size-6"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -157,7 +173,7 @@ export default function FooterSection() {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Facebook"
-                            className="text-muted-foreground hover:text-primary block">
+                            className="text-white hover:text-secondary-foreground block">
                             <svg
                                 className="size-6"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -174,7 +190,7 @@ export default function FooterSection() {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Threads"
-                            className="text-muted-foreground hover:text-primary block">
+                            className="text-white hover:text-secondary-foreground block">
                             <svg
                                 className="size-6"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -196,7 +212,7 @@ export default function FooterSection() {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Instagram"
-                            className="text-muted-foreground hover:text-primary block">
+                            className="text-white hover:text-secondary-foreground block">
                             <svg
                                 className="size-6"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -213,7 +229,7 @@ export default function FooterSection() {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="TikTok"
-                            className="text-muted-foreground hover:text-primary block">
+                            className="text-white hover:text-secondary-foreground block">
                             <svg
                                 className="size-6"
                                 xmlns="http://www.w3.org/2000/svg"
