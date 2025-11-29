@@ -16,6 +16,7 @@ class PageForm
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn ($set, ?string $state) => $set('slug', Str::slug($state))),
                 \Filament\Forms\Components\TextInput::make('slug')
+                    ->hidden()
                     ->required()
                     ->unique(ignoreRecord: true),
                 \Filament\Forms\Components\Select::make('status')

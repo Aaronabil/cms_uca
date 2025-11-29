@@ -25,111 +25,13 @@ type NavItem = {
     icon?: React.ReactNode;
 }
 
-const navItems: NavItem[] = [
-    { title: "Beranda", href: "/" },
-    {
-        title: "Tentang UCA",
-        items: [
-            { title: "Sejarah UCA", href: "/sejarah-uca" },
-            { title: "Pimpinan Universitas", href: "/sambutan-rektor" },
-            { title: "Visi, Misi dan Tujuan", href: "/visi-misi-dan-tujuan" },
-        ]
-    },
-    {
-        title: "Akademik",
-        items: [
-            { title: "Kalender Akademik", href: "/kalender-akademik" },
-            { title: "Data Dosen", href: "/data-dosen" },
-            {
-                title: "Fakultas & Prodi",
-                items: [
-                    {
-                        title: "Fakultas Ekonomi dan Bisnis Islam",
-                        href: "/fakultas/ekonomi-dan-bisnis-islam",
-                        items: [
-                            { title: "Akuntansi", href: "/prodi/akuntansi" },
-                            { title: "Bisnis Digital", href: "/prodi/bisnis-digital" },
-                            { title: "Perbankan Syariah", href: "/prodi/perbankan-syariah" },
-                            { title: "Ekonomi Syariah", href: "/prodi/ekonomi-syariah" },
-                        ]
-                    },
-                    {
-                        title: "Fakultas Ilmu Keperawatan",
-                        href: "/fakultas/ilmu-keperawatan",
-                        items: [
-                            { title: "Keperawatan", href: "/prodi/keperawatan" },
-                        ]
-                    },
-                    {
-                        title: "Fakultas Tarbiyah dan Ilmu Keguruan",
-                        href: "/fakultas/tarbiyah-dan-ilmu-keguruan",
-                        items: [
-                            { title: "Pendidikan Agama Islam", href: "/prodi/pendidikan-agama-islam" },
-                            { title: "Pendidikan Islam Anak Usia Dini", href: "/prodi/pendidikan-islam-anak-usia-dini" },
-                            { title: "Manajemen Pendidikan Islam", href: "/prodi/manajemen-pendidikan-islam" },
-                        ]
-                    },
-                    {
-                        title: "Fakultas Teknik",
-                        href: "/fakultas/teknik",
-                        items: [
-                            { title: "Teknik Informatika", href: "/prodi/teknik-informatika" },
-                            { title: "Teknik Elektro", href: "/prodi/teknik-elektro" },
-                        ]
-                    }
-                ]
-            }
-        ]
-    },
-    { title: "Fasilitas Kampus", href: "/fasilitas-kampus" },
-    {
-        title: "List",
-        items: [
-            { title: "Components", href: "#", description: "Browse all components in the library." },
-            { title: "Documentation", href: "#", description: "Learn how to use the library." },
-            { title: "Blog", href: "#", description: "Read our latest blog posts." },
-        ]
-    },
-    {
-        title: "Simple",
-        items: [
-            { title: "Components", href: "#" },
-            { title: "Documentation", href: "#" },
-            { title: "Blocks", href: "#" },
-        ]
-    },
-    {
-        title: "With Icon",
-        items: [
-            { title: "Backlog", href: "#", icon: <CircleHelpIcon className="w-4 h-4" /> },
-            { title: "To Do", href: "#", icon: <CircleIcon className="w-4 h-4" /> },
-            { title: "Done", href: "#", icon: <CircleCheckIcon className="w-4 h-4" /> },
-        ]
-    }
-]
-
-const faculties = [
-    {
-        name: "Fakultas Ekonomi dan Bisnis Islam",
-        href: "/fakultas/ekonomi-dan-bisnis-islam",
-        prodi: ["Akuntansi", "Bisnis Digital", "Perbankan Syariah", "Ekonomi Syariah"]
-    },
-    {
-        name: "Fakultas Ilmu Keperawatan",
-        href: "/fakultas/ilmu-keperawatan",
-        prodi: ["Keperawatan"]
-    },
-    {
-        name: "Fakultas Tarbiyah dan Ilmu Keguruan",
-        href: "/fakultas/tarbiyah-dan-ilmu-keguruan",
-        prodi: ["Pendidikan Agama Islam", "Pendidikan Islam Anak Usia Dini", "Manajemen Pendidikan Islam"]
-    },
-    {
-        name: "Fakultas Teknik",
-        href: "/fakultas/teknik",
-        prodi: ["Teknik Informatika", "Teknik Elektro"]
-    }
-];
+type FacultyData = {
+    id: number;
+    name: string;
+    image_url: string;
+    slug: string;
+    study_programs: Array<{ name: string }>;
+};
 
 const createSlug = (text: string) => {
     return text
@@ -138,11 +40,68 @@ const createSlug = (text: string) => {
         .replace(/[^\w-]+/g, '');
 };
 
-export const HeroHeader = ({ variant = 'default' }: { variant?: 'default' | 'light' }) => {
+export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 'default' | 'light', faculties?: FacultyData[] }) => {
+
+    // Konstruksi menu dinamis berdasarkan props faculties
+    const navItems: NavItem[] = [
+        { title: "Beranda", href: "/" },
+        {
+            title: "Tentang UCA",
+            items: [
+                { title: "Sejarah UCA", href: "/sejarah-uca" },
+                { title: "Pimpinan Universitas", href: "/sambutan-rektor" },
+                { title: "Visi, Misi dan Tujuan", href: "/visi-misi-dan-tujuan" },
+            ]
+        },
+        {
+            title: "Akademik",
+            items: [
+                { title: "Kalender Akademik", href: "/kalender-akademik" },
+                { title: "Data Dosen", href: "/data-dosen" },
+                {
+                    title: "Fakultas & Prodi",
+                    // Mapping data fakultas ke struktur menu
+                    items: faculties.map(faculty => ({
+                        title: faculty.name,
+                        href: `/fakultas/${faculty.slug}`,
+                        items: faculty.study_programs.map(prodi => ({
+                            title: prodi.name,
+                            href: `/prodi/${createSlug(prodi.name)}`
+                        }))
+                    }))
+                }
+            ]
+        },
+        { title: "Fasilitas Kampus", href: "/fasilitas-kampus" },
+        {
+            title: "List",
+            items: [
+                { title: "Components", href: "#", description: "Browse all components in the library." },
+                { title: "Documentation", href: "#", description: "Learn how to use the library." },
+                { title: "Blog", href: "#", description: "Read our latest blog posts." },
+            ]
+        },
+        {
+            title: "Simple",
+            items: [
+                { title: "Components", href: "#" },
+                { title: "Documentation", href: "#" },
+                { title: "Blocks", href: "#" },
+            ]
+        },
+        {
+            title: "With Icon",
+            items: [
+                { title: "Backlog", href: "#", icon: <CircleHelpIcon className="w-4 h-4" /> },
+                { title: "To Do", href: "#", icon: <CircleIcon className="w-4 h-4" /> },
+                { title: "Done", href: "#", icon: <CircleCheckIcon className="w-4 h-4" /> },
+            ]
+        }
+    ];
+
     const [menuState, setMenuState] = React.useState(false)
     const [isScrolled, setIsScrolled] = React.useState(false)
-    const [expandedItem, setExpandedItem] = useState<string | null>(null)
-
+    
     // State for the nested Mega Menu
     const [showFaculties, setShowFaculties] = useState(false);
     const [activeFaculty, setActiveFaculty] = useState<string | null>(null);
@@ -154,10 +113,6 @@ export const HeroHeader = ({ variant = 'default' }: { variant?: 'default' | 'lig
         window.addEventListener('scroll', handleScroll)
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
-
-    const toggleExpand = (title: string) => {
-        setExpandedItem(expandedItem === title ? null : title)
-    }
 
     const textColor = isScrolled || variant === 'default' ? "text-black" : "text-white";
     const hoverColor = isScrolled || variant === 'default' ? "hover:text-green-900" : "hover:text-green-200";
@@ -241,14 +196,14 @@ export const HeroHeader = ({ variant = 'default' }: { variant?: 'default' | 'lig
                                                     </li>
                                                 </ul>
 
-                                                {/* Column 2: Faculties */}
+                                                {/* Column 2: Faculties (DINAMIS) */}
                                                 {showFaculties && (
                                                     <ul className="w-[300px] border-l border-gray-100 bg-gray-50/50 px-3 py-3 animate-in fade-in slide-in-from-left-2 duration-200">
                                                         {faculties.map((faculty) => (
-                                                            <li key={faculty.name}>
+                                                            <li key={faculty.id}>
                                                                 <NavigationMenuLink asChild>
                                                                     <Link
-                                                                        href={faculty.href}
+                                                                        href={`/fakultas/${faculty.slug}`}
                                                                         onMouseEnter={() => setActiveFaculty(faculty.name)}
                                                                         className={cn(
                                                                             "flex items-center justify-between w-full p-2 text-sm font-medium leading-none no-underline rounded-md outline-none transition-colors hover:bg-white hover:text-green-900 cursor-pointer",
@@ -264,20 +219,20 @@ export const HeroHeader = ({ variant = 'default' }: { variant?: 'default' | 'lig
                                                     </ul>
                                                 )}
 
-                                                {/* Column 3: Prodi */}
+                                                {/* Column 3: Prodi (DINAMIS) */}
                                                 {activeFaculty && (
                                                     <ul className="w-[250px] border-l border-gray-100 bg-white px-3 py-3 animate-in fade-in slide-in-from-left-2 duration-200">
                                                         <li className="mb-2 px-2 text-xs font-bold text-gray-400 uppercase tracking-wider">
                                                             Program Studi
                                                         </li>
-                                                        {faculties.find(f => f.name === activeFaculty)?.prodi.map((prodi) => (
-                                                            <li key={prodi}>
+                                                        {faculties.find(f => f.name === activeFaculty)?.study_programs.map((prodi) => (
+                                                            <li key={prodi.name}>
                                                                 <NavigationMenuLink asChild>
                                                                     <Link
-                                                                        href={`/prodi/${createSlug(prodi)}`}
+                                                                        href={`/prodi/${createSlug(prodi.name)}`}
                                                                         className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                                                                     >
-                                                                        <div className="text-sm font-medium leading-none">{prodi}</div>
+                                                                        <div className="text-sm font-medium leading-none">{prodi.name}</div>
                                                                     </Link>
                                                                 </NavigationMenuLink>
                                                             </li>
@@ -495,5 +450,3 @@ const MobileMenuItem = ({ item }: { item: NavItem }) => {
         </li>
     );
 };
-
-

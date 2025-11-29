@@ -11,7 +11,7 @@ import {
 } from '@/Components/ui/carousel';
 import { Card, CardContent, CardHeader } from '@/Components/ui/card'
 import { Building2, GraduationCap, CircleQuestionMark, ChevronLeft, ChevronRight, ArrowUpRight, ArrowRight, Star, Sparkles } from 'lucide-react'
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import FAQSeputarUCA from '@/Components/FAQ';
 import NewsSection from '@/Components/News';
 import AnimatedSection from '@/Components/AnimatedSection';
@@ -19,17 +19,40 @@ import { NumberTicker } from '@/Components/ui/number-ticker';
 import { useScroll, useTransform, motion } from 'framer-motion';
 import { useRef } from 'react';
 
-export default function Index() {
+interface HomeProps extends PageProps {
+    sambutanRektor: {
+        title: string;
+        content: string;
+    } | null;
+    faculties: Array<{
+        id: number;
+        name: string;
+        image_url: string;
+        slug: string;
+        study_programs: Array<{ name: string }>;
+    }>;
+}
+
+export default function Index({ sambutanRektor, faculties }: HomeProps) {
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end start"]
     });
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+
+    const generateStudyProgramDescription = (facultyName: string, studyPrograms: Array<{ name: string }>) => {
+        const count = studyPrograms.length;
+        if (count === 0) return `Saat ini belum ada program studi di ${facultyName}.`;
+        
+        const programNames = studyPrograms.map(p => p.name).join(', ');
+        return `Saat Ini, Terdapat ${count} Program Studi Di ${facultyName} Yaitu, ${programNames}.`;
+    };
+
     return (
         <>
             <Head title="Universitas Cendekia Abditama" />
-            <GuestLayout>
+            <GuestLayout faculties={faculties}>
                 <main className="[--color-primary:var(--color-indigo-500)]">
                     <AnimatedSection delay={200}>
                         <section ref={containerRef} className="relative w-full h-screen">
@@ -97,14 +120,27 @@ export default function Index() {
                                         <p className="text-white">Sambutan Rektor</p>
                                     </AnimatedSection>
                                     <AnimatedSection delay={500}>
-                                        <h2 className="mt-4 text-4xl font-bold text-white md:text-5xl">
-                                            Dr. Muhammad Subali, S.Si., M.T..
-                                        </h2>
+                                        {sambutanRektor && (
+                                            <h2 className="mt-4 text-4xl font-bold text-white md:text-5xl">
+                                                {sambutanRektor.title}
+                                            </h2>
+                                        )}
+                                        {!sambutanRektor && (
+                                            <h2 className="mt-4 text-4xl font-bold text-white md:text-5xl">
+                                                Dr. Muhammad Subali, S.Si., M.T..
+                                            </h2>
+                                        )}
                                     </AnimatedSection>
                                     <AnimatedSection delay={600}>
-                                        <p className="mt-6 text-white">
-                                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore sequi iure aliquam exercitationem, inventore debitis iusto, ipsa a ipsum id quasi? Impedit itaque officia beatae consequatur quisquam, nobis velit optio.
-                                        </p>
+                                        {sambutanRektor && (
+                                            <p className="mt-6 text-white" dangerouslySetInnerHTML={{ __html: sambutanRektor.content }}>
+                                            </p>
+                                        )}
+                                        {!sambutanRektor && (
+                                            <p className="mt-6 text-white">
+                                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore sequi iure aliquam exercitationem, inventore debitis iusto, ipsa a ipsum id quasi? Impedit itaque officia beatae consequatur quisquam, nobis velit optio.
+                                            </p>
+                                        )}
                                         <Link href="/sambutan-rektor">
                                             <Button className="mt-8 bg-white text-primary hover:bg-secondary hover:text-white">
                                                 Sambutan Rektor &rarr;
@@ -250,100 +286,59 @@ export default function Index() {
                             <AnimatedSection delay={200}>
                                 {/* Grid Layout */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {/* Item 1: Image */}
-                                    <div className="relative overflow-hidden rounded-3xl h-[400px]">
-                                        <img
-                                            src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=1740"
-                                            alt="Students studying"
-                                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                                        />
-                                    </div>
-
-                                    {/* Item 2: Text Card */}
-                                    <div className="bg-primary rounded-3xl p-8 md:p-12 flex flex-col justify-between h-[400px] group hover:bg-green-900 transition-colors">
-                                        <div>
-                                            <span className="inline-block bg-white text-[#153d3d] px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
-                                                Sarjana
-                                            </span>
-                                            <h3 className="text-3xl font-medium leading-snug mb-4">
-                                                Fakultas Ekonomi dan Bisnis Islam
-                                            </h3>
-                                        </div>
-                                        <p className="text-gray-300 text-sm leading-relaxed">
-                                            Saat Ini, Terdapat 4 Program Studi Di Fakultas Ekonomi Dan Bisnis Islam Yaitu, Program Studi Akuntansi, Bisnis Digital, Perbankan Syariah, Dan Ekonomi Syariah.
-                                        </p>
-                                    </div>
-
-                                    {/* Item 3: Text Card */}
-                                    <div className="bg-primary rounded-3xl p-8 md:p-12 flex flex-col justify-between h-[400px] group hover:bg-green-900 transition-colors">
-                                        <div>
-                                            <span className="inline-block bg-white text-[#153d3d] px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
-                                                Diploma dan Sarjana
-                                            </span>
-                                            <h3 className="text-3xl font-medium leading-snug mb-4">
-                                                Fakultas Ilmu Keperawatan
-                                            </h3>
-                                        </div>
-                                        <p className="text-gray-300 text-sm leading-relaxed">
-                                            Saat Ini, Terdapat 1 Program Studi Di Fakultas Ilmu Keperawatan Yaitu, Program Studi Keperawatan.
-                                        </p>
-                                    </div>
-
-                                    {/* Item 4: Image */}
-                                    <div className="relative overflow-hidden rounded-3xl h-[400px]">
-                                        <img
-                                            src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1686"
-                                            alt="University building"
-                                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                                        />
-                                    </div>
-                                    {/* Item 1: Image */}
-                                    <div className="relative overflow-hidden rounded-3xl h-[400px]">
-                                        <img
-                                            src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=1740"
-                                            alt="Students studying"
-                                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                                        />
-                                    </div>
-
-                                    {/* Item 2: Text Card */}
-                                    <div className="bg-primary rounded-3xl p-8 md:p-12 flex flex-col justify-between h-[400px] group hover:bg-green-900 transition-colors">
-                                        <div>
-                                            <span className="inline-block bg-white text-[#153d3d] px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
-                                                Sarjana
-                                            </span>
-                                            <h3 className="text-3xl font-medium leading-snug mb-4">
-                                                Fakultas Tarbiyah dan Ilmu Keguruan
-                                            </h3>
-                                        </div>
-                                        <p className="text-gray-300 text-sm leading-relaxed">
-                                            Saat Ini, Terdapat 3 Program Studi Di Fakultas Tarbiyah dan Ilmu Keguruan Yaitu, Program Studi Pendidikan Agama Islam, Pendidikan Islam Anak Usia Dini, dan Manajemen Pendidikan Islam.
-                                        </p>
-                                    </div>
-
-                                    {/* Item 3: Text Card */}
-                                    <div className="bg-primary rounded-3xl p-8 md:p-12 flex flex-col justify-between h-[400px] group hover:bg-green-900 transition-colors">
-                                        <div>
-                                            <span className="inline-block bg-white text-[#153d3d] px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
-                                                Sarjana
-                                            </span>
-                                            <h3 className="text-3xl font-medium leading-snug mb-4">
-                                                Fakultas Teknik
-                                            </h3>
-                                        </div>
-                                        <p className="text-gray-300 text-sm leading-relaxed">
-                                            Saat Ini, Terdapat 2 Program Studi Di Fakultas Teknik Yaitu, Program Studi Teknik Informatika Dan Teknik Elektro.
-                                        </p>
-                                    </div>
-
-                                    {/* Item 4: Image */}
-                                    <div className="relative overflow-hidden rounded-3xl h-[400px]">
-                                        <img
-                                            src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1686"
-                                            alt="University building"
-                                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                                        />
-                                    </div>
+                                    {faculties.map((faculty, index) => (
+                                        <React.Fragment key={faculty.id}>
+                                            {/* Pola Genap: Gambar Kiri, Teks Kanan (Index 0, 2, dst) */}
+                                            {index % 2 === 0 ? (
+                                                <>
+                                                    <div className="relative overflow-hidden rounded-3xl h-[400px]">
+                                                        <img
+                                                            src={faculty.image_url || "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=1740"}
+                                                            alt={faculty.name}
+                                                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                                                        />
+                                                    </div>
+                                                    <div className="bg-primary rounded-3xl p-8 md:p-12 flex flex-col justify-between h-[400px] group hover:bg-green-900 transition-colors">
+                                                        <div>
+                                                            <span className="inline-block bg-white text-[#153d3d] px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
+                                                                Fakultas
+                                                            </span>
+                                                            <h3 className="text-3xl font-medium leading-snug mb-4">
+                                                                {faculty.name}
+                                                            </h3>
+                                                        </div>
+                                                        <p className="text-gray-300 text-sm leading-relaxed">
+                                                            {generateStudyProgramDescription(faculty.name, faculty.study_programs)}
+                                                        </p>
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                /* Pola Ganjil: Teks Kiri, Gambar Kanan (Index 1, 3, dst) */
+                                                <>
+                                                    <div className="bg-primary rounded-3xl p-8 md:p-12 flex flex-col justify-between h-[400px] group hover:bg-green-900 transition-colors">
+                                                        <div>
+                                                            <span className="inline-block bg-white text-[#153d3d] px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
+                                                                Fakultas
+                                                            </span>
+                                                            <h3 className="text-3xl font-medium leading-snug mb-4">
+                                                                {faculty.name}
+                                                            </h3>
+                                                        </div>
+                                                        <p className="text-gray-300 text-sm leading-relaxed">
+                                                            {generateStudyProgramDescription(faculty.name, faculty.study_programs)}
+                                                        </p>
+                                                    </div>
+                                                    <div className="relative overflow-hidden rounded-3xl h-[400px]">
+                                                        <img
+                                                            src={faculty.image_url || "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1686"}
+                                                            alt={faculty.name}
+                                                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                                                        />
+                                                    </div>
+                                                </>
+                                            )}
+                                        </React.Fragment>
+                                    ))}
                                 </div>
                             </AnimatedSection>
                         </div>

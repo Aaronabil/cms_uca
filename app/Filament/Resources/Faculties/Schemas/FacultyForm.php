@@ -21,6 +21,7 @@ class FacultyForm
                             ->afterStateUpdated(fn ($set, ?string $state) => $set('slug', Str::slug($state))),
 
                         \Filament\Forms\Components\TextInput::make('slug')
+                            ->hidden()
                             ->required()
                             ->maxLength(255)
                             ->unique(ignoreRecord: true),
