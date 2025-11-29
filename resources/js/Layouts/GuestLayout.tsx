@@ -4,12 +4,16 @@ import FooterSection from '@/Components/Footer';
 import { HeroHeader } from '@/Components/HeroHeader';
 import ScrollToTopButton from '@/Components/ScrollTopButton';
 
-export default function Guest({ children }: PropsWithChildren) {
+interface GuestProps extends PropsWithChildren {
+    headerVariant?: 'default' | 'light';
+}
+
+export default function Guest({ children, headerVariant = 'default' }: GuestProps) {
     return (
         <div className="min-h-screen flex flex-col">
-            <HeroHeader />
+            <HeroHeader variant={headerVariant} />
             <main className="flex-grow">{children}</main>
-            <ScrollToTopButton/>
+            <ScrollToTopButton />
             <FooterSection />
         </div>
     );

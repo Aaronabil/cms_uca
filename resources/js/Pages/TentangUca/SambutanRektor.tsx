@@ -35,7 +35,7 @@ const members = [
 
 export default function SambutanRektor() {
     return (
-        <GuestLayout>
+        <GuestLayout headerVariant="light">
             <section className="py-16 md:py-32 bg-green-900">
                 <div className="mx-auto max-w-5xl px-6">
                     <div className="flex flex-col-reverse gap-6 md:gap-12 lg:flex-row lg:gap-24">

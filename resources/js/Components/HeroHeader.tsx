@@ -138,7 +138,7 @@ const createSlug = (text: string) => {
         .replace(/[^\w-]+/g, '');
 };
 
-export const HeroHeader = () => {
+export const HeroHeader = ({ variant = 'default' }: { variant?: 'default' | 'light' }) => {
     const [menuState, setMenuState] = React.useState(false)
     const [isScrolled, setIsScrolled] = React.useState(false)
     const [expandedItem, setExpandedItem] = useState<string | null>(null)
@@ -159,6 +159,9 @@ export const HeroHeader = () => {
         setExpandedItem(expandedItem === title ? null : title)
     }
 
+    const textColor = isScrolled || variant === 'default' ? "text-black" : "text-white";
+    const hoverColor = isScrolled || variant === 'default' ? "hover:text-green-900" : "hover:text-green-200";
+
     return (
         <header>
             <nav
@@ -169,13 +172,13 @@ export const HeroHeader = () => {
                             href="/"
                             aria-label="home"
                             className="flex items-center space-x-2 py-3">
-                            <ApplicationLogo className={cn("h-10 w-10 fill-current", isScrolled ? "text-gray-800" : "text-gray-500")} />
+                            <img src='/logo-uca-website.png' className={cn("h-auto w-40 fill-current", isScrolled ? "text-gray-800" : "text-gray-500")} />
                         </Link>
 
                         <button
                             onClick={() => setMenuState(true)}
                             aria-label="Open Menu"
-                            className="relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden">
+                            className={cn("relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden", textColor)}>
                             <Menu className="size-6" />
                         </button>
 
@@ -184,11 +187,11 @@ export const HeroHeader = () => {
                                 <NavigationMenuList className="flex-wrap">
                                     <NavigationMenuItem>
                                         <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                                            <Link href="/" className="hover:text-green-900 text-black">Beranda</Link>
+                                            <Link href="/" className={cn(hoverColor, textColor)}>Beranda</Link>
                                         </NavigationMenuLink>
                                     </NavigationMenuItem>
                                     <NavigationMenuItem className="hidden md:block">
-                                        <NavigationMenuTrigger className="hover:text-green-900 text-black">Tentang UCA</NavigationMenuTrigger>
+                                        <NavigationMenuTrigger className={cn(hoverColor, textColor)}>Tentang UCA</NavigationMenuTrigger>
                                         <NavigationMenuContent>
                                             <ul className="grid w-[200px] gap-4 px-3 py-3">
                                                 <li>
@@ -212,7 +215,7 @@ export const HeroHeader = () => {
                                         </NavigationMenuContent>
                                     </NavigationMenuItem>
                                     <NavigationMenuItem className="hidden md:block">
-                                        <NavigationMenuTrigger className="hover:text-green-900 text-black">Akademik</NavigationMenuTrigger>
+                                        <NavigationMenuTrigger className={cn(hoverColor, textColor)}>Akademik</NavigationMenuTrigger>
                                         <NavigationMenuContent>
                                             <div className="flex w-max" onMouseLeave={() => { setShowFaculties(false); setActiveFaculty(null); }}>
                                                 {/* Column 1: Main Menu */}
@@ -286,11 +289,11 @@ export const HeroHeader = () => {
                                     </NavigationMenuItem>
                                     <NavigationMenuItem>
                                         <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                                            <Link href="/fasilitas-kampus" className="hover:text-green-900 text-black">Fasilitas Kampus</Link>
+                                            <Link href="/fasilitas-kampus" className={cn(hoverColor, textColor)}>Fasilitas Kampus</Link>
                                         </NavigationMenuLink>
                                     </NavigationMenuItem>
                                     <NavigationMenuItem className="hidden md:block">
-                                        <NavigationMenuTrigger className="hover:text-green-900 text-black">List</NavigationMenuTrigger>
+                                        <NavigationMenuTrigger className={cn(hoverColor, textColor)}>List</NavigationMenuTrigger>
                                         <NavigationMenuContent>
                                             <ul className="grid w-[300px] gap-4 px-3">
                                                 <li>
@@ -324,7 +327,7 @@ export const HeroHeader = () => {
 
                                     </NavigationMenuItem>
                                     <NavigationMenuItem className="hidden md:block">
-                                        <NavigationMenuTrigger className="hover:text-green-900 text-black">Simple</NavigationMenuTrigger>
+                                        <NavigationMenuTrigger className={cn(hoverColor, textColor)}>Simple</NavigationMenuTrigger>
                                         <NavigationMenuContent>
                                             <ul className="grid w-[200px] gap-4">
                                                 <li>
@@ -342,7 +345,7 @@ export const HeroHeader = () => {
                                         </NavigationMenuContent>
                                     </NavigationMenuItem>
                                     <NavigationMenuItem className="hidden md:block">
-                                        <NavigationMenuTrigger className="hover:text-green-900 text-black">With Icon</NavigationMenuTrigger>
+                                        <NavigationMenuTrigger className={cn(hoverColor, textColor)}>With Icon</NavigationMenuTrigger>
                                         <NavigationMenuContent>
                                             <ul className="grid w-[200px] gap-4">
                                                 <li>
@@ -398,7 +401,12 @@ export const HeroHeader = () => {
                         >
                             <div className="p-6">
                                 <div className="flex items-center justify-between mb-8">
-                                    <ApplicationLogo className="h-8 w-8 fill-current text-gray-800" />
+                                    <Link
+                                        href="/"
+                                        aria-label="home"
+                                        className="flex items-center space-x-2 py-3">
+                                        <img src='/logo-uca-website.png' className={cn("h-auto w-40 fill-current", isScrolled ? "text-gray-800" : "text-gray-500")} />
+                                    </Link>
                                     <button
                                         onClick={() => setMenuState(false)}
                                         className="p-2 -mr-2 text-gray-500 hover:text-gray-700"

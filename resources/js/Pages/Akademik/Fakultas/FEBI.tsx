@@ -70,7 +70,7 @@ export default function FakultasEkonomidanBisnisIslam() {
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
                     <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16 items-center">
                         <div>
-                            <h2 className="text-3xl font-bold tracking-tight text-yellow-300/80 sm:text-4xl mb-6">
+                            <h2 className="text-3xl font-bold tracking-tight text-yellow-400 sm:text-4xl mb-6">
                                 Tentang Fakultas
                             </h2>
                             <p className="text-lg leading-8 text-gray-600 mb-6">
@@ -138,22 +138,22 @@ export default function FakultasEkonomidanBisnisIslam() {
                     </div>
 
                     <div className="flex gap-8 mb-12 text-2xl font-light text-gray-500">
-                        <span className="text-white">Sarjana</span>
+                        <span className="text-neutral-900">Sarjana</span>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {/* Card Style A - Black */}
                         <Link href="/akademik/fakultas/febi/sarjana">
-                            <div className="group relative h-60 rounded-3xl border border-white/20 bg-yellow-300 p-8 transition-colors hover:border-white/90 flex flex-col justify-between">
+                            <div className="group relative h-60 rounded-3xl border border-neutral-600 bg-yellow-300 p-8 transition-colors hover:border-neutral-900 flex flex-col justify-between">
                                 <div className="flex justify-between items-start">
-                                    <div className="rounded-full border border-white px-4 py-1 text-sm">
+                                    <div className="rounded-full border border-neutral-900 px-4 py-1 text-sm text-neutral-900">
                                         Sarjana
                                     </div>
-                                    <div className="rounded-full border border-white p-2 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1">
-                                        <ArrowRight className="w-5 h-5" />
+                                    <div className="rounded-full border border-neutral-900 p-2 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1">
+                                        <ArrowRight className="w-5 h-5 text-neutral-900" />
                                     </div>
                                 </div>
-                                <h3 className="text-3xl font-medium leading-tight">
+                                <h3 className="text-3xl font-medium leading-tight text-neutral-900">
                                     Akuntansi
                                 </h3>
                             </div>

@@ -25,9 +25,7 @@ export default function Index() {
         target: containerRef,
         offset: ["start start", "end start"]
     });
-
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-
     return (
         <>
             <Head title="Universitas Cendekia Abditama" />
