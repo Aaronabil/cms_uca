@@ -1,9 +1,7 @@
 'use client'
 import { Link, usePage } from '@inertiajs/react'
-import ApplicationLogo from '@/Components/ApplicationLogo'
-import { Menu, X, CircleHelpIcon, CircleIcon, CircleCheckIcon, Plus, Minus, ChevronRight } from 'lucide-react'
-import { Button } from '@/Components/ui/button'
-import React, { useState } from 'react'
+import { Menu, X, Minus, Plus, ChevronRight } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 import {
     NavigationMenu,
@@ -34,29 +32,42 @@ const createSlug = (text: string) => {
 };
 
 export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 'default' | 'light', faculties?: FacultyData[] }) => {
-    const { site_settings, menus, faculties_global } = usePage<PageProps>().props;
+    const { props } = usePage<PageProps>();
+    const site_settings = props.site_settings || {};
+    const menus = props.menus || [];
+    const faculties_global = props.faculties_global || [];
 
     // Prioritize props (from Home), fallback to global (from other pages)
     const activeFaculties = faculties.length > 0 ? faculties : faculties_global;
 
-    // Konstruksi menu dinamis berdasarkan props menus dari DB
-    const navItems: NavItem[] = menus.map(menu => ({
-        title: menu.name,
-        href: menu.url === '#' ? undefined : menu.url,
-        items: menu.children?.length ? menu.children.map(child => ({
-            title: child.name,
-            href: child.url === '#' ? undefined : child.url,
-        })) : undefined
-    }));
+    // Safely construct navItems with deduplication
+    const dbNavItems = menus
+        .filter(menu => menu && menu.name && menu.name.trim().toLowerCase() !== 'beranda')
+        .map(menu => ({
+            title: menu.name,
+            href: menu.url === '#' ? undefined : menu.url,
+            items: menu.children?.length ? menu.children.map(child => ({
+                title: child.name,
+                href: child.url === '#' ? undefined : child.url,
+            })) : undefined
+        }));
 
-    const [menuState, setMenuState] = React.useState(false)
-    const [isScrolled, setIsScrolled] = React.useState(false)
+    // Deduplicate items by title
+    const uniqueTitles = new Set();
+    const navItems: NavItem[] = dbNavItems.filter(item => {
+        if (uniqueTitles.has(item.title)) return false;
+        uniqueTitles.add(item.title);
+        return true;
+    });
+
+    const [menuState, setMenuState] = useState(false)
+    const [isScrolled, setIsScrolled] = useState(false)
     
     // State for the nested Mega Menu
     const [showFaculties, setShowFaculties] = useState(false);
     const [activeFaculty, setActiveFaculty] = useState<string | null>(null);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50)
         }
@@ -67,17 +78,19 @@ export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 
     const textColor = isScrolled || variant === 'default' ? "text-black" : "text-white";
     const hoverColor = isScrolled || variant === 'default' ? "hover:text-green-900" : "hover:text-green-200";
 
+    const logoUrl = site_settings.logo_url || '/logo-uca-website.png';
+
     return (
         <header>
             <nav
                 className={cn('fixed z-40 w-full transition-all duration-300', isScrolled && 'bg-background/75 border-b border-black/5 backdrop-blur-lg')}>
                 <div className="mx-auto max-w-7xl px-6">
-                    <div className="relative flex flex-nowrap items-center justify-between gap-6 lg:gap-0">
+                    <div className="relative flex flex-wrap items-center justify-between gap-6 lg:gap-0">
                         <Link
                             href="/"
                             aria-label="home"
                             className="flex items-center space-x-2 py-3">
-                            <img src={site_settings.logo_url || '/logo-uca-website.png'} className={cn("h-auto w-40 fill-current", isScrolled ? "text-gray-800" : "text-gray-500")} />
+                            <img src={logoUrl} className={cn("h-auto w-40 fill-current", isScrolled ? "text-gray-800" : "text-gray-500")} />
                         </Link>
 
                         <button
@@ -87,9 +100,17 @@ export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 
                             <Menu className="size-6" />
                         </button>
 
-                        <div className="hidden size-fit lg:block ml-auto">
+                        <div className="hidden lg:flex justify-end flex-1 ml-auto mr-6">
                             <NavigationMenu>
-                                <NavigationMenuList>
+                                <NavigationMenuList className="flex-wrap">
+                                    {/* Home Link (Manual) */}
+                                    <NavigationMenuItem>
+                                        <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                                            <Link href="/" className={cn(hoverColor, textColor)}>Beranda</Link>
+                                        </NavigationMenuLink>
+                                    </NavigationMenuItem>
+
+                                    {/* Dynamic Menu Items */}
                                     {navItems.map((item, index) => (
                                         <NavigationMenuItem key={index}>
                                             {item.items ? (
@@ -122,7 +143,7 @@ export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 
                                                                     ))}
                                                                 </ul>
 
-                                                                {/* Column 2: Faculties List (Dynamic from activeFaculties) */}
+                                                                {/* Column 2: Faculties List */}
                                                                 {showFaculties && (
                                                                     <ul className="w-[300px] border-l border-gray-100 bg-gray-50/50 px-3 py-3 animate-in fade-in slide-in-from-left-2 duration-200">
                                                                         {activeFaculties.map((faculty) => (
@@ -145,7 +166,7 @@ export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 
                                                                     </ul>
                                                                 )}
 
-                                                                {/* Column 3: Study Programs (Dynamic from activeFaculties) */}
+                                                                {/* Column 3: Study Programs */}
                                                                 {activeFaculty && (
                                                                     <ul className="w-[250px] border-l border-gray-100 bg-white px-3 py-3 animate-in fade-in slide-in-from-left-2 duration-200">
                                                                         <li className="mb-2 px-2 text-xs font-bold text-gray-400 uppercase tracking-wider">
@@ -224,7 +245,7 @@ export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 
                                         href="/"
                                         aria-label="home"
                                         className="flex items-center space-x-2 py-3">
-                                        <img src={site_settings.logo_url || '/logo-uca-website.png'} className={cn("h-auto w-40 fill-current", isScrolled ? "text-gray-800" : "text-gray-500")} />
+                                        <img src={logoUrl} className={cn("h-auto w-40 fill-current", isScrolled ? "text-gray-800" : "text-gray-500")} />
                                     </Link>
                                     <button
                                         onClick={() => setMenuState(false)}
@@ -235,6 +256,16 @@ export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 
                                 </div>
 
                                 <ul className="space-y-4">
+                                    {/* Home Mobile */}
+                                    <li className="border-b border-gray-100 pb-4 last:border-0">
+                                        <Link
+                                            href="/"
+                                            className="flex items-center gap-2 text-sm font-semibold text-gray-900 hover:text-green-900"
+                                        >
+                                            <span>Beranda</span>
+                                        </Link>
+                                    </li>
+                                    
                                     {navItems.map((item, index) => (
                                         <MobileMenuItem key={index} item={item} />
                                     ))}
