@@ -10,10 +10,19 @@ import {
     Briefcase,
     CheckCircle2,
     ArrowRight,
-    Quote
+    Quote,
+    UserCircle
 } from 'lucide-react';
 
-export default function Prodi() {
+interface StudyProgramData {
+    name: string;
+    faculty_name: string;
+    faculty_image_url?: string;
+    degree: string;
+    description: string;
+}
+
+export default function Prodi({ studyProgram }: { studyProgram: StudyProgramData }) {
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -22,52 +31,56 @@ export default function Prodi() {
 
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
-    // Mock Data - In a real app, this would come from props based on the slug
+    // Data gabungan: Props dari DB + Placeholder Dinamis
     const prodiData = {
-        name: "Teknik Informatika",
-        degree: "Sarjana (S1)",
-        description: "Program Studi Teknik Informatika berfokus pada pengembangan perangkat lunak, kecerdasan buatan, dan sistem jaringan yang inovatif.",
+        name: studyProgram.name,
+        degree: studyProgram.degree,
+        description: studyProgram.description,
         kaprodi: {
-            name: "Pak Deboy",
-            message: "Selamat datang di Program Studi Teknik Informatika. Kami berkomitmen untuk mencetak lulusan yang kompeten, inovatif, dan berakhlak mulia, siap bersaing di era digital global."
+            // Gunakan jabatan generic karena data spesifik belum ada di DB
+            name: `Ketua Prodi ${studyProgram.name}`,
+            message: `Selamat datang di Program Studi ${studyProgram.name}. Kami berkomitmen untuk mencetak lulusan yang kompeten, inovatif, dan berakhlak mulia, siap bersaing di era global.`
         },
-        visi: "Menjadi pusat unggulan pendidikan dan penelitian di bidang informatika yang berbasis nilai-nilai Islam pada tahun 2030.",
+        visi: `Menjadi pusat unggulan pendidikan dan penelitian di bidang ${studyProgram.name} yang berbasis nilai-nilai Islam.`,
         misi: [
-            "Menyelenggarakan pendidikan berkualitas di bidang rekayasa perangkat lunak dan kecerdasan buatan.",
-            "Melaksanakan penelitian yang berkontribusi pada kemajuan teknologi informasi.",
-            "Melakukan pengabdian kepada masyarakat melalui penerapan teknologi tepat guna."
+            `Menyelenggarakan pendidikan berkualitas di bidang ${studyProgram.name}.`,
+            "Melaksanakan penelitian yang berkontribusi pada kemajuan ilmu pengetahuan.",
+            "Melakukan pengabdian kepada masyarakat melalui penerapan ilmu."
         ],
         keunggulan: [
-            { title: "Kurikulum Terkini", description: "Kurikulum berbasis industri yang selalu diperbarui sesuai perkembangan teknologi." },
-            { title: "Fasilitas Lengkap", description: "Laboratorium komputer modern, akses internet cepat, dan ruang belajar nyaman." },
+            { title: "Kurikulum Terkini", description: "Kurikulum berbasis industri yang selalu diperbarui sesuai perkembangan zaman." },
+            { title: "Fasilitas Lengkap", description: "Laboratorium modern, akses internet cepat, dan ruang belajar nyaman." },
             { title: "Dosen Ahli", description: "Didukung oleh staf pengajar berkualifikasi S2 dan S3 serta praktisi industri." },
-            { title: "Sertifikasi", description: "Fasilitas sertifikasi kompetensi nasional dan internasional bagi mahasiswa." }
+            { title: "Pengembangan Karir", description: "Program bimbingan karir untuk mempersiapkan mahasiswa memasuki dunia kerja." }
         ],
         karir: [
-            "Software Engineer",
-            "Data Scientist",
-            "System Analyst",
-            "Network Administrator",
-            "IT Consultant",
-            "Technopreneur"
+            "Praktisi Profesional",
+            "Peneliti / Akademisi",
+            "Wirausahawan",
+            "Konsultan",
+            "Manajer",
+            "Pegawai Negeri Sipil"
         ]
     };
+
+    // Gunakan gambar fakultas jika ada, atau fallback
+    const heroImage = studyProgram.faculty_image_url || "/prodi.jpg";
 
     return (
         <GuestLayout>
             {/* Hero Section */}
-            <div ref={containerRef} className="relative h-screen w-full overflow-hidden bg-green-800 text-white">
+            <div ref={containerRef} className="relative h-screen w-full overflow-hidden bg-slate-900 text-white">
                 <motion.img
                     style={{ y, scale: 1.1 }}
-                    src="/prodi.jpg"
-                    alt="Campus"
+                    src={heroImage}
+                    alt={studyProgram.faculty_name}
                     className="absolute inset-0 w-full h-full object-cover opacity-40"
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-slate-100 via-slate-900/50 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-b from-slate-900/10 via-slate-900/60 to-slate-900/90" />
 
                 <div className="relative z-10 flex h-full flex-col justify-center px-6 md:px-12 lg:px-24 max-w-7xl mx-auto">
                     <div className="flex items-center space-x-2 text-sm text-emerald-400 font-medium mb-4 uppercase tracking-wider">
-                        <span>Fakultas Teknik</span>
+                        <span>{studyProgram.faculty_name}</span>
                         <span>/</span>
                         <span>{prodiData.degree}</span>
                     </div>
@@ -85,12 +98,9 @@ export default function Prodi() {
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
                         <div className="w-full lg:w-1/3">
-                            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-gray-100 shadow-xl">
-                                {/* Placeholder for Kaprodi Image */}
-                                <div className="absolute inset-0 flex items-center justify-center bg-slate-200 text-slate-400">
-                                    <img src="/kaprodi_ti.jpg" alt="Kaprodi" className="object-cover w-full h-full" />
-                                </div>
-                               
+                            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-slate-100 shadow-xl flex items-center justify-center">
+                                {/* Placeholder for Kaprodi Image - Menggunakan Icon Generic */}
+                                <UserCircle className="w-32 h-32 text-slate-300" />
                             </div>
                         </div>
                         <div className="w-full lg:w-2/3">
@@ -105,7 +115,7 @@ export default function Prodi() {
                             </blockquote>
                             <div>
                                 <div className="text-xl font-bold text-slate-900">{prodiData.kaprodi.name}</div>
-                                <div className="text-slate-500">Ketua Program Studi {prodiData.name}</div>
+                                <div className="text-slate-500">Universitas Cendekia Abditama</div>
                             </div>
                         </div>
                     </div>
@@ -187,7 +197,7 @@ export default function Prodi() {
                         <div>
                             <h2 className="text-4xl font-bold mb-6">Prospek Karir</h2>
                             <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-                                Lulusan kami memiliki peluang karir yang luas di berbagai sektor industri, baik nasional maupun internasional.
+                                Lulusan program studi {prodiData.name} memiliki peluang karir yang luas di berbagai sektor industri.
                             </p>
                             <div className="flex flex-wrap gap-4">
                                 {prodiData.karir.map((job, index) => (

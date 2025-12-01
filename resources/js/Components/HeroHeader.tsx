@@ -16,7 +16,7 @@ import {
 } from "@/Components/ui/navigation-menu"
 import { ListItem } from '@/Components/ListItem'
 import { AnimatePresence, motion } from 'framer-motion'
-import { PageProps } from '@/types'
+import { PageProps, FacultyData } from '@/types'
 
 type NavItem = {
     title: string;
@@ -26,14 +26,6 @@ type NavItem = {
     icon?: React.ReactNode;
 }
 
-type FacultyData = {
-    id: number;
-    name: string;
-    image_url: string;
-    slug: string;
-    study_programs: Array<{ name: string }>;
-};
-
 const createSlug = (text: string) => {
     return text
         .toLowerCase()
@@ -42,7 +34,10 @@ const createSlug = (text: string) => {
 };
 
 export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 'default' | 'light', faculties?: FacultyData[] }) => {
-    const { site_settings, menus } = usePage<PageProps>().props;
+    const { site_settings, menus, faculties_global } = usePage<PageProps>().props;
+
+    // Prioritize props (from Home), fallback to global (from other pages)
+    const activeFaculties = faculties.length > 0 ? faculties : faculties_global;
 
     // Konstruksi menu dinamis berdasarkan props menus dari DB
     const navItems: NavItem[] = menus.map(menu => ({
@@ -127,10 +122,10 @@ export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 
                                                                     ))}
                                                                 </ul>
 
-                                                                {/* Column 2: Faculties List (Dynamic from Props, Logic preserved) */}
+                                                                {/* Column 2: Faculties List (Dynamic from activeFaculties) */}
                                                                 {showFaculties && (
                                                                     <ul className="w-[300px] border-l border-gray-100 bg-gray-50/50 px-3 py-3 animate-in fade-in slide-in-from-left-2 duration-200">
-                                                                        {faculties.map((faculty) => (
+                                                                        {activeFaculties.map((faculty) => (
                                                                             <li key={faculty.id}>
                                                                                 <NavigationMenuLink asChild>
                                                                                     <Link
@@ -150,13 +145,13 @@ export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 
                                                                     </ul>
                                                                 )}
 
-                                                                {/* Column 3: Study Programs (Dynamic from Props, Logic preserved) */}
+                                                                {/* Column 3: Study Programs (Dynamic from activeFaculties) */}
                                                                 {activeFaculty && (
                                                                     <ul className="w-[250px] border-l border-gray-100 bg-white px-3 py-3 animate-in fade-in slide-in-from-left-2 duration-200">
                                                                         <li className="mb-2 px-2 text-xs font-bold text-gray-400 uppercase tracking-wider">
                                                                             Program Studi
                                                                         </li>
-                                                                        {faculties.find(f => f.name === activeFaculty)?.study_programs.map((prodi) => (
+                                                                        {activeFaculties.find(f => f.name === activeFaculty)?.study_programs.map((prodi) => (
                                                                             <li key={prodi.name}>
                                                                                 <NavigationMenuLink asChild>
                                                                                     <Link

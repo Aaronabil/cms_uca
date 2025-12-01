@@ -2,8 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\SiteSetting;
+use App\Models\Faculty;
 use App\Models\Menu;
+use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -43,6 +44,19 @@ class HandleInertiaRequests extends Middleware
                 }])
                 ->orderBy('order')
                 ->get(),
+            'faculties_global' => Faculty::with('studyPrograms')->get()->map(function ($faculty) {
+                return [
+                    'id' => $faculty->id,
+                    'name' => $faculty->name,
+                    'image_url' => $faculty->image_url,
+                    'slug' => $faculty->slug,
+                    'study_programs' => $faculty->studyPrograms->map(function ($program) {
+                        return [
+                            'name' => $program->name,
+                        ];
+                    }),
+                ];
+            }),
         ];
     }
 }

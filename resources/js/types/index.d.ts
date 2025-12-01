@@ -14,6 +14,14 @@ export interface MenuItem {
     children: MenuItem[];
 }
 
+export interface FacultyData {
+    id: number;
+    name: string;
+    image_url: string;
+    slug: string;
+    study_programs: Array<{ name: string }>;
+}
+
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>,
 > = T & {
@@ -22,4 +30,5 @@ export type PageProps<
     };
     site_settings: Record<string, string | null>;
     menus: MenuItem[];
+    faculties_global: FacultyData[];
 };
