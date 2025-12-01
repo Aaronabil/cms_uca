@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\SiteSetting;
+use App\Models\Menu;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -34,6 +36,13 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'site_settings' => SiteSetting::all()->pluck('setting_value', 'setting_key'),
+            'menus' => Menu::whereNull('parent_id')
+                ->with(['children' => function ($query) {
+                    $query->orderBy('order');
+                }])
+                ->orderBy('order')
+                ->get(),
         ];
     }
 }

@@ -1,5 +1,5 @@
 'use client'
-import { Link } from '@inertiajs/react'
+import { Link, usePage } from '@inertiajs/react'
 import ApplicationLogo from '@/Components/ApplicationLogo'
 import { Menu, X, CircleHelpIcon, CircleIcon, CircleCheckIcon, Plus, Minus, ChevronRight } from 'lucide-react'
 import { Button } from '@/Components/ui/button'
@@ -16,6 +16,7 @@ import {
 } from "@/Components/ui/navigation-menu"
 import { ListItem } from '@/Components/ListItem'
 import { AnimatePresence, motion } from 'framer-motion'
+import { PageProps } from '@/types'
 
 type NavItem = {
     title: string;
@@ -41,63 +42,17 @@ const createSlug = (text: string) => {
 };
 
 export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 'default' | 'light', faculties?: FacultyData[] }) => {
+    const { site_settings, menus } = usePage<PageProps>().props;
 
-    // Konstruksi menu dinamis berdasarkan props faculties
-    const navItems: NavItem[] = [
-        { title: "Beranda", href: "/" },
-        {
-            title: "Tentang UCA",
-            items: [
-                { title: "Sejarah UCA", href: "/sejarah-uca" },
-                { title: "Pimpinan Universitas", href: "/sambutan-rektor" },
-                { title: "Visi, Misi dan Tujuan", href: "/visi-misi-dan-tujuan" },
-            ]
-        },
-        {
-            title: "Akademik",
-            items: [
-                { title: "Kalender Akademik", href: "/kalender-akademik" },
-                { title: "Data Dosen", href: "/data-dosen" },
-                {
-                    title: "Fakultas & Prodi",
-                    // Mapping data fakultas ke struktur menu
-                    items: faculties.map(faculty => ({
-                        title: faculty.name,
-                        href: `/fakultas/${faculty.slug}`,
-                        items: faculty.study_programs.map(prodi => ({
-                            title: prodi.name,
-                            href: `/prodi/${createSlug(prodi.name)}`
-                        }))
-                    }))
-                }
-            ]
-        },
-        { title: "Fasilitas Kampus", href: "/fasilitas-kampus" },
-        {
-            title: "List",
-            items: [
-                { title: "Components", href: "#", description: "Browse all components in the library." },
-                { title: "Documentation", href: "#", description: "Learn how to use the library." },
-                { title: "Blog", href: "#", description: "Read our latest blog posts." },
-            ]
-        },
-        {
-            title: "Simple",
-            items: [
-                { title: "Components", href: "#" },
-                { title: "Documentation", href: "#" },
-                { title: "Blocks", href: "#" },
-            ]
-        },
-        {
-            title: "With Icon",
-            items: [
-                { title: "Backlog", href: "#", icon: <CircleHelpIcon className="w-4 h-4" /> },
-                { title: "To Do", href: "#", icon: <CircleIcon className="w-4 h-4" /> },
-                { title: "Done", href: "#", icon: <CircleCheckIcon className="w-4 h-4" /> },
-            ]
-        }
-    ];
+    // Konstruksi menu dinamis berdasarkan props menus dari DB
+    const navItems: NavItem[] = menus.map(menu => ({
+        title: menu.name,
+        href: menu.url === '#' ? undefined : menu.url,
+        items: menu.children?.length ? menu.children.map(child => ({
+            title: child.name,
+            href: child.url === '#' ? undefined : child.url,
+        })) : undefined
+    }));
 
     const [menuState, setMenuState] = React.useState(false)
     const [isScrolled, setIsScrolled] = React.useState(false)
@@ -127,7 +82,7 @@ export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 
                             href="/"
                             aria-label="home"
                             className="flex items-center space-x-2 py-3">
-                            <img src='/logo-uca-website.png' className={cn("h-auto w-40 fill-current", isScrolled ? "text-gray-800" : "text-gray-500")} />
+                            <img src={site_settings.logo_url || '/logo-uca-website.png'} className={cn("h-auto w-40 fill-current", isScrolled ? "text-gray-800" : "text-gray-500")} />
                         </Link>
 
                         <button
@@ -140,192 +95,106 @@ export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 
                         <div className="hidden size-fit lg:block ml-auto">
                             <NavigationMenu>
                                 <NavigationMenuList className="flex-wrap">
-                                    <NavigationMenuItem>
-                                        <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                                            <Link href="/" className={cn(hoverColor, textColor)}>Beranda</Link>
-                                        </NavigationMenuLink>
-                                    </NavigationMenuItem>
-                                    <NavigationMenuItem className="hidden md:block">
-                                        <NavigationMenuTrigger className={cn(hoverColor, textColor)}>Tentang UCA</NavigationMenuTrigger>
-                                        <NavigationMenuContent>
-                                            <ul className="grid w-[200px] gap-4 px-3 py-3">
-                                                <li>
-                                                    <NavigationMenuLink asChild>
-                                                        <Link href="/sejarah-uca">
-                                                            <ListItem title="Sejarah UCA"></ListItem>
-                                                        </Link>
-                                                    </NavigationMenuLink>
-                                                    <NavigationMenuLink asChild>
-                                                        <Link href="/sambutan-rektor">
-                                                            <ListItem title="Pimpinan Universitas"></ListItem>
-                                                        </Link>
-                                                    </NavigationMenuLink>
-                                                    <NavigationMenuLink asChild>
-                                                        <Link href="/visi-misi-dan-tujuan">
-                                                            <ListItem title="Visi, Misi dan Tujuan"></ListItem>
-                                                        </Link>
-                                                    </NavigationMenuLink>
-                                                </li>
-                                            </ul>
-                                        </NavigationMenuContent>
-                                    </NavigationMenuItem>
-                                    <NavigationMenuItem className="hidden md:block">
-                                        <NavigationMenuTrigger className={cn(hoverColor, textColor)}>Akademik</NavigationMenuTrigger>
-                                        <NavigationMenuContent>
-                                            <div className="flex w-max" onMouseLeave={() => { setShowFaculties(false); setActiveFaculty(null); }}>
-                                                {/* Column 1: Main Menu */}
-                                                <ul className="w-[200px] gap-4 px-3 py-3">
-                                                    <li>
-                                                        <div
-                                                            onMouseEnter={() => setShowFaculties(true)}
-                                                            className="flex items-center justify-between w-full p-2 text-sm font-medium leading-none no-underline rounded-md outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer"
-                                                        >
-                                                            <span>Fakultas & Prodi</span>
-                                                            <ChevronRight className="w-4 h-4 ml-2" />
-                                                        </div>
-                                                        <NavigationMenuLink asChild>
-                                                            <Link href="/kalender-akademik">
-                                                                <ListItem title="Kalender Akademik"></ListItem>
-                                                            </Link>
-                                                        </NavigationMenuLink>
-                                                        <NavigationMenuLink asChild>
-                                                            <Link href="/data-dosen">
-                                                                <ListItem title="Data Dosen"></ListItem>
-                                                            </Link>
-                                                        </NavigationMenuLink>
-                                                    </li>
-                                                </ul>
+                                    {navItems.map((item, index) => (
+                                        <NavigationMenuItem key={index}>
+                                            {item.items ? (
+                                                <>
+                                                    <NavigationMenuTrigger className={cn(hoverColor, textColor)}>{item.title}</NavigationMenuTrigger>
+                                                    <NavigationMenuContent>
+                                                        {/* SPECIAL CASE: AKADEMIK (Mega Menu) */}
+                                                        {item.title === 'Akademik' ? (
+                                                            <div className="flex w-max" onMouseLeave={() => { setShowFaculties(false); setActiveFaculty(null); }}>
+                                                                {/* Column 1: Menu Items from DB */}
+                                                                <ul className="w-[200px] gap-4 px-3 py-3">
+                                                                    {item.items.map((subItem, subIndex) => (
+                                                                        <li key={subIndex}>
+                                                                            {subItem.title === 'Fakultas & Prodi' ? (
+                                                                                <div
+                                                                                    onMouseEnter={() => setShowFaculties(true)}
+                                                                                    className="flex items-center justify-between w-full p-2 text-sm font-medium leading-none no-underline rounded-md outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer"
+                                                                                >
+                                                                                    <span>{subItem.title}</span>
+                                                                                    <ChevronRight className="w-4 h-4 ml-2" />
+                                                                                </div>
+                                                                            ) : (
+                                                                                <NavigationMenuLink asChild>
+                                                                                    <Link href={subItem.href || '#'}>
+                                                                                        <ListItem title={subItem.title}></ListItem>
+                                                                                    </Link>
+                                                                                </NavigationMenuLink>
+                                                                            )}
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
 
-                                                {/* Column 2: Faculties (DINAMIS) */}
-                                                {showFaculties && (
-                                                    <ul className="w-[300px] border-l border-gray-100 bg-gray-50/50 px-3 py-3 animate-in fade-in slide-in-from-left-2 duration-200">
-                                                        {faculties.map((faculty) => (
-                                                            <li key={faculty.id}>
-                                                                <NavigationMenuLink asChild>
-                                                                    <Link
-                                                                        href={`/fakultas/${faculty.slug}`}
-                                                                        onMouseEnter={() => setActiveFaculty(faculty.name)}
-                                                                        className={cn(
-                                                                            "flex items-center justify-between w-full p-2 text-sm font-medium leading-none no-underline rounded-md outline-none transition-colors hover:bg-white hover:text-green-900 cursor-pointer",
-                                                                            activeFaculty === faculty.name && "bg-white text-green-900 shadow-sm"
-                                                                        )}
-                                                                    >
-                                                                        <span>{faculty.name}</span>
-                                                                        <ChevronRight className="w-4 h-4 ml-2" />
-                                                                    </Link>
-                                                                </NavigationMenuLink>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                )}
+                                                                {/* Column 2: Faculties List (Dynamic from Props, Logic preserved) */}
+                                                                {showFaculties && (
+                                                                    <ul className="w-[300px] border-l border-gray-100 bg-gray-50/50 px-3 py-3 animate-in fade-in slide-in-from-left-2 duration-200">
+                                                                        {faculties.map((faculty) => (
+                                                                            <li key={faculty.id}>
+                                                                                <NavigationMenuLink asChild>
+                                                                                    <Link
+                                                                                        href={`/fakultas/${faculty.slug}`}
+                                                                                        onMouseEnter={() => setActiveFaculty(faculty.name)}
+                                                                                        className={cn(
+                                                                                            "flex items-center justify-between w-full p-2 text-sm font-medium leading-none no-underline rounded-md outline-none transition-colors hover:bg-white hover:text-green-900 cursor-pointer",
+                                                                                            activeFaculty === faculty.name && "bg-white text-green-900 shadow-sm"
+                                                                                        )}
+                                                                                    >
+                                                                                        <span>{faculty.name}</span>
+                                                                                        <ChevronRight className="w-4 h-4 ml-2" />
+                                                                                    </Link>
+                                                                                </NavigationMenuLink>
+                                                                            </li>
+                                                                        ))}
+                                                                    </ul>
+                                                                )}
 
-                                                {/* Column 3: Prodi (DINAMIS) */}
-                                                {activeFaculty && (
-                                                    <ul className="w-[250px] border-l border-gray-100 bg-white px-3 py-3 animate-in fade-in slide-in-from-left-2 duration-200">
-                                                        <li className="mb-2 px-2 text-xs font-bold text-gray-400 uppercase tracking-wider">
-                                                            Program Studi
-                                                        </li>
-                                                        {faculties.find(f => f.name === activeFaculty)?.study_programs.map((prodi) => (
-                                                            <li key={prodi.name}>
-                                                                <NavigationMenuLink asChild>
-                                                                    <Link
-                                                                        href={`/prodi/${createSlug(prodi.name)}`}
-                                                                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                                                                    >
-                                                                        <div className="text-sm font-medium leading-none">{prodi.name}</div>
-                                                                    </Link>
-                                                                </NavigationMenuLink>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                )}
-                                            </div>
-                                        </NavigationMenuContent>
-                                    </NavigationMenuItem>
-                                    <NavigationMenuItem>
-                                        <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                                            <Link href="/fasilitas-kampus" className={cn(hoverColor, textColor)}>Fasilitas Kampus</Link>
-                                        </NavigationMenuLink>
-                                    </NavigationMenuItem>
-                                    <NavigationMenuItem className="hidden md:block">
-                                        <NavigationMenuTrigger className={cn(hoverColor, textColor)}>List</NavigationMenuTrigger>
-                                        <NavigationMenuContent>
-                                            <ul className="grid w-[300px] gap-4 px-3">
-                                                <li>
-                                                    <NavigationMenuLink asChild>
-                                                        <Link href="#">
-                                                            <div className="font-medium">Components</div>
-                                                            <div className="text-muted-foreground">
-                                                                Browse all components in the library.
+                                                                {/* Column 3: Study Programs (Dynamic from Props, Logic preserved) */}
+                                                                {activeFaculty && (
+                                                                    <ul className="w-[250px] border-l border-gray-100 bg-white px-3 py-3 animate-in fade-in slide-in-from-left-2 duration-200">
+                                                                        <li className="mb-2 px-2 text-xs font-bold text-gray-400 uppercase tracking-wider">
+                                                                            Program Studi
+                                                                        </li>
+                                                                        {faculties.find(f => f.name === activeFaculty)?.study_programs.map((prodi) => (
+                                                                            <li key={prodi.name}>
+                                                                                <NavigationMenuLink asChild>
+                                                                                    <Link
+                                                                                        href={`/prodi/${createSlug(prodi.name)}`}
+                                                                                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                                                                                    >
+                                                                                        <div className="text-sm font-medium leading-none">{prodi.name}</div>
+                                                                                    </Link>
+                                                                                </NavigationMenuLink>
+                                                                            </li>
+                                                                        ))}
+                                                                    </ul>
+                                                                )}
                                                             </div>
-                                                        </Link>
-                                                    </NavigationMenuLink>
-                                                    <NavigationMenuLink asChild>
-                                                        <Link href="#">
-                                                            <div className="font-medium">Documentation</div>
-                                                            <div className="text-muted-foreground">
-                                                                Learn how to use the library.
-                                                            </div>
-                                                        </Link>
-                                                    </NavigationMenuLink>
-                                                    <NavigationMenuLink asChild>
-                                                        <Link href="#">
-                                                            <div className="font-medium">Blog</div>
-                                                            <div className="text-muted-foreground">
-                                                                Read our latest blog posts.
-                                                            </div>
-                                                        </Link>
-                                                    </NavigationMenuLink>
-                                                </li>
-                                            </ul>
-                                        </NavigationMenuContent>
-
-                                    </NavigationMenuItem>
-                                    <NavigationMenuItem className="hidden md:block">
-                                        <NavigationMenuTrigger className={cn(hoverColor, textColor)}>Simple</NavigationMenuTrigger>
-                                        <NavigationMenuContent>
-                                            <ul className="grid w-[200px] gap-4">
-                                                <li>
-                                                    <NavigationMenuLink asChild>
-                                                        <Link href="#">Components</Link>
-                                                    </NavigationMenuLink>
-                                                    <NavigationMenuLink asChild>
-                                                        <Link href="#">Documentation</Link>
-                                                    </NavigationMenuLink>
-                                                    <NavigationMenuLink asChild>
-                                                        <Link href="#">Blocks</Link>
-                                                    </NavigationMenuLink>
-                                                </li>
-                                            </ul>
-                                        </NavigationMenuContent>
-                                    </NavigationMenuItem>
-                                    <NavigationMenuItem className="hidden md:block">
-                                        <NavigationMenuTrigger className={cn(hoverColor, textColor)}>With Icon</NavigationMenuTrigger>
-                                        <NavigationMenuContent>
-                                            <ul className="grid w-[200px] gap-4">
-                                                <li>
-                                                    <NavigationMenuLink asChild>
-                                                        <Link href="#" className="flex-row items-center gap-2">
-                                                            <CircleHelpIcon />
-                                                            Backlog
-                                                        </Link>
-                                                    </NavigationMenuLink>
-                                                    <NavigationMenuLink asChild>
-                                                        <Link href="#" className="flex-row items-center gap-2">
-                                                            <CircleIcon />
-                                                            To Do
-                                                        </Link>
-                                                    </NavigationMenuLink>
-                                                    <NavigationMenuLink asChild>
-                                                        <Link href="#" className="flex-row items-center gap-2">
-                                                            <CircleCheckIcon />
-                                                            Done
-                                                        </Link>
-                                                    </NavigationMenuLink>
-                                                </li>
-                                            </ul>
-                                        </NavigationMenuContent>
-                                    </NavigationMenuItem>
+                                                        ) : (
+                                                            /* GENERAL DROPDOWN */
+                                                            <ul className="grid w-[200px] gap-4 px-3 py-3">
+                                                                {item.items.map((subItem, subIndex) => (
+                                                                    <li key={subIndex}>
+                                                                        <NavigationMenuLink asChild>
+                                                                            <Link href={subItem.href || '#'}>
+                                                                                <ListItem title={subItem.title}></ListItem>
+                                                                            </Link>
+                                                                        </NavigationMenuLink>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        )}
+                                                    </NavigationMenuContent>
+                                                </>
+                                            ) : (
+                                                /* SINGLE LINK */
+                                                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                                                    <Link href={item.href || '#'} className={cn(hoverColor, textColor)}>{item.title}</Link>
+                                                </NavigationMenuLink>
+                                            )}
+                                        </NavigationMenuItem>
+                                    ))}
                                 </NavigationMenuList>
                             </NavigationMenu>
                         </div>
@@ -360,7 +229,7 @@ export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 
                                         href="/"
                                         aria-label="home"
                                         className="flex items-center space-x-2 py-3">
-                                        <img src='/logo-uca-website.png' className={cn("h-auto w-40 fill-current", isScrolled ? "text-gray-800" : "text-gray-500")} />
+                                        <img src={site_settings.logo_url || '/logo-uca-website.png'} className={cn("h-auto w-40 fill-current", isScrolled ? "text-gray-800" : "text-gray-500")} />
                                     </Link>
                                     <button
                                         onClick={() => setMenuState(false)}

@@ -1,6 +1,7 @@
 import ApplicationLogo from "@/Components/ApplicationLogo"
-import { Link } from "@inertiajs/react"
+import { Link, usePage } from "@inertiajs/react"
 import { MapPin, Phone, Mail } from "lucide-react"
+import { PageProps } from "@/types"
 
 const links = [
     {
@@ -85,6 +86,7 @@ const links = [
 ]
 
 export default function FooterSection() {
+    const { site_settings } = usePage<PageProps>().props;
     return (
         <footer className="bg-primary border-b pt-20">
             <div className="mx-auto max-w-5xl px-6">
@@ -94,22 +96,22 @@ export default function FooterSection() {
                             href="/"
                             aria-label="home"
                             className="flex items-center space-x-2 py-3">
-                            <ApplicationLogo className="h-10 w-10 fill-current text-gray-500" />
+                            <img src={site_settings.logo_url || '/logo-uca-website.png'} className="h-10 w-auto" alt="Logo" />
                         </Link>
                         <p className="text-md text-white font-bold">
-                            Universitas Cendekia Abditama
+                            {site_settings.site_name || "Universitas Cendekia Abditama"}
                         </p>
                         <p className="text-md text-white mt-4 w-90">
                             <MapPin className="inline-block mr-2 w-6 h-6" />
-                            Komplek Pendidikan Islamic Village, Jl. Islamic Raya, Kelapa Dua, Tangerang, Banten – 15811
+                            {site_settings.alamat || "Komplek Pendidikan Islamic Village, Jl. Islamic Raya, Kelapa Dua, Tangerang, Banten – 15811"}
                         </p>
                         <p className="text-md text-white mt-4 w-90">
                             <Phone className="inline-block mr-2 w-6 h-6" />
-                            0888888888
+                            {site_settings.telepon || "0888888888"}
                         </p>
                         <p className="text-md text-white mt-4 w-90">
                             <Mail className="inline-block mr-2 w-6 h-6" />
-                            info@uca
+                            {site_settings.email || "info@uca"}
                         </p>
                     </div>
 
@@ -132,10 +134,10 @@ export default function FooterSection() {
                     </div>
                 </div>
                 <div className="mt-12 flex flex-wrap items-end justify-between gap-6 border-t py-6">
-                    <span className="text-white order-last block text-center text-sm md:order-first">© {new Date().getFullYear()} Universitas Cendekia Abditama, All rights reserved</span>
+                    <span className="text-white order-last block text-center text-sm md:order-first">© {new Date().getFullYear()} {site_settings.site_name || "Universitas Cendekia Abditama"}, All rights reserved</span>
                     <div className="order-first flex flex-wrap justify-center gap-6 text-sm md:order-last">
                         <Link
-                            href="#"
+                            href={site_settings.twitter_url || "#"}
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="X/Twitter"
@@ -169,7 +171,7 @@ export default function FooterSection() {
                             </svg>
                         </Link>
                         <Link
-                            href="#"
+                            href={site_settings.facebook_url || "#"}
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Facebook"
@@ -208,7 +210,7 @@ export default function FooterSection() {
                             </svg>
                         </Link>
                         <Link
-                            href="#"
+                            href={site_settings.instagram_url || "#"}
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Instagram"

@@ -1,5 +1,5 @@
 import { PageProps } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Button } from '@/Components/ui/button';
 import {
@@ -34,6 +34,7 @@ interface HomeProps extends PageProps {
 }
 
 export default function Index({ sambutanRektor, faculties }: HomeProps) {
+    const { site_settings } = usePage<HomeProps>().props;
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -51,7 +52,7 @@ export default function Index({ sambutanRektor, faculties }: HomeProps) {
 
     return (
         <>
-            <Head title="Universitas Cendekia Abditama" />
+            <Head title={site_settings.site_name || "Universitas Cendekia Abditama"} />
             <GuestLayout faculties={faculties}>
                 <main className="[--color-primary:var(--color-indigo-500)]">
                     <AnimatedSection delay={200}>
@@ -80,12 +81,12 @@ export default function Index({ sambutanRektor, faculties }: HomeProps) {
 
                                         {/* Heading */}
                                         <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight mb-6 max-w-5xl text-balance drop-shadow-sm">
-                                            Universitas Cendekia Abditama
+                                            {site_settings.site_name || "Universitas Cendekia Abditama"}
                                         </h1>
 
                                         {/* Subtext */}
                                         <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-10 text-balance drop-shadow-sm">
-                                            Mempersiapkan mahasiswa untuk memberikan kontribusi yang berarti pada masyarakat, bangsa dan dunia.
+                                            {site_settings.site_description || "Mempersiapkan mahasiswa untuk memberikan kontribusi yang berarti pada masyarakat, bangsa dan dunia."}
                                         </p>
 
                                         {/* Buttons */}

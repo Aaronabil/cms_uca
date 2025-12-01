@@ -49,6 +49,7 @@ class MenuResource extends Resource
                             ])
                             ->default('custom')
                             ->live()
+                            ->dehydrated(false)
                             ->columnSpanFull()
                             ->afterStateUpdated(function ($set) {
                                 $set('url', null);
@@ -60,6 +61,7 @@ class MenuResource extends Resource
                             ->searchable()
                             ->visible(fn ($get) => $get('type') === 'page')
                             ->live()
+                            ->dehydrated(false)
                             ->afterStateUpdated(function ($set, $state) {
                                 $page = Page::find($state);
                                 if ($page) {
