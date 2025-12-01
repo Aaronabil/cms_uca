@@ -31,9 +31,19 @@ interface HomeProps extends PageProps {
         slug: string;
         study_programs: Array<{ name: string }>;
     }>;
+    articles: Array<{
+        id: number;
+        title: string;
+        slug: string;
+        category: string;
+        author: string;
+        date: string;
+        image: string | null;
+        comments: number;
+    }>;
 }
 
-export default function Index({ sambutanRektor, faculties }: HomeProps) {
+export default function Index({ sambutanRektor, faculties, articles }: HomeProps) {
     const { site_settings } = usePage<HomeProps>().props;
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
@@ -345,7 +355,7 @@ export default function Index({ sambutanRektor, faculties }: HomeProps) {
                         </div>
                     </section>
                     <AnimatedSection delay={200}>
-                        <NewsSection />
+                        <NewsSection articles={articles} />
                     </AnimatedSection>
                     <AnimatedSection delay={200}>
                         <FAQSeputarUCA />

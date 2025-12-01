@@ -71,8 +71,8 @@ export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 
         <header>
             <nav
                 className={cn('fixed z-40 w-full transition-all duration-300', isScrolled && 'bg-background/75 border-b border-black/5 backdrop-blur-lg')}>
-                <div className="mx-auto max-w-5xl px-6">
-                    <div className="relative flex flex-wrap items-center justify-between gap-6 lg:gap-0">
+                <div className="mx-auto max-w-7xl px-6">
+                    <div className="relative flex flex-nowrap items-center justify-between gap-6 lg:gap-0">
                         <Link
                             href="/"
                             aria-label="home"
@@ -89,7 +89,7 @@ export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 
 
                         <div className="hidden size-fit lg:block ml-auto">
                             <NavigationMenu>
-                                <NavigationMenuList className="flex-wrap">
+                                <NavigationMenuList>
                                     {navItems.map((item, index) => (
                                         <NavigationMenuItem key={index}>
                                             {item.items ? (
