@@ -47,7 +47,7 @@ class ArtikelForm
                             TextInput::make('title')
                                 ->required()
                                 ->live(onBlur: true)
-                                ->afterStateUpdated(function (Get $get, Set $set, ?string $state) {
+                                ->afterStateUpdated(function ($get, $set, ?string $state) {
                                     if (blank($get('slug'))) {
                                         $set('slug', Str::slug($state));
                                     }
