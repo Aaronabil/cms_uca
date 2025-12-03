@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Artikel;
+use App\Models\Category;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -21,7 +23,7 @@ class DatabaseSeeder extends Seeder
         $superAdminRole = Role::create(['name' => 'Super Admin']);
 
         // Create Super Admin User
-        User::create([
+        $superAdmin = User::create([
             'name' => 'Super Admin',
             'username' => 'superadmin',
             'password' => Hash::make('password'),
@@ -34,6 +36,21 @@ class DatabaseSeeder extends Seeder
             MenuSeeder::class,
             PageSeeder::class,
         ]);
+
+        // Create Categories
+        $categories = Category::factory()->count(5)->create();
+
+        // Create Articles
+        Artikel::factory()
+            ->count(10)
+            ->create([
+                'users_id' => $superAdmin->id,
+            ])
+            ->each(function ($artikel) use ($categories) {
+                $artikel->categories()->attach(
+                    $categories->random(rand(1, 2))->pluck('id')->toArray()
+                );
+            });
     }
 }
 
