@@ -17,13 +17,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([
-            SiteSettingSeeder::class,
-            FacultyStudyProgramSeeder::class,
-            MenuSeeder::class,
-            PageSeeder::class,
-        ]);
-
         // Create Super Admin Role
         $superAdminRole = Role::create(['name' => 'Super Admin']);
 
@@ -33,6 +26,13 @@ class DatabaseSeeder extends Seeder
             'username' => 'superadmin',
             'password' => Hash::make('password'),
             'role_id' => $superAdminRole->id,
+        ]);
+
+        $this->call([
+            SiteSettingSeeder::class,
+            FacultyStudyProgramSeeder::class,
+            MenuSeeder::class,
+            PageSeeder::class,
         ]);
     }
 }

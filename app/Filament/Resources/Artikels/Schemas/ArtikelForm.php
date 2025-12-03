@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Artikels\Schemas;
 
+use Filament\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
@@ -76,14 +77,11 @@ class ArtikelForm
                                 ->maxSize(2048), // Max 2MB
                         ]),
                 ])
-                ->submitAction(new HtmlString(Blade::render(<<<BLADE
-                    <x-filament::button
-                        type="submit"
-                        size="sm"
-                    >
-                        Simpan Artikel
-                    </x-filament::button>
-                BLADE)))
+                ->submitAction(
+                    Action::make('submit')
+                        ->label('Simpan Artikel')
+                        ->extraAttributes(['type' => 'submit'])
+                )
                 ->columnSpanFull(),
             ]);
     }

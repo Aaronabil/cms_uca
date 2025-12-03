@@ -28,6 +28,11 @@ class EditArtikel extends EditRecord
         return [];
     }
 
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+
     protected function mutateFormDataBeforeFill(array $data): array
     {
         if ($this->record->featuredImage) {
