@@ -11,6 +11,14 @@ class Faculty extends Model
         'name',
         'image_url',
         'slug',
+        'color',
+        'description',
+        'visi',
+        'misi',
+    ];
+
+    protected $casts = [
+        'misi' => 'array',
     ];
 
     public function studyPrograms(): HasMany

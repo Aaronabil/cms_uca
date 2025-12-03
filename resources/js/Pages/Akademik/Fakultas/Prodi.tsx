@@ -63,8 +63,6 @@ export default function Prodi({ studyProgram }: { studyProgram: StudyProgramData
         ]
     };
 
-    // Gunakan gambar fakultas jika ada, atau fallback
-    const heroImage = studyProgram.faculty_image_url || "/prodi.jpg";
 
     return (
         <GuestLayout>
@@ -72,7 +70,7 @@ export default function Prodi({ studyProgram }: { studyProgram: StudyProgramData
             <div ref={containerRef} className="relative h-screen w-full overflow-hidden bg-slate-900 text-white">
                 <motion.img
                     style={{ y, scale: 1.1 }}
-                    src={heroImage}
+                    src="/prodi.jpg"
                     alt={studyProgram.faculty_name}
                     className="absolute inset-0 w-full h-full object-cover opacity-40"
                 />
