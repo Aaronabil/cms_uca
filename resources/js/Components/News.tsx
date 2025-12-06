@@ -12,6 +12,7 @@ interface NewsItem {
     image: string | null;
     isFeatured?: boolean;
     comments?: number;
+    slug: string;
 }
 
 const Badge = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
@@ -21,21 +22,11 @@ const Badge = ({ children, className = "" }: { children: React.ReactNode; classN
 );
 
 export default function NewsSection({ articles = [] }: { articles?: NewsItem[] }) {
-    const [activeCategory, setActiveCategory] = useState<string>('Terbaru');
-
-    // Filter articles based on activeCategory
-    // Note: Since we only fetch the latest 5 articles from the backend, 
-    // filtering strictly on the client side might return empty results for some categories.
-    // However, this preserves the requested logic.
-    const filteredNews = activeCategory === 'Terbaru'
-        ? articles
-        : articles.filter(item => item.category === activeCategory);
+    // Use all articles directly
+    const filteredNews = articles;
 
     const featuredNews = filteredNews[0];
     const otherNews = filteredNews.slice(1, 5);
-
-    // Define categories. Ideally this should come from DB too, but hardcoded for now matching the design.
-    const categories: string[] = ['Terbaru', 'Akademik', 'Kemahasiswaan', 'Riset', 'Pengumuman'];
 
     if (!featuredNews) {
         return (
@@ -63,21 +54,6 @@ export default function NewsSection({ articles = [] }: { articles?: NewsItem[] }
                     <h1 className="text-4xl font-bold text-slate-900">Berita Terkini</h1>
                     <p className="text-slate-500 text-lg mt-1">Informasi terkini terkait Universitas Cendekia Abditama</p>
                 </div>
-
-                <div className="flex flex-wrap gap-4 text-sm font-medium border-b md:border-none pb-2 md:pb-0 overflow-x-auto">
-                    {categories.map((cat) => (
-                        <button
-                            key={cat}
-                            onClick={() => setActiveCategory(cat)}
-                            className={`uppercase tracking-wider transition-colors duration-200 whitespace-nowrap ${activeCategory === cat
-                                ? 'text-primary font-bold border-b-2 border-primary md:border-none'
-                                : 'text-slate-400 hover:text-slate-900'
-                                }`}
-                        >
-                            {cat}
-                        </button>
-                    ))}
-                </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -98,7 +74,7 @@ export default function NewsSection({ articles = [] }: { articles?: NewsItem[] }
                                 </Badge>
 
                                 <h3 className="text-2xl md:text-3xl font-bold leading-tight mb-4">
-                                    <AnimatedTitle title={featuredNews.title} className="text-white decoration-green-500" />
+                                    <AnimatedTitle title={featuredNews.title} className="text-white decoration-green-500" disableLink={true} />
                                 </h3>
 
                                 <div className="flex items-center space-x-4 text-xs md:text-sm text-slate-300 font-medium">
@@ -153,7 +129,7 @@ export default function NewsSection({ articles = [] }: { articles?: NewsItem[] }
 
                                         {/* Title with Animation */}
                                         <h4 className="text-lg font-bold text-slate-900 leading-snug mb-2 flex-1">
-                                            <AnimatedTitle title={news.title} />
+                                            <AnimatedTitle title={news.title} disableLink={true} />
                                         </h4>
 
                                         {/* Footer Info */}
