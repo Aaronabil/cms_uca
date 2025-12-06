@@ -18,6 +18,7 @@ import AnimatedSection from '@/Components/AnimatedSection';
 import { NumberTicker } from '@/Components/ui/number-ticker';
 import { useScroll, useTransform, motion } from 'framer-motion';
 import { useRef } from 'react';
+import WarpSection from '@/Components/Warp';
 
 interface HomeProps extends PageProps {
     sambutanRektor: {
@@ -357,6 +358,7 @@ export default function Index({ sambutanRektor, faculties, articles }: HomeProps
                     <AnimatedSection delay={200}>
                         <NewsSection articles={articles} />
                     </AnimatedSection>
+                    <WarpSection />
                     <AnimatedSection delay={200}>
                         <FAQSeputarUCA />
                     </AnimatedSection>
