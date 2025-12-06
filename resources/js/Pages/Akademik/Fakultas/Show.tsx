@@ -122,11 +122,25 @@ export default function Show({ faculty }: Props) {
                 badgeBorder: 'border-white',
                 arrowColor: 'text-white'
             },
+             primary: { // FT
+                bg: 'bg-primary',
+                text: 'text-primary',
+                accent: 'bg-green-900',
+                border: 'border-primary',
+                lightBg: 'bg-primary',
+                overlay: 'from-primary/80',
+                sectionText: 'text-white',
+                sectionTextMuted: 'text-white/90',
+                cardBorder: 'border-white/20',
+                cardBorderHover: 'hover:border-white/90',
+                badgeBorder: 'border-white',
+                arrowColor: 'text-white'
+            },
         };
-        return colors[color] || colors.yellow; // Default to yellow
+        return colors[color] || colors.primary; // Default to primary
     };
 
-    const theme = getColorClasses(faculty.color || 'yellow');
+    const theme = getColorClasses(faculty.color || 'primary');
 
     return (
         <GuestLayout>
