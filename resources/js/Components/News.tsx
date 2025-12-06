@@ -12,6 +12,7 @@ interface NewsItem {
     image: string | null;
     isFeatured?: boolean;
     comments?: number;
+    slug: string;
 }
 
 const Badge = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
@@ -24,9 +25,6 @@ export default function NewsSection({ articles = [] }: { articles?: NewsItem[] }
     const [activeCategory, setActiveCategory] = useState<string>('Terbaru');
 
     // Filter articles based on activeCategory
-    // Note: Since we only fetch the latest 5 articles from the backend, 
-    // filtering strictly on the client side might return empty results for some categories.
-    // However, this preserves the requested logic.
     const filteredNews = activeCategory === 'Terbaru'
         ? articles
         : articles.filter(item => item.category === activeCategory);
@@ -34,8 +32,7 @@ export default function NewsSection({ articles = [] }: { articles?: NewsItem[] }
     const featuredNews = filteredNews[0];
     const otherNews = filteredNews.slice(1, 5);
 
-    // Define categories. We will use 'Terbaru' to show all articles by default,
-    // and then 'Berita' and 'Artikel' based on the seeded data.
+    // Define categories based on user request (Berita & Artikel) + Terbaru
     const categories: string[] = ['Terbaru', 'Berita', 'Artikel'];
 
     if (!featuredNews) {

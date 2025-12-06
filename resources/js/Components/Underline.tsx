@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from '@inertiajs/react'; 
+import { Link } from '@inertiajs/react';
 
 interface AnimatedTitleProps {
     title: string;
@@ -8,25 +8,24 @@ interface AnimatedTitleProps {
     underlineColor?: string;// Warna garis (opsional)
 }
 
-export default function AnimatedTitle({ 
-    title, 
-    href = '/newscoba', 
-    className = "", 
-    underlineColor = "bg-secondary" 
-}: AnimatedTitleProps) {
+export default function AnimatedTitle({
+    title,
+    href = '/newscoba',
+    className = "",
+    underlineColor = "bg-secondary",
+    disableLink = false
+}: AnimatedTitleProps & { disableLink?: boolean }) {
 
     const words = title.split(' ');
-    return (
-        <Link
-            href={href} 
-            className={`group inline-block cursor-pointer leading-snug ${className}`}
-        >
+
+    const Content = (
+        <>
             {words.map((word, index) => (
                 <span key={index} className="relative inline-block whitespace-pre">
-                    
+
                     {/* Layer Teks */}
                     <span className="relative z-10">{word}&nbsp;</span>
-                    
+
                     {/* Layer Garis Bawah */}
                     <span
                         className={`
@@ -43,6 +42,23 @@ export default function AnimatedTitle({
                     />
                 </span>
             ))}
+        </>
+    );
+
+    if (disableLink) {
+        return (
+            <span className={`group inline-block cursor-pointer leading-snug ${className}`}>
+                {Content}
+            </span>
+        );
+    }
+
+    return (
+        <Link
+            href={href}
+            className={`group inline-block cursor-pointer leading-snug ${className}`}
+        >
+            {Content}
         </Link>
     );
 }

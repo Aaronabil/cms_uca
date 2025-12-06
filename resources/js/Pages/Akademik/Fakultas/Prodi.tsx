@@ -13,6 +13,7 @@ import {
     Quote,
     UserCircle
 } from 'lucide-react';
+import AnimatedSection from '@/Components/AnimatedSection';
 
 interface StudyProgramData {
     name: string;
@@ -67,53 +68,69 @@ export default function Prodi({ studyProgram }: { studyProgram: StudyProgramData
     return (
         <GuestLayout>
             {/* Hero Section */}
-            <div ref={containerRef} className="relative h-screen w-full overflow-hidden bg-slate-900 text-white">
-                <motion.img
-                    style={{ y, scale: 1.1 }}
-                    src="/prodi.jpg"
-                    alt={studyProgram.faculty_name}
-                    className="absolute inset-0 w-full h-full object-cover opacity-40"
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-slate-900/10 via-slate-900/60 to-slate-900/90" />
+            <AnimatedSection delay={200}>
+                <div ref={containerRef} className="relative h-screen w-full overflow-hidden bg-slate-900 text-white">
+                    <motion.img
+                        style={{ y, scale: 1.1 }}
+                        src="/prodi.jpg"
+                        alt={studyProgram.faculty_name}
+                        className="absolute inset-0 w-full h-full object-cover opacity-40"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-slate-100 via-slate-900/50 to-transparent" />
 
-                <div className="relative z-10 flex h-full flex-col justify-center px-6 md:px-12 lg:px-24 max-w-7xl mx-auto">
-                    <div className="flex items-center space-x-2 text-sm text-emerald-400 font-medium mb-4 uppercase tracking-wider">
-                        <span>{studyProgram.faculty_name}</span>
-                        <span>/</span>
-                        <span>{prodiData.degree}</span>
+                    <div className="relative z-10 flex h-full flex-col justify-center px-6 md:px-12 lg:px-24 max-w-7xl mx-auto">
+                        <div className="flex items-center space-x-2 text-sm text-secondary/90 font-medium mb-4 uppercase tracking-wider">
+                            <AnimatedSection delay={300}>
+                                <span>{studyProgram.faculty_name}</span>
+                                <span>/</span>
+                                <span>{prodiData.degree}</span>
+                            </AnimatedSection>
+                        </div>
+                        <AnimatedSection delay={400}>
+                            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
+                                {prodiData.name}
+                            </h1>
+                            <p className="text-xl text-gray-300 max-w-2xl leading-relaxed">
+                                {prodiData.description}
+                            </p>
+                        </AnimatedSection>
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
-                        {prodiData.name}
-                    </h1>
-                    <p className="text-xl text-gray-300 max-w-2xl leading-relaxed">
-                        {prodiData.description}
-                    </p>
                 </div>
-            </div>
+            </AnimatedSection>
 
             {/* Sambutan Kaprodi */}
             <section className="py-20 bg-white">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
                         <div className="w-full lg:w-1/3">
-                            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-slate-100 shadow-xl flex items-center justify-center">
-                                {/* Placeholder for Kaprodi Image - Menggunakan Icon Generic */}
-                                <UserCircle className="w-32 h-32 text-slate-300" />
-                            </div>
+                            <AnimatedSection delay={200}>
+                                <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-slate-100 shadow-xl flex items-center justify-center">
+                                    {/* Placeholder for Kaprodi Image - Menggunakan Icon Generic */}
+                                    <img src="/kaprodi_ti.jpg" alt="" />
+                                </div>
+                            </AnimatedSection>
                         </div>
                         <div className="w-full lg:w-2/3">
                             <div className="flex items-center space-x-4 mb-6">
-                                <div className="p-3 bg-emerald-100 rounded-full text-emerald-600">
-                                    <Quote className="w-8 h-8" />
-                                </div>
-                                <h2 className="text-3xl font-bold text-slate-900">Sambutan Kaprodi</h2>
+                                <AnimatedSection delay={300}>
+                                    <div className="p-3 bg-emerald-100 rounded-full text-emerald-600">
+                                        <Quote className="w-8 h-8" />
+                                    </div>
+                                </AnimatedSection>
+                                <AnimatedSection delay={300}>
+                                    <h2 className="text-3xl font-bold text-slate-900">Sambutan Kaprodi</h2>
+                                </AnimatedSection>
                             </div>
-                            <blockquote className="text-2xl font-medium leading-relaxed text-slate-700 mb-8">
-                                "{prodiData.kaprodi.message}"
-                            </blockquote>
+                            <AnimatedSection delay={400}>
+                                <blockquote className="text-2xl font-medium leading-relaxed text-slate-700 mb-8">
+                                    "{prodiData.kaprodi.message}"
+                                </blockquote>
+                            </AnimatedSection>
                             <div>
-                                <div className="text-xl font-bold text-slate-900">{prodiData.kaprodi.name}</div>
-                                <div className="text-slate-500">Universitas Cendekia Abditama</div>
+                                <AnimatedSection delay={500}>
+                                    <div className="text-xl font-bold text-slate-900">{prodiData.kaprodi.name}</div>
+                                    <div className="text-slate-500">Universitas Cendekia Abditama</div>
+                                </AnimatedSection>
                             </div>
                         </div>
                     </div>
@@ -126,33 +143,37 @@ export default function Prodi({ studyProgram }: { studyProgram: StudyProgramData
                     <div className="grid md:grid-cols-2 gap-12">
                         {/* Visi */}
                         <div className="bg-white p-10 rounded-3xl shadow-sm border border-slate-100">
-                            <div className="flex items-center space-x-4 mb-6">
-                                <div className="p-3 bg-blue-100 rounded-xl text-blue-600">
-                                    <Target className="w-6 h-6" />
+                            <AnimatedSection delay={200}>
+                                <div className="flex items-center space-x-4 mb-6">
+                                    <div className="p-3 bg-blue-100 rounded-xl text-blue-600">
+                                        <Target className="w-6 h-6" />
+                                    </div>
+                                    <h2 className="text-2xl font-bold text-slate-900">Visi</h2>
                                 </div>
-                                <h2 className="text-2xl font-bold text-slate-900">Visi</h2>
-                            </div>
-                            <p className="text-lg text-slate-600 leading-relaxed">
-                                {prodiData.visi}
-                            </p>
+                                <p className="text-lg text-slate-600 leading-relaxed">
+                                    {prodiData.visi}
+                                </p>
+                            </AnimatedSection>
                         </div>
 
                         {/* Misi */}
                         <div className="bg-white p-10 rounded-3xl shadow-sm border border-slate-100">
-                            <div className="flex items-center space-x-4 mb-6">
-                                <div className="p-3 bg-orange-100 rounded-xl text-orange-600">
-                                    <BookOpen className="w-6 h-6" />
+                            <AnimatedSection delay={200}>
+                                <div className="flex items-center space-x-4 mb-6">
+                                    <div className="p-3 bg-orange-100 rounded-xl text-orange-600">
+                                        <BookOpen className="w-6 h-6" />
+                                    </div>
+                                    <h2 className="text-2xl font-bold text-slate-900">Misi</h2>
                                 </div>
-                                <h2 className="text-2xl font-bold text-slate-900">Misi</h2>
-                            </div>
-                            <ul className="space-y-4">
-                                {prodiData.misi.map((item, index) => (
-                                    <li key={index} className="flex items-start space-x-3">
-                                        <CheckCircle2 className="w-6 h-6 text-emerald-500 flex-shrink-0 mt-0.5" />
-                                        <span className="text-lg text-slate-600">{item}</span>
-                                    </li>
-                                ))}
-                            </ul>
+                                <ul className="space-y-4">
+                                    {prodiData.misi.map((item, index) => (
+                                        <li key={index} className="flex items-start space-x-3">
+                                            <CheckCircle2 className="w-6 h-6 text-emerald-500 flex-shrink-0 mt-0.5" />
+                                            <span className="text-lg text-slate-600">{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </AnimatedSection>
                         </div>
                     </div>
                 </div>
@@ -162,24 +183,28 @@ export default function Prodi({ studyProgram }: { studyProgram: StudyProgramData
             <section className="py-24 bg-white">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl mb-4">Mengapa Memilih Kami?</h2>
-                        <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                            Keunggulan yang kami tawarkan untuk mendukung kesuksesan akademik dan karir Anda.
-                        </p>
+                        <AnimatedSection delay={200}>
+                            <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl mb-4">Mengapa Memilih Kami?</h2>
+                            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+                                Keunggulan yang kami tawarkan untuk mendukung kesuksesan akademik dan karir Anda.
+                            </p>
+                        </AnimatedSection>
                     </div>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {prodiData.keunggulan.map((item, index) => (
-                            <div key={index} className="group p-8 rounded-3xl bg-slate-50 hover:bg-emerald-50 transition-colors duration-300">
-                                <div className="mb-6 p-4 bg-white rounded-2xl shadow-sm w-fit group-hover:scale-110 transition-transform duration-300">
-                                    <Award className="w-8 h-8 text-emerald-600" />
+                    <AnimatedSection delay={300}>
+                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                            {prodiData.keunggulan.map((item, index) => (
+                                <div key={index} className="group p-8 rounded-3xl bg-slate-50 hover:bg-emerald-50 transition-colors duration-300">
+                                    <div className="mb-6 p-4 bg-white rounded-2xl shadow-sm w-fit group-hover:scale-110 transition-transform duration-300">
+                                        <Award className="w-8 h-8 text-primary" />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
+                                    <p className="text-slate-600 leading-relaxed">
+                                        {item.description}
+                                    </p>
                                 </div>
-                                <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
-                                <p className="text-slate-600 leading-relaxed">
-                                    {item.description}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+                    </AnimatedSection>
                 </div>
             </section>
 

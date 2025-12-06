@@ -1,11 +1,9 @@
 'use client'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/Components/ui/accordion'
-import { DynamicIcon, type IconName } from 'lucide-react/dynamic'
 import { Link } from '@inertiajs/react'
 
 type FAQItem = {
     id: string
-    icon: IconName
     question: string
     answer: string
 }
@@ -14,78 +12,85 @@ export default function FAQSeputarUCA() {
     const faqItems: FAQItem[] = [
         {
             id: 'item-1',
-            icon: 'clock',
-            question: 'What are your business hours?',
-            answer: 'Our customer service team is available Monday through Friday from 9:00 AM to 8:00 PM EST, and weekends from 10:00 AM to 6:00 PM EST. During holidays, hours may vary and will be posted on our website.',
+            question: 'Kapan pendaftaran mahasiswa baru dibuka?',
+            answer: 'Pendaftaran mahasiswa baru dibuka dalam 3 gelombang. Gelombang 1: Januari - Maret, Gelombang 2: April - Juni, dan Gelombang 3: Juli - Agustus. Pendaftaran dapat dilakukan secara online maupun offline di kampus UCA.',
         },
         {
             id: 'item-2',
-            icon: 'credit-card',
-            question: 'How do subscription payments work?',
-            answer: 'Subscription payments are automatically charged to your default payment method on the same day each month or year, depending on your billing cycle. You can update your payment information and view billing history in your account dashboard.',
+            question: 'Apa saja syarat pendaftaran yang harus dipenuhi?',
+            answer: 'Syarat umum meliputi: Lulusan SMA/SMK/MA sederajat, scan Ijazah/SKL, scan Kartu Keluarga, Pas Foto terbaru, dan membayar biaya pendaftaran. Beberapa program studi mungkin memiliki persyaratan khusus tambahan.',
         },
         {
             id: 'item-3',
-            icon: 'truck',
-            question: 'Can I expedite my shipping?',
-            answer: 'Yes, we offer several expedited shipping options at checkout. Next-day and 2-day shipping are available for most U.S. addresses if orders are placed before 2:00 PM EST. International expedited shipping options vary by destination.',
+            question: 'Bagaimana cara mendaftar secara online?',
+            answer: 'Kunjungi laman pendaftaran kami, buat akun pendaftar, isi formulir biodata diri, pilih program studi yang diminati, unggah berkas persyaratan, dan lakukan pembayaran biaya pendaftaran melalui transfer bank.',
         },
         {
             id: 'item-4',
-            icon: 'globe',
-            question: 'Do you offer localized support?',
-            answer: 'We offer multilingual support in English, Spanish, French, German, and Japanese. Our support team can assist customers in these languages via email, chat, and phone during standard business hours for each respective region.',
+            question: 'Apakah tersedia beasiswa di UCA?',
+            answer: 'Ya, UCA menyediakan berbagai jalur beasiswa, antara lain: Beasiswa Prestasi Akademik, Beasiswa Hafiz Qur\'an, Beasiswa KIP-Kuliah, dan Beasiswa Yayasan. Informasi lengkap mengenai beasiswa dapat dilihat pada menu Beasiswa.',
         },
         {
             id: 'item-5',
-            icon: 'package',
-            question: 'How do I track my order?',
-            answer: 'Once your order ships, you\'ll receive a confirmation email with a tracking number. You can use this number on our website or the carrier\'s website to track your package. You can also view order status and tracking information in your account dashboard under "Order History".',
+            question: 'Berapa biaya kuliah di UCA?',
+            answer: 'Biaya kuliah di UCA sangat terjangkau dan dapat diangsur. Biaya bervariasi tergantung pada Program Studi yang diambil. Untuk rincian lengkap biaya pendidikan, silakan unduh brosur PMB terbaru kami.',
         },
     ]
 
     return (
-        <section className="bg-muted dark:bg-background py-20">
-            <div className="mx-auto max-w-5xl px-4 md:px-6">
-                <div className="flex flex-col gap-10 md:flex-row md:gap-16">
-                    <div className="md:w-1/3">
-                        <div className="sticky top-20">
-                            <h2 className="mt-4 text-3xl font-bold">Frequently Asked Questions</h2>
-                            <p className="text-muted-foreground mt-4">
-                                Can't find what you're looking for? Contact our{' '}
+        <section className="bg-white dark:bg-background py-20">
+            <div className="mx-auto max-w-6xl px-6">
+                <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20 items-start">
+                    {/* Left Column: Image */}
+                    <div className="relative">
+                        <div className="sticky top-24">
+                            <div className="relative overflow-hidden rounded-[2.5rem] shadow-2xl">
+                                <img
+                                    src="/ucanew3.JPG"
+                                    alt="Kampus UCA"
+                                    className="h-[600px] w-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-black/10" />
+                            </div>
+
+                            {/* Decorative elements */}
+                            <div className="absolute -bottom-6 -right-6 -z-10 h-full w-full rounded-[2.5rem] bg-primary/10" />
+                        </div>
+                    </div>
+
+                    {/* Right Column: Content */}
+                    <div className="flex flex-col justify-center">
+                        <div className="mb-10">
+                            <h2 className="text-4xl font-bold tracking-tight text-primary md:text-5xl mb-6">
+                                Pertanyaan Seputar <br /> Pendaftaran
+                            </h2>
+                            <p className="text-lg text-muted-foreground">
+                                Masih bingung mengenai pendaftaran? Temukan jawaban untuk pertanyaan yang sering diajukan oleh calon mahasiswa baru di sini.
+                            </p>
+                            <p className="mt-4 text-muted-foreground">
+                                Butuh bantuan lebih lanjut? Hubungi tim{' '}
                                 <Link
                                     href="#"
-                                    className="text-primary font-medium hover:underline">
-                                    customer support team
+                                    className="text-primary font-medium hover:underline decoration-2 underline-offset-4">
+                                    Penerimaan Mahasiswa Baru
                                 </Link>
                             </p>
                         </div>
-                    </div>
-                    <div className="md:w-2/3">
+
                         <Accordion
                             type="single"
                             collapsible
-                            className="w-full space-y-2">
+                            className="w-full space-y-4">
                             {faqItems.map((item) => (
                                 <AccordionItem
                                     key={item.id}
                                     value={item.id}
-                                    className="bg-background shadow-xs rounded-lg border px-4 last:border-b">
-                                    <AccordionTrigger className="cursor-pointer items-center py-5 hover:no-underline">
-                                        <div className="flex items-center gap-3">
-                                            <div className="flex size-6">
-                                                <DynamicIcon
-                                                    name={item.icon}
-                                                    className="m-auto size-4"
-                                                />
-                                            </div>
-                                            <span className="text-base">{item.question}</span>
-                                        </div>
+                                    className="border-none bg-gray-50 dark:bg-zinc-900/50 rounded-2xl px-6 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-zinc-900">
+                                    <AccordionTrigger className="text-left text-lg text-primary font-medium py-6 hover:no-underline [&[data-state=open]]:text-primary">
+                                        {item.question}
                                     </AccordionTrigger>
-                                    <AccordionContent className="pb-5">
-                                        <div className="px-9">
-                                            <p className="text-base">{item.answer}</p>
-                                        </div>
+                                    <AccordionContent className="pb-6 text-secondary-foreground text-base leading-relaxed">
+                                        {item.answer}
                                     </AccordionContent>
                                 </AccordionItem>
                             ))}
