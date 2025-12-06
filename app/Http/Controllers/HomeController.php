@@ -19,17 +19,21 @@ class HomeController extends Controller
         $articles = Artikel::with(['user', 'categories', 'featuredImage'])
             ->where('status', 'published')
             ->latest('published_at')
-            ->take(5)
+            ->take(10)
             ->get()
             ->map(function ($article) {
                 return [
                     'id' => $article->id,
                     'title' => $article->title,
                     'slug' => $article->slug,
-                    'category' => $article->categories->first()?->name ?? 'Umum',
+                    'category' => $article->categories->first()?->category_name ?? 'Umum',
                     'author' => $article->user->name,
                     'date' => $article->published_at ? \Carbon\Carbon::parse($article->published_at)->format('d M Y') : $article->created_at->format('d M Y'),
-                    'image' => $article->featuredImage ? '/storage/' . $article->featuredImage->image_url : null,
+                    'image' => $article->featuredImage 
+                        ? (str_starts_with($article->featuredImage->image_url, 'http') 
+                            ? $article->featuredImage->image_url 
+                            : '/storage/' . $article->featuredImage->image_url) 
+                        : null,
                     'comments' => 0 // Placeholder
                 ];
             });

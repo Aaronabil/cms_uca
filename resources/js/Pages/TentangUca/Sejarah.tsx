@@ -2,8 +2,16 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import AnimatedSection from '@/Components/AnimatedSection';
 import { motion } from 'framer-motion';
 import { Head } from '@inertiajs/react';
+import { PageProps } from '@/types';
 
-export default function Sejarah() {
+interface SejarahProps extends PageProps {
+    page: {
+        title: string;
+        content: string;
+    };
+}
+
+export default function Sejarah({ page }: SejarahProps) {
     return (
         <GuestLayout>
             <Head title="Sejarah UCA" />
@@ -43,25 +51,11 @@ export default function Sejarah() {
                 {/* Content Section */}
                 <section className="max-w-3xl mx-auto px-6 pb-24">
                     <AnimatedSection delay={400}>
-                        <div className="prose prose-lg prose-slate prose-headings:text-slate-900 prose-p:text-slate-600 prose-p:leading-loose text-justify">
-                            <p className="first-letter:text-7xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis fugit dolores, aspernatur velit sed iusto nihil, natus dicta impedit quod illo quo consectetur? Maiores dolorum qui rem. Itaque, fuga iusto?
-                            </p>
-                            <p>
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Distinctio ducimus eaque natus iusto at consequatur fugit! Quia eius, voluptatibus beatae quam et voluptas provident vero, dolor consequuntur eveniet, vitae tempora? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eos obcaecati sunt illo assumenda ratione officia aliquid facere nostrum recusandae id quas maxime, voluptatem ex sit delectus soluta reprehenderit dolores dolor.
-                            </p>
-                            <p>
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Distinctio ducimus eaque natus iusto at consequatur fugit! Quia eius, voluptatibus beatae quam et voluptas provident vero, dolor consequuntur eveniet, vitae tempora? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eos obcaecati sunt illo assumenda ratione officia aliquid facere nostrum recusandae id quas maxime, voluptatem ex sit delectus soluta reprehenderit dolores dolor.
-                            </p>
-                            <div className="my-12 border-l-4 border-primary pl-6 py-2 italic text-xl text-slate-700 bg-slate-50 rounded-r-lg">
-                               "Lorem ipsum dolor sit amet consectetur adipisicing elit."
-                            </div>
-                            <p>
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Distinctio ducimus eaque natus iusto at consequatur fugit! Quia eius, voluptatibus beatae quam et voluptas provident vero, dolor consequuntur eveniet, vitae tempora? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eos obcaecati sunt illo assumenda ratione officia aliquid facere nostrum recusandae id quas maxime, voluptatem ex sit delectus soluta reprehenderit dolores dolor.
-                            </p>
-                            <p>
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Distinctio ducimus eaque natus iusto at consequatur fugit! Quia eius, voluptatibus beatae quam et voluptas provident vero, dolor consequuntur eveniet, vitae tempora? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eos obcaecati sunt illo assumenda ratione officia aliquid facere nostrum recusandae id quas maxime, voluptatem ex sit delectus soluta reprehenderit dolores dolor.
-                            </p>
+                        <div 
+                            className="prose prose-lg prose-slate prose-headings:text-slate-900 prose-p:text-slate-600 prose-p:leading-loose text-justify 
+                            [&>p:first-of-type]:first-letter:text-7xl [&>p:first-of-type]:first-letter:font-bold [&>p:first-of-type]:first-letter:text-primary [&>p:first-of-type]:first-letter:mr-3 [&>p:first-of-type]:first-letter:float-left
+                            prose-blockquote:not-italic prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-6 prose-blockquote:py-2 prose-blockquote:text-xl prose-blockquote:text-slate-700 prose-blockquote:bg-slate-50 prose-blockquote:rounded-r-lg"
+                            dangerouslySetInnerHTML={{ __html: page.content }}>
                         </div>
                     </AnimatedSection>
                 </section>

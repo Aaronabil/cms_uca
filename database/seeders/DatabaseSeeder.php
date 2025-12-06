@@ -35,22 +35,8 @@ class DatabaseSeeder extends Seeder
             FacultyStudyProgramSeeder::class,
             MenuSeeder::class,
             PageSeeder::class,
+            ArtikelSeeder::class,
         ]);
-
-        // Create Categories
-        $categories = Category::factory()->count(5)->create();
-
-        // Create Articles
-        Artikel::factory()
-            ->count(10)
-            ->create([
-                'users_id' => $superAdmin->id,
-            ])
-            ->each(function ($artikel) use ($categories) {
-                $artikel->categories()->attach(
-                    $categories->random(rand(1, 2))->pluck('id')->toArray()
-                );
-            });
     }
 }
 

@@ -22,6 +22,14 @@ class SiteSettingSeeder extends Seeder
             ['setting_key' => 'telepon', 'setting_value' => '021-123456'],
             ['setting_key' => 'email', 'setting_value' => 'info@uca.ac.id'],
             ['setting_key' => 'alamat', 'setting_value' => 'Jl. Pendidikan No. 1, Jakarta'],
+            [
+                'setting_key' => 'vision',
+                'setting_value' => 'Menjadi pusat unggulan pendidikan dan penelitian di bidang informatika yang berbasis nilai-nilai Islam pada tahun 2030.'
+            ],
+            [
+                'setting_key' => 'mission',
+                'setting_value' => "Menyelenggarakan pendidikan tinggi berkualitas yang berorientasi pada pengembangan ilmu pengetahuan dan teknologi.\nMelaksanakan penelitian inovatif yang berkontribusi pada pemecahan masalah di tingkat nasional maupun global.\nMengembangkan pengabdian kepada masyarakat yang relevan, berkelanjutan, dan berdampak positif.\nMewujudkan tata kelola perguruan tinggi yang profesional, transparan, dan berlandaskan nilai-nilai Islam."
+            ],
         ];
 
         foreach ($settings as $setting) {

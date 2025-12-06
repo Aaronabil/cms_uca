@@ -34,8 +34,9 @@ export default function NewsSection({ articles = [] }: { articles?: NewsItem[] }
     const featuredNews = filteredNews[0];
     const otherNews = filteredNews.slice(1, 5);
 
-    // Define categories. Ideally this should come from DB too, but hardcoded for now matching the design.
-    const categories: string[] = ['Terbaru', 'Akademik', 'Kemahasiswaan', 'Riset', 'Pengumuman'];
+    // Define categories. We will use 'Terbaru' to show all articles by default,
+    // and then 'Berita' and 'Artikel' based on the seeded data.
+    const categories: string[] = ['Terbaru', 'Berita', 'Artikel'];
 
     if (!featuredNews) {
         return (

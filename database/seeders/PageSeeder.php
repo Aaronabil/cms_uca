@@ -16,24 +16,35 @@ class PageSeeder extends Seeder
     {
         $superAdmin = User::where('username', 'superadmin')->first();
 
-        // Contoh Page "Visi & Misi"
+        // Page "Visi"
         Page::updateOrCreate(
-            ['slug' => Str::slug('Visi & Misi Universitas Cendekia Abditama')],
+            ['slug' => 'visi-uca'],
             [
                 'users_id' => $superAdmin->id,
-                'title' => 'Visi & Misi Universitas Cendekia Abditama',
-                'content' => '<h2>Visi Kami</h2><p>Menjadi perguruan tinggi unggulan yang menghasilkan lulusan berintegritas, kompeten, dan berdaya saing global.</p><h2>Misi Kami</h2><ol><li>Menyelenggarakan pendidikan berkualitas.</li><li>Melaksanakan penelitian inovatif.</li><li>Mengabdi kepada masyarakat.</li></ol>',
+                'title' => 'Visi Universitas Cendekia Abditama',
+                'content' => '<p>Menjadi pusat unggulan pendidikan dan penelitian di bidang informatika yang berbasis nilai-nilai Islam pada tahun 2030.</p>',
+                'status' => 'published',
+            ]
+        );
+
+        // Page "Misi"
+        Page::updateOrCreate(
+            ['slug' => 'misi-uca'],
+            [
+                'users_id' => $superAdmin->id,
+                'title' => 'Misi Universitas Cendekia Abditama',
+                'content' => '<ul><li>Menyelenggarakan pendidikan tinggi berkualitas yang berorientasi pada pengembangan ilmu pengetahuan dan teknologi.</li><li>Melaksanakan penelitian inovatif yang berkontribusi pada pemecahan masalah di tingkat nasional maupun global.</li><li>Mengembangkan pengabdian kepada masyarakat yang relevan, berkelanjutan, dan berdampak positif.</li><li>Mewujudkan tata kelola perguruan tinggi yang profesional, transparan, dan berlandaskan nilai-nilai Islam.</li></ul>',
                 'status' => 'published',
             ]
         );
 
         // Contoh Page "Sejarah Kampus"
         Page::updateOrCreate(
-            ['slug' => Str::slug('Sejarah Kampus Universitas Cendekia Abditama')],
+            ['slug' => 'sejarah-uca'],
             [
                 'users_id' => $superAdmin->id,
                 'title' => 'Sejarah Kampus Universitas Cendekia Abditama',
-                'content' => '<p>Universitas Cendekia Abditama didirikan pada tahun 1999 dengan semangat untuk memajukan pendidikan di Indonesia. Berawal dari sebuah sekolah tinggi, kini telah berkembang menjadi universitas yang memiliki berbagai fakultas dan program studi.</p><p>Selama perjalanannya, UCA telah banyak berkontribusi dalam mencetak generasi penerus bangsa yang berkualitas.</p>',
+                'content' => '<p>Universitas Cendekia Abditama (UCA) didirikan pada tahun 1999 dengan visi mulia untuk menjadi mercusuar pendidikan tinggi yang berorientasi pada integritas, inovasi, dan kontribusi nyata bagi masyarakat. Bermula dari sebuah gagasan visioner para pendiri yang peduli akan masa depan bangsa, UCA tumbuh dari sekolah tinggi menjadi universitas yang disegani.</p><p>Perjalanan UCA tidak lepas dari berbagai tantangan dan rintangan. Namun, dengan semangat kebersamaan dan dedikasi tinggi dari seluruh civitas akademika—dosen, staf, dan mahasiswa—UCA terus melangkah maju. Kurikulum yang adaptif, fasilitas modern, serta lingkungan belajar yang kondusif menjadi pilar utama dalam mencetak lulusan berkualitas.</p><blockquote>"Pendidikan adalah senjata paling ampuh yang bisa Anda gunakan untuk mengubah dunia." – Nelson Mandela. Semangat inilah yang selalu memotivasi setiap langkah Universitas Cendekia Abditama dalam mendidik generasi penerus.</blockquote><p>Dalam dua dekade terakhir, UCA telah menghasilkan ribuan alumni yang tersebar di berbagai sektor, baik nasional maupun internasional. Mereka adalah agen perubahan yang membawa dampak positif di bidang masing-masing, membuktikan kualitas pendidikan yang diberikan UCA. Prestasi di bidang akademik, riset, hingga pengabdian masyarakat terus diukir, memperkuat posisi UCA sebagai institusi pendidikan unggulan.</p><p>Ke depan, Universitas Cendekia Abditama berkomitmen untuk terus berinovasi, memperluas jangkauan kolaborasi, dan beradaptasi dengan perkembangan zaman. Dengan tetap berpegang teguh pada nilai-nilai luhur dan integritas, UCA siap menghadapi tantangan masa depan dan terus berkontribusi dalam membangun peradaban yang lebih baik.</p>',
                 'status' => 'published',
             ]
         );
