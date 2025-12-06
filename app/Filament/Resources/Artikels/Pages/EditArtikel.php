@@ -36,8 +36,19 @@ class EditArtikel extends EditRecord
     protected function mutateFormDataBeforeFill(array $data): array
     {
         if ($this->record->featuredImage) {
-            $data['featured_image_upload'] = $this->record->featuredImage->image_url;
+            $url = $this->record->featuredImage->image_url;
+
+            if (str_starts_with($url, 'http')) {
+                $data['image_source'] = 'url';
+                $data['featured_image_url'] = $url;
+                $data['featured_image_upload'] = null;
+            } else {
+                $data['image_source'] = 'upload';
+                $data['featured_image_upload'] = $url;
+                $data['featured_image_url'] = null;
+            }
         } else {
+            $data['image_source'] = 'upload';
             $data['featured_image_upload'] = null;
         }
         return $data;
@@ -46,17 +57,32 @@ class EditArtikel extends EditRecord
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
         $imagePath = null;
-        if (isset($data['featured_image_upload'])) {
-            $imagePath = is_array($data['featured_image_upload']) ? ($data['featured_image_upload'][0] ?? null) : $data['featured_image_upload'];
-            unset($data['featured_image_upload']);
+        $source = $data['image_source'] ?? 'upload';
+
+        if ($source === 'upload') {
+            if (isset($data['featured_image_upload'])) {
+                $imagePath = is_array($data['featured_image_upload']) ? ($data['featured_image_upload'][0] ?? null) : $data['featured_image_upload'];
+            }
+        } else {
+            $imagePath = $data['featured_image_url'] ?? null;
         }
+
+        // Clean up temp fields
+        unset($data['featured_image_upload']);
+        unset($data['featured_image_url']);
+        unset($data['image_source']);
 
         return DB::transaction(function () use ($record, $data, $imagePath) {
             $record->update($data);
 
             if ($imagePath) {
-                if ($record->featuredImage) {
+                // If there's an old image AND it was a local file (not URL), delete it
+                if ($record->featuredImage && !str_starts_with($record->featuredImage->image_url, 'http')) {
                     Storage::disk('public')->delete($record->featuredImage->image_url);
+                }
+                
+                // Also delete the record itself if replacing
+                if ($record->featuredImage) {
                     $record->featuredImage->delete();
                 }
 
@@ -69,7 +95,10 @@ class EditArtikel extends EditRecord
                 $record->save();
 
             } elseif ($imagePath === null && $record->featuredImage) {
-                Storage::disk('public')->delete($record->featuredImage->image_url);
+                 // Deleting image explicitly (if UI supports clearing both inputs)
+                 if (!str_starts_with($record->featuredImage->image_url, 'http')) {
+                    Storage::disk('public')->delete($record->featuredImage->image_url);
+                 }
                 $record->featuredImage->delete();
                 $record->featured_image_id = null;
                 $record->save();

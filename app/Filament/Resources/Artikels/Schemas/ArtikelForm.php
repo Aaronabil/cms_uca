@@ -6,10 +6,11 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Get;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Components\Wizard;
 use Filament\Schemas\Components\Wizard\Step;
@@ -68,13 +69,33 @@ class ArtikelForm
                                 ->default('draft')
                                 ->required(),
                             DateTimePicker::make('published_at'),
+
+                            // Image Source Selection
+                            Radio::make('image_source')
+                                ->label('Sumber Gambar')
+                                ->options([
+                                    'upload' => 'Upload Gambar (Lokal)',
+                                    'url' => 'URL Eksternal (Unsplash/Lainnya)',
+                                ])
+                                ->default('upload')
+                                ->live()
+                                ->afterStateUpdated(fn (Set $set) => $set('featured_image_upload', null)),
+
                             FileUpload::make('featured_image_upload')
                                 ->id('featured_image_upload_field')
                                 ->image()
                                 ->label('Gambar Unggulan')
                                 ->disk('public')
                                 ->directory('images/artikels')
-                                ->maxSize(2048), // Max 2MB
+                                ->maxSize(2048) // Max 2MB
+                                ->visible(fn (Get $get) => $get('image_source') === 'upload'),
+
+                            TextInput::make('featured_image_url')
+                                ->label('Link Gambar Eksternal')
+                                ->placeholder('https://images.unsplash.com/...')
+                                ->url()
+                                ->visible(fn (Get $get) => $get('image_source') === 'url')
+                                ->required(fn (Get $get) => $get('image_source') === 'url'),
                         ]),
                 ])
                 ->submitAction(

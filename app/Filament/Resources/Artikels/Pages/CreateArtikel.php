@@ -10,13 +10,14 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Schemas\Components\Utilities\Get;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\CreateRecord\Concerns\HasWizard;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Filament\Schemas\Components\Wizard\Step;
+use Filament\Forms\Components\Radio;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Components\Wizard;
 use Illuminate\Support\Str;
 
 class CreateArtikel extends CreateRecord
@@ -38,7 +39,7 @@ class CreateArtikel extends CreateRecord
     protected function getSteps(): array
     {
         return [
-            Step::make('Pilih Kategori')
+            Wizard\Step::make('Pilih Kategori')
                 ->description('Pilih kategori yang sesuai untuk artikel Anda.')
                 ->icon('heroicon-o-tag')
                 ->schema([
@@ -48,7 +49,7 @@ class CreateArtikel extends CreateRecord
                         ->required()
                         ->label('Kategori Artikel'),
                 ]),
-            Step::make('Detail Artikel')
+            Wizard\Step::make('Detail Artikel')
                 ->description('Isi detail lengkap dari artikel atau berita.')
                 ->icon('heroicon-o-document-text')
                 ->schema([
@@ -78,25 +79,54 @@ class CreateArtikel extends CreateRecord
                         ->default('draft')
                         ->required(),
                     DateTimePicker::make('published_at'),
+                    
+                    // Image Source Selection
+                    Radio::make('image_source')
+                        ->label('Sumber Gambar')
+                        ->options([
+                            'upload' => 'Upload Gambar (Lokal)',
+                            'url' => 'URL Eksternal (Unsplash/Lainnya)',
+                        ])
+                        ->default('upload')
+                        ->live() // Use live() for reactivity in Filament v3
+                        ->afterStateUpdated(fn (Set $set) => $set('featured_image_upload', null)),
+
                     FileUpload::make('featured_image_upload')
                         ->id('featured_image_upload_field')
                         ->image()
                         ->label('Gambar Unggulan')
                         ->disk('public')
                         ->directory('images/artikels')
-                        ->maxSize(2048),
+                        ->maxSize(2048)
+                        ->visible(fn (Get $get) => $get('image_source') === 'upload'),
+
+                    TextInput::make('featured_image_url')
+                        ->label('Link Gambar Eksternal')
+                        ->placeholder('https://images.unsplash.com/...')
+                        ->url()
+                        ->visible(fn (Get $get) => $get('image_source') === 'url')
+                        ->required(fn (Get $get) => $get('image_source') === 'url'),
                 ]),
         ];
     }
 
     protected function handleRecordCreation(array $data): Model
     {
-        // This logic is now duplicated from the 'restore' operation, but it's necessary here.
         $imagePath = null;
-        if (isset($data['featured_image_upload'])) {
-            $imagePath = is_array($data['featured_image_upload']) ? ($data['featured_image_upload'][0] ?? null) : $data['featured_image_upload'];
-            unset($data['featured_image_upload']);
+        $source = $data['image_source'] ?? 'upload';
+
+        if ($source === 'upload') {
+             if (isset($data['featured_image_upload'])) {
+                $imagePath = is_array($data['featured_image_upload']) ? ($data['featured_image_upload'][0] ?? null) : $data['featured_image_upload'];
+            }
+        } else {
+            $imagePath = $data['featured_image_url'] ?? null;
         }
+
+        // Clean up temp fields
+        unset($data['featured_image_upload']);
+        unset($data['featured_image_url']);
+        unset($data['image_source']);
 
         return DB::transaction(function () use ($data, $imagePath) {
             $artikel = static::getModel()::create($data);
