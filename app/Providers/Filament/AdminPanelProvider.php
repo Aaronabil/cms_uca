@@ -18,6 +18,7 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\HtmlString;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
@@ -33,7 +34,7 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
             ->globalSearch(true)
             ->favicon(asset('favicon.ico'))
-            ->brandLogo(fn () => '<img src="https://images.unsplash.com/photo-1596526131083-0424a18144bb?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Logo" class="h-8" />')
+            ->brandLogo(fn () => new HtmlString('<img src="' . asset('logo-uca-website.png') . '" alt="Logo" class="h-10" />'))
             ->darkMode(true)
             ->colors([
                 'primary' => Color::Amber,

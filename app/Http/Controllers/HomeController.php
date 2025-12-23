@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Artikel;
 use App\Models\Faculty;
 use App\Models\Page;
+use App\Models\SiteSetting; // Import SiteSetting model
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -38,6 +39,10 @@ class HomeController extends Controller
                 ];
             });
 
+        // Fetch FAQ data
+        $faqsSetting = SiteSetting::where('setting_key', 'faqs')->first();
+        $faqs = $faqsSetting ? json_decode($faqsSetting->setting_value, true) : [];
+
         return Inertia::render('Index', [
             'sambutanRektor' => $sambutanRektor ? [
                 'title' => $sambutanRektor->title,
@@ -57,6 +62,7 @@ class HomeController extends Controller
                 ];
             }),
             'articles' => $articles,
+            'faqs' => $faqs, // Pass FAQs to the frontend
         ]);
     }
 }
