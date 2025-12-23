@@ -62,7 +62,7 @@ export default function NewsSection({ articles = [] }: { articles?: NewsItem[] }
                     <p className="text-slate-500 text-lg mt-1">Informasi terkini terkait Universitas Cendekia Abditama</p>
                 </div>
 
-                <div className="flex flex-wrap gap-4 text-sm font-medium border-b md:border-none pb-2 md:pb-0 overflow-x-auto">
+                {/* <div className="flex flex-wrap gap-4 text-sm font-medium border-b md:border-none pb-2 md:pb-0 overflow-x-auto">
                     {categories.map((cat) => (
                         <button
                             key={cat}
@@ -75,7 +75,7 @@ export default function NewsSection({ articles = [] }: { articles?: NewsItem[] }
                             {cat}
                         </button>
                     ))}
-                </div>
+                </div> */}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

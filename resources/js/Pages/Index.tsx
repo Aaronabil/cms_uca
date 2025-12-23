@@ -299,7 +299,7 @@ export default function Index({ sambutanRektor, faculties, articles, faqs }: Hom
                                     </h2>
                                 </AnimatedSection>
                             </div>
-                            <AnimatedSection delay={200}>
+                            {/* <AnimatedSection delay={150}> */}
                                 {/* Grid Layout */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     {faculties.map((faculty, index) => (
@@ -356,7 +356,7 @@ export default function Index({ sambutanRektor, faculties, articles, faqs }: Hom
                                         </React.Fragment>
                                     ))}
                                 </div>
-                            </AnimatedSection>
+                            {/* </AnimatedSection> */}
                         </div>
                     </section>
                     <AnimatedSection delay={200}>
