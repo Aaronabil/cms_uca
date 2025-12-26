@@ -3,40 +3,15 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Link } from '@inertiajs/react'
 
 type FAQItem = {
-    id: string
     question: string
     answer: string
 }
 
-export default function FAQSeputarUCA() {
-    const faqItems: FAQItem[] = [
-        {
-            id: 'item-1',
-            question: 'Kapan pendaftaran mahasiswa baru dibuka?',
-            answer: 'Pendaftaran mahasiswa baru dibuka dalam 3 gelombang. Gelombang 1: Januari - Maret, Gelombang 2: April - Juni, dan Gelombang 3: Juli - Agustus. Pendaftaran dapat dilakukan secara online maupun offline di kampus UCA.',
-        },
-        {
-            id: 'item-2',
-            question: 'Apa saja syarat pendaftaran yang harus dipenuhi?',
-            answer: 'Syarat umum meliputi: Lulusan SMA/SMK/MA sederajat, scan Ijazah/SKL, scan Kartu Keluarga, Pas Foto terbaru, dan membayar biaya pendaftaran. Beberapa program studi mungkin memiliki persyaratan khusus tambahan.',
-        },
-        {
-            id: 'item-3',
-            question: 'Bagaimana cara mendaftar secara online?',
-            answer: 'Kunjungi laman pendaftaran kami, buat akun pendaftar, isi formulir biodata diri, pilih program studi yang diminati, unggah berkas persyaratan, dan lakukan pembayaran biaya pendaftaran melalui transfer bank.',
-        },
-        {
-            id: 'item-4',
-            question: 'Apakah tersedia beasiswa di UCA?',
-            answer: 'Ya, UCA menyediakan berbagai jalur beasiswa, antara lain: Beasiswa Prestasi Akademik, Beasiswa Hafiz Qur\'an, Beasiswa KIP-Kuliah, dan Beasiswa Yayasan. Informasi lengkap mengenai beasiswa dapat dilihat pada menu Beasiswa.',
-        },
-        {
-            id: 'item-5',
-            question: 'Berapa biaya kuliah di UCA?',
-            answer: 'Biaya kuliah di UCA sangat terjangkau dan dapat diangsur. Biaya bervariasi tergantung pada Program Studi yang diambil. Untuk rincian lengkap biaya pendidikan, silakan unduh brosur PMB terbaru kami.',
-        },
-    ]
+type FAQSeputarUCAProps = {
+    faqs: FAQItem[]
+}
 
+export default function FAQSeputarUCA({ faqs }: FAQSeputarUCAProps) {
     return (
         <section className="bg-white dark:bg-background py-20">
             <div className="mx-auto max-w-6xl px-6">
@@ -81,10 +56,10 @@ export default function FAQSeputarUCA() {
                             type="single"
                             collapsible
                             className="w-full space-y-4">
-                            {faqItems.map((item) => (
+                            {faqs.map((item, index) => (
                                 <AccordionItem
-                                    key={item.id}
-                                    value={item.id}
+                                    key={index}
+                                    value={`item-${index}`}
                                     className="border-none bg-gray-50 dark:bg-zinc-900/50 rounded-2xl px-6 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-zinc-900">
                                     <AccordionTrigger className="text-left text-lg text-primary font-medium py-6 hover:no-underline [&[data-state=open]]:text-primary">
                                         {item.question}

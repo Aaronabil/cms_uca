@@ -42,9 +42,13 @@ interface HomeProps extends PageProps {
         image: string | null;
         comments: number;
     }>;
+    faqs: Array<{
+        question: string;
+        answer: string;
+    }>;
 }
 
-export default function Index({ sambutanRektor, faculties, articles }: HomeProps) {
+export default function Index({ sambutanRektor, faculties, articles, faqs }: HomeProps) {
     const { site_settings } = usePage<HomeProps>().props;
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
@@ -360,7 +364,7 @@ export default function Index({ sambutanRektor, faculties, articles }: HomeProps
                     </AnimatedSection>
                     <WarpSection />
                     <AnimatedSection delay={200}>
-                        <FAQSeputarUCA />
+                        <FAQSeputarUCA faqs={faqs} />
                     </AnimatedSection>
                 </main>
             </GuestLayout >
