@@ -2,7 +2,8 @@
 import { PropsWithChildren } from 'react';
 import FooterSection from '@/Components/Footer';
 import { HeroHeader } from '@/Components/HeroHeader';
-import ScrollToTopButton from '@/Components/ScrollTopButton';
+// import ScrollToTopButton from '@/Components/ScrollTopButton';
+import WhatsAppFloatingButton from '@/Components/WhatsAppFloatingButton';
 
 type FacultyData = {
     id: number;
@@ -22,8 +23,9 @@ export default function Guest({ children, headerVariant = 'default', faculties =
         <div className="min-h-screen flex flex-col">
             <HeroHeader variant={headerVariant} faculties={faculties} />
             <main className="flex-grow">{children}</main>
-            <ScrollToTopButton />
+            <WhatsAppFloatingButton />
             <FooterSection />
         </div>
     );
 }
+

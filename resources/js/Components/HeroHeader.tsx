@@ -78,19 +78,6 @@ export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 
     const textColor = isScrolled || variant === 'default' ? "text-black" : "text-white";
     const hoverColor = isScrolled || variant === 'default' ? "hover:text-primary" : "hover:text-green-200";
 
-    const defaultLogoUrl = site_settings.logo_url || '/logo-uca-website.png';
-
-    // Dynamic Logo Logic (Dummy Data)
-    let displayLogoUrl = defaultLogoUrl;
-    if (url.startsWith('/fakultas/')) {
-        const slug = url.split('/fakultas/')[1]?.split('?')[0];
-        if (slug) {
-            // Dummy data: Generate a placeholder image based on the slug
-            // In the future, this will be replaced with database data
-            displayLogoUrl = `https://placehold.co/600x200/EEE/31343C?font=montserrat&text=${slug.toUpperCase()}`;
-        }
-    }
-
     return (
         <header>
             <nav
@@ -101,7 +88,7 @@ export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 
                             href="/"
                             aria-label="home"
                             className="flex items-center space-x-2 py-3">
-                            <img src={displayLogoUrl} className={cn("h-auto w-40 fill-current", isScrolled ? "text-gray-800" : "text-gray-500")} />
+                            <img src={site_settings.logo_url || '/logo-uca-website.png'} className={cn("h-auto w-40 fill-current", isScrolled ? "text-gray-800" : "text-gray-500")} />
                         </Link>
 
                         <button
@@ -256,7 +243,7 @@ export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 
                                         href="/"
                                         aria-label="home"
                                         className="flex items-center space-x-2 py-3">
-                                        <img src={displayLogoUrl} className={cn("h-auto w-40 fill-current", isScrolled ? "text-gray-800" : "text-gray-500")} />
+                                        <img src={site_settings.logo_url || '/logo-uca-website.png'} className={cn("h-auto w-40 fill-current", isScrolled ? "text-gray-800" : "text-gray-500")} />
                                     </Link>
                                     <button
                                         onClick={() => setMenuState(false)}
