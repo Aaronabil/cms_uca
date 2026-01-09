@@ -96,7 +96,7 @@ export default function NewsSection({ articles = [] }: { articles?: NewsItem[] }
                                 </Badge>
 
                                 <h3 className="text-2xl md:text-3xl font-bold leading-tight mb-4">
-                                    <AnimatedTitle title={featuredNews.title} className="text-white decoration-green-500" />
+                                    <AnimatedTitle title={featuredNews.title} className="text-white decoration-green-500" disableLink />
                                 </h3>
 
                                 <div className="flex items-center space-x-4 text-xs md:text-sm text-slate-300 font-medium">
@@ -151,7 +151,7 @@ export default function NewsSection({ articles = [] }: { articles?: NewsItem[] }
 
                                         {/* Title with Animation */}
                                         <h4 className="text-lg font-bold text-slate-900 leading-snug mb-2 flex-1">
-                                            <AnimatedTitle title={news.title} />
+                                            <AnimatedTitle title={news.title} disableLink />
                                         </h4>
 
                                         {/* Footer Info */}
