@@ -16,4 +16,24 @@ class EditSiteSetting extends EditRecord
             DeleteAction::make(),
         ];
     }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        if (isset($data['image_value'])) {
+            $data['setting_value'] = $data['image_value'];
+            unset($data['image_value']);
+        }
+
+        if (isset($data['text_value'])) {
+            $data['setting_value'] = $data['text_value'];
+            unset($data['text_value']);
+        }
+        
+        if (isset($data['editor_value'])) {
+            $data['setting_value'] = $data['editor_value'];
+            unset($data['editor_value']);
+        }
+
+        return $data;
+    }
 }

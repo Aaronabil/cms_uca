@@ -30,6 +30,14 @@ class SiteSettingsTable
                             $count = count(json_decode($state, true) ?? []);
                             return "{$count} Questions Configured";
                         }
+                        if ($record->setting_key === 'footer_settings') {
+                            $data = json_decode($state, true);
+                            return sprintf(
+                                "Telepon: %s | Email: %s",
+                                $data['telephone'] ?? '-',
+                                $data['email'] ?? '-'
+                            );
+                        }
                         return $state;
                     })
                     ->color(fn ($record) => $record->setting_key === 'faqs' ? 'primary' : null),
@@ -46,7 +54,6 @@ class SiteSettingsTable
                 EditAction::make(),
             ])
             ->toolbarActions([
-                // Removed BulkActionGroup to prevent accidental deletion of important settings
             ]);
     }
 }

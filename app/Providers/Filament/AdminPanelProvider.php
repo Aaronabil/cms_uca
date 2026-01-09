@@ -30,6 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login(\App\Filament\Pages\Auth\Login::class)
+            ->unsavedChangesAlerts()
             ->spa() // Makes navigation smoother
             ->sidebarCollapsibleOnDesktop()
             ->globalSearch(true)
