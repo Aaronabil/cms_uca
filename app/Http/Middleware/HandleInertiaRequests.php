@@ -37,7 +37,12 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'site_settings' => SiteSetting::all()->pluck('setting_value', 'setting_key'),
+            'site_settings' => SiteSetting::all()->mapWithKeys(function ($item) {
+                if ($item->setting_key === 'logo_url' && $item->setting_value && !str_starts_with($item->setting_value, '/')) {
+                    return [$item->setting_key => \Illuminate\Support\Facades\Storage::url($item->setting_value)];
+                }
+                return [$item->setting_key => $item->setting_value];
+            }),
             'menus' => Menu::whereNull('parent_id')
                 ->with(['children' => function ($query) {
                     $query->orderBy('order');

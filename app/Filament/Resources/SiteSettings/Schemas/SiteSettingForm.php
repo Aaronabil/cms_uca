@@ -25,14 +25,13 @@ class SiteSettingForm
                     ->live(onBlur: true)
                     ->hidden(fn ($record) => $record !== null),
                     
-                FileUpload::make('image_value')
+                FileUpload::make('setting_value')
                     ->label('Upload Logo')
                     ->image()
                     ->disk('public')
                     ->directory('settings')
                     ->visibility('public')
-                    ->hidden(fn ($get) => !in_array($get('setting_key'), self::FILE_KEYS))
-                    ->afterStateHydrated(fn ($set, $get) => $set('image_value', $get('setting_value'))),
+                    ->hidden(fn ($get) => !in_array($get('setting_key'), self::FILE_KEYS)),
 
                 TextInput::make('text_value')
                     ->label('Value')
@@ -45,7 +44,7 @@ class SiteSettingForm
                     ->hidden(fn ($get) => !in_array($get('setting_key'), self::EDITOR_KEYS))
                     ->afterStateHydrated(fn ($set, $get) => $set('editor_value', $get('setting_value'))),
 
-                Textarea::make('setting_value')
+                Textarea::make('default_value')
                     ->columnSpanFull()
                     ->hidden(fn ($get) => in_array($get('setting_key'), [
                         ...self::TEXT_KEYS,
@@ -53,7 +52,7 @@ class SiteSettingForm
                         ...self::FILE_KEYS,
                         ...self::CUSTOM_KEYS,
                     ]))
-                    ->dehydrated(fn ($get) => $get('setting_key') !== 'faqs'),
+                    ->afterStateHydrated(fn ($set, $get) => $set('default_value', $get('setting_value'))),
                 Section::make('Contact Information')
                     ->schema([
                         TextInput::make('telephone')
