@@ -92,13 +92,13 @@ export default function FooterSection() {
             <div className="mx-auto max-w-5xl px-6">
                 <div className="grid gap-12 md:grid-cols-5">
                     <div className="md:col-span-2">
-                        <div className="bg-white p-2 rounded-lg inline-block">
-                        <Link
-                            href="/"
-                            aria-label="home"
-                            className="flex items-center space-x-2 py-3">
-                            <img src={site_settings.logo_url || '/logo-uca-website.png'} className="h-12 w-auto brightness-0 invert" alt="Logo" />
-                        </Link>
+                        <div>
+                            <Link
+                                href="/"
+                                aria-label="home"
+                            >
+                                <img src={site_settings.logo_url || '/logo-uca-website.png'} className="h-12 w-auto brightness-0 invert" alt="Logo" />
+                            </Link>
                         </div>
                         <p className="text-md text-white font-bold">
                             {site_settings.site_name || "Universitas Cendekia Abditama"}
