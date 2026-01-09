@@ -6,8 +6,11 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Placeholder;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\HtmlString;
 
 class SiteSettingForm
 {
@@ -25,6 +28,33 @@ class SiteSettingForm
                     ->live(onBlur: true)
                     ->hidden(fn ($record) => $record !== null),
                     
+                Placeholder::make('current_image_preview')
+                    ->label('Preview Logo Saat Ini')
+                    ->content(function ($record) {
+                        if (!$record || !in_array($record->setting_key, self::FILE_KEYS) || !$record->setting_value) {
+                            return new HtmlString('<div class="text-sm text-gray-500 italic">Belum ada gambar yang diunggah.</div>');
+                        }
+                        
+                        $url = str_starts_with($record->setting_value, '/') 
+                            ? $record->setting_value 
+                            : Storage::url($record->setting_value);
+                            
+                        // Checkerboard pattern for transparency
+                        $checkerboard = 'background-image: linear-gradient(45deg, #e5e7eb 25%, transparent 25%), linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e5e7eb 75%), linear-gradient(-45deg, transparent 75%, #e5e7eb 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px;';
+
+                        return new HtmlString("
+                            <div class='flex flex-col items-center justify-center p-6 bg-white border border-gray-200 rounded-xl dark:bg-gray-900 dark:border-gray-700 shadow-sm'>
+                                <div class='relative overflow-hidden rounded-lg shadow-inner border border-gray-300 dark:border-gray-600' style='{$checkerboard}'>
+                                    <img src='{$url}' alt='Preview' class='h-32 w-auto object-contain p-2' />
+                                </div>
+                                <div class='mt-2 text-xs text-gray-500 dark:text-gray-400'>
+                                    Lokasi: " . e($record->setting_value) . "
+                                </div>
+                            </div>
+                        ");
+                    })
+                    ->hidden(fn ($get) => !in_array($get('setting_key'), self::FILE_KEYS)),
+
                 FileUpload::make('setting_value')
                     ->label('Upload Logo')
                     ->image()
