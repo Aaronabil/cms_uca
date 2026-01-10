@@ -188,8 +188,8 @@ export default function Index({ sambutanRektor, faculties, articles, faqs }: Hom
                         <div className="@container mx-auto max-w-5xl px-6">
                             <AnimatedSection delay={200}>
                                 <div className="text-center">
-                                    <h2 className="text-balance text-4xl font-semibold lg:text-5xl text-primary">Akademik</h2>
-                                    <p className="mt-4">Mempersiapkan mahasiswa untuk memberikan kontribusi yang berarti pada masyarakat, bangsa dan dunia</p>
+                                    <h2 className="text-balance text-4xl font-semibold lg:text-5xl text-primary">{site_settings.academic_section_title || 'Akademik'}</h2>
+                                    <p className="mt-4">{site_settings.academic_section_description || 'Mempersiapkan mahasiswa untuk memberikan kontribusi yang berarti pada masyarakat, bangsa dan dunia'}</p>
                                 </div>
                             </AnimatedSection>
                             <AnimatedSection delay={400}>
@@ -202,10 +202,10 @@ export default function Index({ sambutanRektor, faculties, articles, faqs }: Hom
                                                     aria-hidden
                                                 />
                                             </CardDecorator>
-                                            <h3 className="mt-6 font-medium text-primary">Mengapa UCA</h3>
+                                            <h3 className="mt-6 font-medium text-primary">{site_settings.academic_card_1_title || 'Mengapa UCA'}</h3>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis ipsum dolore inventore molestias natus fugiat cumque illum consequatur quisquam. Expedita, itaque corrupti voluptates repellendus quae totam nesciunt architecto aperiam quia!</p>
+                                            <p className="text-sm">{site_settings.academic_card_1_content || 'Lorem ipsum dolor sit amet consectetur adipisicing elit.'}</p>
                                         </CardContent>
                                     </div>
                                     <div className="group shadow-zinc-950/5">
@@ -216,10 +216,10 @@ export default function Index({ sambutanRektor, faculties, articles, faqs }: Hom
                                                     aria-hidden
                                                 />
                                             </CardDecorator>
-                                            <h3 className="mt-6 font-medium text-primary">Tentang Fakultas</h3>
+                                            <h3 className="mt-6 font-medium text-primary">{site_settings.academic_card_2_title || 'Tentang Fakultas'}</h3>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="mt-3 text-sm">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Omnis placeat culpa atque alias ratione voluptatibus rem natus tenetur animi sapiente! Dolorem quasi maxime officiis enim magni eveniet necessitatibus eligendi. Tempore.</p>
+                                            <p className="mt-3 text-sm">{site_settings.academic_card_2_content || 'Lorem ipsum dolor sit amet consectetur adipisicing elit.'}</p>
                                         </CardContent>
                                     </div>
                                     <div className="group shadow-zinc-950/5">
@@ -230,10 +230,10 @@ export default function Index({ sambutanRektor, faculties, articles, faqs }: Hom
                                                     aria-hidden
                                                 />
                                             </CardDecorator>
-                                            <h3 className="mt-6 font-medium text-primary">Berkuliah di UCA</h3>
+                                            <h3 className="mt-6 font-medium text-primary">{site_settings.academic_card_3_title || 'Berkuliah di UCA'}</h3>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="mt-3 text-sm">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque distinctio tempore, similique expedita cupiditate ab laudantium neque sit iste nihil! Suscipit, vitae. Aspernatur laborum optio dolores. Deserunt incidunt aspernatur quis.</p>
+                                            <p className="mt-3 text-sm">{site_settings.academic_card_3_content || 'Lorem ipsum dolor sit amet consectetur adipisicing elit.'}</p>
                                         </CardContent>
                                     </div>
                                 </Card>
@@ -257,27 +257,27 @@ export default function Index({ sambutanRektor, faculties, articles, faqs }: Hom
                             <div className="mx-auto max-w-5xl px-6 relative z-10">
                                 <AnimatedSection delay={200}>
                                     <div>
-                                        <h2 className="text-4xl text-white font-semibold lg:text-5xl">Fakta Universitas Cendekia Abditama</h2>
-                                        <p className="text-secondary-foreground mt-4 text-balance text-lg">Our platform continues to grow with developers and businesses using our tools to create innovative solutions and enhance productivity.</p>
+                                        <h2 className="text-4xl text-white font-semibold lg:text-5xl">{site_settings.facts_title || 'Fakta Universitas Cendekia Abditama'}</h2>
+                                        <p className="text-secondary-foreground mt-4 text-balance text-lg">{site_settings.facts_description || 'Our platform continues to grow with developers and businesses using our tools to create innovative solutions and enhance productivity.'}</p>
                                     </div>
                                 </AnimatedSection>
                                 <AnimatedSection delay={400}>
                                     <div className="mt-8 grid grid-cols-2 gap-4 md:mt-16 md:grid-cols-4">
                                         <div>
-                                            <NumberTicker value={3000} className="text-white text-4xl font-bold" /><span className="text-white text-4xl font-bold">+</span>
-                                            <p className="text-secondary-foreground">Mahasiswa</p>
+                                            <NumberTicker value={parseInt(site_settings.facts_count_mahasiswa || '3000')} className="text-white text-4xl font-bold" /><span className="text-white text-4xl font-bold">+</span>
+                                            <p className="text-secondary-foreground">{site_settings.facts_label_mahasiswa || 'Mahasiswa'}</p>
                                         </div>
                                         <div>
-                                            <NumberTicker value={200} className="text-white text-4xl font-bold" /><span className="text-white text-4xl font-bold">+</span>
-                                            <p className="text-secondary-foreground">Dosen</p>
+                                            <NumberTicker value={parseInt(site_settings.facts_count_dosen || '200')} className="text-white text-4xl font-bold" /><span className="text-white text-4xl font-bold">+</span>
+                                            <p className="text-secondary-foreground">{site_settings.facts_label_dosen || 'Dosen'}</p>
                                         </div>
                                         <div>
-                                            <NumberTicker value={50} className="text-white text-4xl font-bold" /><span className="text-white text-4xl font-bold">+</span>
-                                            <p className="text-secondary-foreground">Program Studi</p>
+                                            <NumberTicker value={parseInt(site_settings.facts_count_prodi || '50')} className="text-white text-4xl font-bold" /><span className="text-white text-4xl font-bold">+</span>
+                                            <p className="text-secondary-foreground">{site_settings.facts_label_prodi || 'Program Studi'}</p>
                                         </div>
                                         <div>
-                                            <NumberTicker value={5000} className="text-white text-4xl font-bold" /><span className="text-white text-4xl font-bold">+</span>
-                                            <p className="text-secondary-foreground">Alumni</p>
+                                            <NumberTicker value={parseInt(site_settings.facts_count_alumni || '5000')} className="text-white text-4xl font-bold" /><span className="text-white text-4xl font-bold">+</span>
+                                            <p className="text-secondary-foreground">{site_settings.facts_label_alumni || 'Alumni'}</p>
                                         </div>
                                     </div>
                                 </AnimatedSection>

@@ -55,6 +55,34 @@ class SiteSettingSeeder extends Seeder
                     ]
                 ])
             ],
+            // Academic Section
+            ['setting_key' => 'academic_section_title', 'setting_value' => 'Akademik'],
+            ['setting_key' => 'academic_section_description', 'setting_value' => 'Mempersiapkan mahasiswa untuk memberikan kontribusi yang berarti pada masyarakat, bangsa dan dunia'],
+            
+            ['setting_key' => 'academic_card_1_title', 'setting_value' => 'Mengapa UCA'],
+            ['setting_key' => 'academic_card_1_content', 'setting_value' => 'Universitas Cendekia Abditama unggul dalam integrasi nilai-nilai Islam dengan sains dan teknologi, didukung fasilitas modern dan kurikulum yang relevan dengan kebutuhan industri masa kini.'],
+            
+            ['setting_key' => 'academic_card_2_title', 'setting_value' => 'Tentang Fakultas'],
+            ['setting_key' => 'academic_card_2_content', 'setting_value' => 'Fakultas kami memiliki tenaga pengajar yang kompeten dan berpengalaman, siap membimbing mahasiswa menjadi profesional yang berintegritas dan berdaya saing tinggi.'],
+            
+            ['setting_key' => 'academic_card_3_title', 'setting_value' => 'Berkuliah di UCA'],
+            ['setting_key' => 'academic_card_3_content', 'setting_value' => 'Nikmati lingkungan belajar yang kondusif, strategis, dan asri. Kami berkomitmen mencetak generasi pemimpin yang cerdas secara intelektual, emosional, dan spiritual.'],
+
+            // Facts Section
+            ['setting_key' => 'facts_title', 'setting_value' => 'Fakta Universitas Cendekia Abditama'],
+            ['setting_key' => 'facts_description', 'setting_value' => 'Kami terus berkembang bersama mahasiswa dan civitas akademika untuk menciptakan solusi inovatif dan meningkatkan produktivitas.'],
+            
+            ['setting_key' => 'facts_count_mahasiswa', 'setting_value' => '3000'],
+            ['setting_key' => 'facts_label_mahasiswa', 'setting_value' => 'Mahasiswa'],
+            
+            ['setting_key' => 'facts_count_dosen', 'setting_value' => '200'],
+            ['setting_key' => 'facts_label_dosen', 'setting_value' => 'Dosen'],
+            
+            ['setting_key' => 'facts_count_prodi', 'setting_value' => '50'],
+            ['setting_key' => 'facts_label_prodi', 'setting_value' => 'Program Studi'],
+            
+            ['setting_key' => 'facts_count_alumni', 'setting_value' => '5000'],
+            ['setting_key' => 'facts_label_alumni', 'setting_value' => 'Alumni'],
         ];
 
         foreach ($settings as $setting) {

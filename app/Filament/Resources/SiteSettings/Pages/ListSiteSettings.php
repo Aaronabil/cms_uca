@@ -27,7 +27,17 @@ class ListSiteSettings extends ListRecords
                     'logo_url', 
                     'vision', 
                     'mission',
-                    'faqs'
+                    'faqs',
+                    'academic_section_title',
+                    'academic_section_description',
+                    'academic_card_1_title', 'academic_card_1_content',
+                    'academic_card_2_title', 'academic_card_2_content',
+                    'academic_card_3_title', 'academic_card_3_content',
+                    'facts_title', 'facts_description',
+                    'facts_count_mahasiswa', 'facts_label_mahasiswa',
+                    'facts_count_dosen', 'facts_label_dosen',
+                    'facts_count_prodi', 'facts_label_prodi',
+                    'facts_count_alumni', 'facts_label_alumni',
                 ])),
 
             'kontak' => Tab::make('Kontak & Footer')

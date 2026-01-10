@@ -14,8 +14,22 @@ use Illuminate\Support\HtmlString;
 
 class SiteSettingForm
 {
-    const TEXT_KEYS = ['site_name', 'facebook_url', 'instagram_url', 'twitter_url', 'youtube_url'];
-    const EDITOR_KEYS = ['vision', 'mission', 'site_description'];
+    const TEXT_KEYS = [
+        'site_name', 'facebook_url', 'instagram_url', 'twitter_url', 'youtube_url',
+        'academic_section_title', 
+        'academic_card_1_title', 'academic_card_2_title', 'academic_card_3_title',
+        'facts_title',
+        'facts_count_mahasiswa', 'facts_label_mahasiswa',
+        'facts_count_dosen', 'facts_label_dosen',
+        'facts_count_prodi', 'facts_label_prodi',
+        'facts_count_alumni', 'facts_label_alumni',
+    ];
+    const EDITOR_KEYS = [
+        'vision', 'mission', 'site_description',
+        'academic_section_description',
+        'academic_card_1_content', 'academic_card_2_content', 'academic_card_3_content',
+        'facts_description'
+    ];
     const FILE_KEYS = ['logo_url'];
     const CUSTOM_KEYS = ['faqs', 'footer_settings'];
 
