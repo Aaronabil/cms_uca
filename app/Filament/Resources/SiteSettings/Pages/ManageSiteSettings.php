@@ -73,16 +73,16 @@ class ManageSiteSettings extends Page implements HasSchemas
                             ]),
                         Tab::make('Social Media')
                             ->schema([
-                                TextInput::make('facebook_url')->url(),
-                                TextInput::make('instagram_url')->url(),
-                                TextInput::make('twitter_url')->url(),
-                                TextInput::make('youtube_url')->url(),
+                                TextInput::make('facebook_url')->url()->nullable(),
+                                TextInput::make('instagram_url')->url()->nullable(),
+                                TextInput::make('twitter_url')->url()->nullable(),
+                                TextInput::make('youtube_url')->url()->nullable(),
                             ]),
                         Tab::make('Contact')
                             ->schema([
-                                TextInput::make('footer_telephone')->label('Telephone'),
-                                TextInput::make('footer_email')->label('Email')->email(),
-                                Textarea::make('footer_address')->label('Address')->rows(3),
+                                TextInput::make('footer_telephone')->label('Telephone')->nullable(),
+                                TextInput::make('footer_email')->label('Email')->email()->nullable(),
+                                Textarea::make('footer_address')->label('Address')->rows(3)->nullable(),
                             ]),
                         Tab::make('Academic Home')
                             ->schema([
@@ -104,14 +104,14 @@ class ManageSiteSettings extends Page implements HasSchemas
                                 Textarea::make('facts_description'),
                                 Section::make('Counts')
                                     ->schema([
-                                        TextInput::make('facts_count_mahasiswa')->numeric(),
-                                        TextInput::make('facts_label_mahasiswa'),
-                                        TextInput::make('facts_count_dosen')->numeric(),
-                                        TextInput::make('facts_label_dosen'),
-                                        TextInput::make('facts_count_prodi')->numeric(),
-                                        TextInput::make('facts_label_prodi'),
-                                        TextInput::make('facts_count_alumni')->numeric(),
-                                        TextInput::make('facts_label_alumni'),
+                                        TextInput::make('facts_count_mahasiswa')->numeric()->nullable(),
+                                        TextInput::make('facts_label_mahasiswa')->nullable(),
+                                        TextInput::make('facts_count_dosen')->numeric()->nullable(),
+                                        TextInput::make('facts_label_dosen')->nullable(),
+                                        TextInput::make('facts_count_prodi')->numeric()->nullable(),
+                                        TextInput::make('facts_label_prodi')->nullable(),
+                                        TextInput::make('facts_count_alumni')->numeric()->nullable(),
+                                        TextInput::make('facts_label_alumni')->nullable(),
                                     ])->columns(2),
                             ]),
                          Tab::make('Vision & Mission')
@@ -210,6 +210,10 @@ class ManageSiteSettings extends Page implements HasSchemas
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('save')
+                ->label('Save Changes')
+                ->action('submit')
+                ->color('primary'),
             Action::make('view_table')
                 ->label('View as Table')
                 ->url(ListSiteSettings::getUrl())
