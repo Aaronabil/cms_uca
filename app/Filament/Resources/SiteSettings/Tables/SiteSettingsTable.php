@@ -2,11 +2,14 @@
 
 namespace App\Filament\Resources\SiteSettings\Tables;
 
+use App\Models\Faculty;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 class SiteSettingsTable
@@ -38,6 +41,10 @@ class SiteSettingsTable
                                 $data['email'] ?? '-'
                             );
                         }
+                        // Handle images preview in table if needed, or just text
+                        if (str_starts_with($record->setting_key, 'kaprodi_') && str_ends_with($record->setting_key, '_image')) {
+                            return '(Image Uploaded)';
+                        }
                         return $state;
                     })
                     ->color(fn ($record) => $record->setting_key === 'faqs' ? 'primary' : null),
@@ -48,7 +55,36 @@ class SiteSettingsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('faculty')
+                    ->label('Filter per Fakultas')
+                    ->options(fn () => Faculty::pluck('name', 'id')->toArray())
+                    ->query(function (Builder $query, array $data) {
+                        if (empty($data['value'])) {
+                            return $query;
+                        }
+
+                        $facultyId = $data['value'];
+                        $faculty = Faculty::with('studyPrograms')->find($facultyId);
+
+                        if (!$faculty) {
+                            return $query;
+                        }
+
+                        $keys = [];
+                        // Add Dean keys
+                        $keys[] = "dean_{$faculty->slug}_%";
+                        
+                        // Add Kaprodi keys for each study program
+                        foreach ($faculty->studyPrograms as $prodi) {
+                            $keys[] = "kaprodi_{$prodi->slug}_%";
+                        }
+
+                        return $query->where(function (Builder $q) use ($keys) {
+                            foreach ($keys as $key) {
+                                $q->orWhere('setting_key', 'like', $key);
+                            }
+                        });
+                    }),
             ])
             ->recordActions([
                 EditAction::make(),

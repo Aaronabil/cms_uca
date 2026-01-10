@@ -19,9 +19,6 @@ class ListSiteSettings extends ListRecords
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make('Semua')
-                ->icon('heroicon-m-list-bullet'),
-
             'identitas' => Tab::make('Identitas / Beranda')
                 ->icon('heroicon-m-home')
                 ->query(fn (Builder $query) => $query->whereIn('setting_key', [
@@ -52,6 +49,19 @@ class ListSiteSettings extends ListRecords
                     $q->where('setting_key', 'like', 'kaprodi_%')
                       ->orWhere('setting_key', 'like', 'dean_%');
                 })),
+
+            'others' => Tab::make('Lainnya')
+                ->icon('heroicon-m-cog')
+                ->query(fn (Builder $query) => $query->whereNotIn('setting_key', [
+                    'site_name', 'site_description', 'logo_url', 'vision', 'mission', 'faqs',
+                    'email', 'telephone', 'address', 'facebook_url', 'instagram_url', 'twitter_url', 'youtube_url', 'footer_settings'
+                ])->where('setting_key', 'not like', 'kaprodi_%')
+                  ->where('setting_key', 'not like', 'dean_%')),
         ];
+    }
+
+    public function getDefaultActiveTab(): string | int | null
+    {
+        return 'identitas';
     }
 }
