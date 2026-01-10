@@ -24,13 +24,6 @@ type NavItem = {
     icon?: React.ReactNode;
 }
 
-const createSlug = (text: string) => {
-    return text
-        .toLowerCase()
-        .replace(/ /g, '-')
-        .replace(/[^\w-]+/g, '');
-};
-
 export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 'default' | 'light', faculties?: FacultyData[] }) => {
     const { props, url } = usePage<PageProps>();
     const site_settings = props.site_settings || {};
@@ -174,7 +167,7 @@ export const HeroHeader = ({ variant = 'default', faculties = [] }: { variant?: 
                                                                             <li key={prodi.name}>
                                                                                 <NavigationMenuLink asChild>
                                                                                     <Link
-                                                                                        href={`/prodi/${createSlug(prodi.name)}`}
+                                                                                        href={`/prodi/${prodi.slug}`}
                                                                                         className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                                                                                     >
                                                                                         <div className="text-sm font-medium leading-none">{prodi.name}</div>
@@ -424,7 +417,7 @@ const MobileFacultyItem = ({ faculty }: { faculty: FacultyData }) => {
                             {faculty.study_programs.map((prodi) => (
                                 <li key={prodi.name}>
                                     <Link
-                                        href={`/prodi/${createSlug(prodi.name)}`}
+                                        href={`/prodi/${prodi.slug}`}
                                         className="block text-xs text-gray-600 hover:text-primary"
                                     >
                                         {prodi.name}

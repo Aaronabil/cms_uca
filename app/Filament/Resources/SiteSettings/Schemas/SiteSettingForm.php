@@ -19,6 +19,12 @@ class SiteSettingForm
     const FILE_KEYS = ['logo_url'];
     const CUSTOM_KEYS = ['faqs', 'footer_settings'];
 
+    protected static function isFileKey(?string $key): bool
+    {
+        if (!$key) return false;
+        return in_array($key, self::FILE_KEYS) || str_ends_with($key, '_image') || str_ends_with($key, '_photo');
+    }
+
     public static function configure(Schema $schema): Schema
     {
         return $schema
@@ -29,9 +35,10 @@ class SiteSettingForm
                     ->hidden(fn ($record) => $record !== null),
                     
                 Placeholder::make('current_image_preview')
-                    ->label('Preview Logo Saat Ini')
-                    ->content(function ($record) {
-                        if (!$record || !in_array($record->setting_key, self::FILE_KEYS) || !$record->setting_value) {
+                    ->label('Preview Gambar Saat Ini')
+                    ->content(function ($record, $get) {
+                        $key = $record?->setting_key ?? $get('setting_key');
+                        if (!$record || !self::isFileKey($key) || !$record->setting_value) {
                             return new HtmlString('<div class="text-sm text-gray-500 italic">Belum ada gambar yang diunggah.</div>');
                         }
                         
@@ -53,35 +60,37 @@ class SiteSettingForm
                             </div>
                         ");
                     })
-                    ->hidden(fn ($get) => !in_array($get('setting_key'), self::FILE_KEYS)),
+                    ->hidden(fn ($get) => !self::isFileKey($get('setting_key'))),
 
                 FileUpload::make('setting_value')
-                    ->label('Upload Logo')
+                    ->label('Upload Gambar')
                     ->image()
                     ->disk('public')
                     ->directory('settings')
                     ->visibility('public')
-                    ->hidden(fn ($get) => !in_array($get('setting_key'), self::FILE_KEYS)),
+                    ->hidden(fn ($get) => !self::isFileKey($get('setting_key'))),
 
                 TextInput::make('text_value')
                     ->label('Value')
-                    ->hidden(fn ($get) => !in_array($get('setting_key'), self::TEXT_KEYS))
+                    ->hidden(fn ($get) => !in_array($get('setting_key'), self::TEXT_KEYS) && !str_ends_with($get('setting_key') ?? '', '_name'))
                     ->afterStateHydrated(fn ($set, $get) => $set('text_value', $get('setting_value'))),
 
                 Textarea::make('editor_value')
                     ->label('Content')
                     ->rows(5)
-                    ->hidden(fn ($get) => !in_array($get('setting_key'), self::EDITOR_KEYS))
+                    ->hidden(fn ($get) => !in_array($get('setting_key'), self::EDITOR_KEYS) && !str_ends_with($get('setting_key') ?? '', '_message'))
                     ->afterStateHydrated(fn ($set, $get) => $set('editor_value', $get('setting_value'))),
 
                 Textarea::make('default_value')
                     ->columnSpanFull()
-                    ->hidden(fn ($get) => in_array($get('setting_key'), [
-                        ...self::TEXT_KEYS,
-                        ...self::EDITOR_KEYS,
-                        ...self::FILE_KEYS,
-                        ...self::CUSTOM_KEYS,
-                    ]))
+                    ->hidden(fn ($get) => 
+                        self::isFileKey($get('setting_key')) ||
+                        in_array($get('setting_key'), self::TEXT_KEYS) ||
+                        str_ends_with($get('setting_key') ?? '', '_name') ||
+                        in_array($get('setting_key'), self::EDITOR_KEYS) ||
+                        str_ends_with($get('setting_key') ?? '', '_message') ||
+                        in_array($get('setting_key'), self::CUSTOM_KEYS)
+                    )
                     ->afterStateHydrated(fn ($set, $get) => $set('default_value', $get('setting_value'))),
                 Section::make('Contact Information')
                     ->schema([

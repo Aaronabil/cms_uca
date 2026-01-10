@@ -30,7 +30,7 @@ interface HomeProps extends PageProps {
         name: string;
         image_url: string;
         slug: string;
-        study_programs: Array<{ name: string }>;
+        study_programs: Array<{ name: string; slug: string }>;
     }>;
     articles: Array<{
         id: number;

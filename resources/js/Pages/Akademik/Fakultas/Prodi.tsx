@@ -1,7 +1,8 @@
 import GuestLayout from '@/Layouts/GuestLayout';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { useScroll, useTransform, motion } from 'framer-motion';
 import { useRef } from 'react';
+import { PageProps } from '@/types';
 import {
     BookOpen,
     Target,
@@ -17,6 +18,7 @@ import AnimatedSection from '@/Components/AnimatedSection';
 
 interface StudyProgramData {
     name: string;
+    slug: string;
     faculty_name: string;
     faculty_image_url?: string;
     degree: string;
@@ -24,6 +26,7 @@ interface StudyProgramData {
 }
 
 export default function Prodi({ studyProgram }: { studyProgram: StudyProgramData }) {
+    const { site_settings } = usePage<PageProps>().props;
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -38,9 +41,9 @@ export default function Prodi({ studyProgram }: { studyProgram: StudyProgramData
         degree: studyProgram.degree,
         description: studyProgram.description,
         kaprodi: {
-            // Gunakan jabatan generic karena data spesifik belum ada di DB
-            name: `Ketua Prodi ${studyProgram.name}`,
-            message: `Selamat datang di Program Studi ${studyProgram.name}. Kami berkomitmen untuk mencetak lulusan yang kompeten, inovatif, dan berakhlak mulia, siap bersaing di era global.`
+            name: site_settings[`kaprodi_${studyProgram.slug}_name`] || `Ketua Prodi ${studyProgram.name}`,
+            message: site_settings[`kaprodi_${studyProgram.slug}_message`] || `Selamat datang di Program Studi ${studyProgram.name}. Kami berkomitmen untuk mencetak lulusan yang kompeten, inovatif, dan berakhlak mulia, siap bersaing di era global.`,
+            image: site_settings[`kaprodi_${studyProgram.slug}_image`] || "/kaprodi_ti.jpg"
         },
         visi: `Menjadi pusat unggulan pendidikan dan penelitian di bidang ${studyProgram.name} yang berbasis nilai-nilai Islam.`,
         misi: [
@@ -105,8 +108,8 @@ export default function Prodi({ studyProgram }: { studyProgram: StudyProgramData
                         <div className="w-full lg:w-1/3">
                             <AnimatedSection delay={200}>
                                 <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-slate-100 shadow-xl flex items-center justify-center">
-                                    {/* Placeholder for Kaprodi Image - Menggunakan Icon Generic */}
-                                    <img src="/kaprodi_ti.jpg" alt="" />
+                                    {/* Dynamic Kaprodi Image from Site Settings */}
+                                    <img src={prodiData.kaprodi.image} alt={prodiData.kaprodi.name} className="w-full h-full object-cover" />
                                 </div>
                             </AnimatedSection>
                         </div>

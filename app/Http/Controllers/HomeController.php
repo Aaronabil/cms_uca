@@ -57,6 +57,7 @@ class HomeController extends Controller
                     'study_programs' => $faculty->studyPrograms->map(function ($program) {
                         return [
                             'name' => $program->name,
+                            'slug' => $program->slug,
                         ];
                     }),
                 ];

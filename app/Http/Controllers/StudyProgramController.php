@@ -16,6 +16,7 @@ class StudyProgramController extends Controller
         return Inertia::render('Akademik/Fakultas/Prodi', [
             'studyProgram' => [
                 'name' => $studyProgram->name,
+                'slug' => $studyProgram->slug,
                 'faculty_name' => $studyProgram->faculty->name,
                 'faculty_image_url' => $studyProgram->faculty->image_url,
                 'degree' => 'Sarjana (S1)',
