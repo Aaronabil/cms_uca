@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Phone, ExternalLink, X, MessageCircle } from 'lucide-react';
 
+import { usePage } from '@inertiajs/react';
+
 export default function WhatsAppFloatingButton() {
     const [isOpen, setIsOpen] = useState(false);
+    const { site_settings } = usePage().props;
 
-    // Placeholder data - replace with actual links provided later
-    const whatsappNumber = "6281234567890"; // Example ID format
-    const registrationLink = "https://pmb.uca.ac.id"; // Example registration link
+    const whatsappNumber = site_settings?.whatsapp_number || "6281234567890"; 
+    const registrationLink = site_settings?.registration_url || "https://pmb.uca.ac.id";
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);

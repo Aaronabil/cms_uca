@@ -70,6 +70,7 @@ class ManageSiteSettings extends Page implements HasSchemas
                                     ->disk('public')
                                     ->directory('settings')
                                     ->visibility('public'),
+                                TextInput::make('registration_url')->label('Registration Link (PMB)')->url()->nullable(),
                             ]),
                         Tab::make('Social Media')
                             ->schema([
@@ -81,6 +82,7 @@ class ManageSiteSettings extends Page implements HasSchemas
                         Tab::make('Contact')
                             ->schema([
                                 TextInput::make('footer_telephone')->label('Telephone')->nullable(),
+                                TextInput::make('whatsapp_number')->label('WhatsApp Number (e.g. 628...)')->numeric()->nullable(),
                                 TextInput::make('footer_email')->label('Email')->email()->nullable(),
                                 Textarea::make('footer_address')->label('Address')->rows(3)->nullable(),
                             ]),

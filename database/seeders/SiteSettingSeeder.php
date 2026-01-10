@@ -22,6 +22,8 @@ class SiteSettingSeeder extends Seeder
             ['setting_key' => 'telepon', 'setting_value' => '021-123456'],
             ['setting_key' => 'email', 'setting_value' => 'info@uca.ac.id'],
             ['setting_key' => 'alamat', 'setting_value' => 'Jl. Pendidikan No. 1, Jakarta'],
+            ['setting_key' => 'whatsapp_number', 'setting_value' => '6281234567890'],
+            ['setting_key' => 'registration_url', 'setting_value' => 'https://pmb.uca.ac.id'],
             [
                 'setting_key' => 'vision',
                 'setting_value' => 'Menjadi pusat unggulan pendidikan dan penelitian di bidang informatika yang berbasis nilai-nilai Islam pada tahun 2030.'
