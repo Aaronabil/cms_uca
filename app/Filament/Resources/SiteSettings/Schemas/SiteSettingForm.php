@@ -64,13 +64,18 @@ class SiteSettingForm
                     })
                     ->hidden(fn ($get, $record) => !self::isFileKey($get('setting_key')) || empty($record?->setting_value)),
 
-                FileUpload::make('setting_value')
+                FileUpload::make('file_upload')
                     ->label('Upload Gambar')
                     ->image()
                     ->disk('public')
                     ->directory('settings')
                     ->visibility('public')
-                    ->hidden(fn ($get) => !self::isFileKey($get('setting_key'))),
+                    ->hidden(fn ($get) => !self::isFileKey($get('setting_key')))
+                    ->afterStateHydrated(function ($component, $state, $record) {
+                        if ($record && self::isFileKey($record->setting_key)) {
+                            $component->state($record->setting_value);
+                        }
+                    }),
 
                 Placeholder::make('text_preview')
                     ->label('Data Saat Ini')
