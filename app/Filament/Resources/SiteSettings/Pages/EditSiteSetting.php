@@ -19,6 +19,11 @@ class EditSiteSetting extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
+        if (isset($data['faqs_data'])) {
+            $data['setting_value'] = json_encode($data['faqs_data']);
+            unset($data['faqs_data']);
+        }
+
         if (isset($data['default_value'])) {
             $data['setting_value'] = $data['default_value'];
             unset($data['default_value']);

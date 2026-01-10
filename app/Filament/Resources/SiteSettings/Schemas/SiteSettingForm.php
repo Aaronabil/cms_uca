@@ -53,28 +53,16 @@ class SiteSettingForm
                     ->content(function ($record, $get) {
                         $key = $record?->setting_key ?? $get('setting_key');
                         if (!$record || !self::isFileKey($key) || !$record->setting_value) {
-                            return new HtmlString('<div class="text-sm text-gray-500 italic">Belum ada gambar yang diunggah.</div>');
+                            return null;
                         }
                         
                         $url = str_starts_with($record->setting_value, '/') 
                             ? $record->setting_value 
                             : Storage::url($record->setting_value);
                             
-                        // Checkerboard pattern for transparency
-                        $checkerboard = 'background-image: linear-gradient(45deg, #e5e7eb 25%, transparent 25%), linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e5e7eb 75%), linear-gradient(-45deg, transparent 75%, #e5e7eb 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px;';
-
-                        return new HtmlString("
-                            <div class='flex flex-col items-center justify-center p-6 bg-white border border-gray-200 rounded-xl dark:bg-gray-900 dark:border-gray-700 shadow-sm'>
-                                <div class='relative overflow-hidden rounded-lg shadow-inner border border-gray-300 dark:border-gray-600' style='{$checkerboard}'>
-                                    <img src='{$url}' alt='Preview' class='h-32 w-auto object-contain p-2' />
-                                </div>
-                                <div class='mt-2 text-xs text-gray-500 dark:text-gray-400'>
-                                    Lokasi: " . e($record->setting_value) . "
-                                </div>
-                            </div>
-                        ");
+                        return new HtmlString("<img src=\"{$url}\" style=\"height: 80px; width: auto;\" class=\"rounded-lg border shadow-sm bg-gray-100 p-2\" />");
                     })
-                    ->hidden(fn ($get) => !self::isFileKey($get('setting_key'))),
+                    ->hidden(fn ($get, $record) => !self::isFileKey($get('setting_key')) || empty($record?->setting_value)),
 
                 FileUpload::make('setting_value')
                     ->label('Upload Gambar')
@@ -84,10 +72,22 @@ class SiteSettingForm
                     ->visibility('public')
                     ->hidden(fn ($get) => !self::isFileKey($get('setting_key'))),
 
+                Placeholder::make('text_preview')
+                    ->label('Data Saat Ini')
+                    ->content(fn ($record) => $record?->setting_value)
+                    ->visible(fn ($get) => in_array($get('setting_key'), self::TEXT_KEYS) || str_ends_with($get('setting_key') ?? '', '_name'))
+                    ->columnSpanFull(),
+
                 TextInput::make('text_value')
                     ->label('Value')
                     ->hidden(fn ($get) => !in_array($get('setting_key'), self::TEXT_KEYS) && !str_ends_with($get('setting_key') ?? '', '_name'))
                     ->afterStateHydrated(fn ($set, $get) => $set('text_value', $get('setting_value'))),
+
+                Placeholder::make('editor_preview')
+                    ->label('Tampilan Konten Saat Ini')
+                    ->content(fn ($record) => new HtmlString("<div class='prose dark:prose-invert max-w-none p-4 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm'>" . ($record?->setting_value ?? '-') . "</div>"))
+                    ->visible(fn ($get) => in_array($get('setting_key'), self::EDITOR_KEYS) || str_ends_with($get('setting_key') ?? '', '_message'))
+                    ->columnSpanFull(),
 
                 Textarea::make('editor_value')
                     ->label('Content')
@@ -143,17 +143,14 @@ class SiteSettingForm
                     ->minItems(1)
                     ->columnSpanFull()
                     ->hidden(fn ($get) => $get('setting_key') !== 'faqs')
-                    ->dehydrated(false)
-                    ->live()
-                    ->afterStateHydrated(function (Repeater $component, $get, $set, $state) {
-                        if ($get('setting_key') === 'faqs' && !empty($get('setting_value'))) {
-                            $set('faqs_data', json_decode($get('setting_value'), true));
+                    ->afterStateHydrated(function (Repeater $component, $state) {
+                        $record = $component->getRecord();
+                        if ($record && $record->setting_key === 'faqs' && !empty($record->setting_value)) {
+                            $component->state(json_decode($record->setting_value, true));
                         }
                     })
-                    ->saveRelationshipsUsing(function (Repeater $component, $get, $set, ?array $state) {
-                        if ($get('setting_key') === 'faqs') {
-                            $set('setting_value', json_encode($state));
-                        }
+                    ->saveRelationshipsUsing(function (Repeater $component, $state) {
+                        // handled in EditSiteSetting mutation
                     }),
             ]);
     }
