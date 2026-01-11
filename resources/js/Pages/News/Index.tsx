@@ -169,9 +169,9 @@ export default function NewsPage({ article, relatedArticles }: NewsPageProps) {
                                     />
                                 </div>
                                 <div className="text-xs font-bold text-primary uppercase mb-2">{item.category}</div>
-                                <div className="text-xs font-bold uppercase mb-2">{item.date}</div>
+                            <div className="text-xs font-bold uppercase mb-2">{item.date}</div>
                                 <h4 className="text-xl font-bold leading-tight group-hover:underline decoration-primary decoration-2 underline-offset-4">
-                                    <AnimatedTitle title={item.title} />
+                                    <AnimatedTitle title={item.title} disableLink/>
                                 </h4>
                             </Link>
                         ))}
