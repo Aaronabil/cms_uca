@@ -42,11 +42,8 @@ class ManageSiteSettings extends Page implements HasSchemas
             $settings['faqs'] = json_decode($settings['faqs'], true);
         }
         
-        if (isset($settings['footer_settings'])) {
-            $footerData = json_decode($settings['footer_settings'], true) ?? [];
-            $settings['footer_telephone'] = $footerData['telephone'] ?? null;
-            $settings['footer_email'] = $footerData['email'] ?? null;
-            $settings['footer_address'] = $footerData['address'] ?? null;
+        if (isset($settings['faqs'])) {
+            $settings['faqs'] = json_decode($settings['faqs'], true);
         }
 
         $this->form->fill($settings);
@@ -81,10 +78,10 @@ class ManageSiteSettings extends Page implements HasSchemas
                             ]),
                         Tab::make('Contact')
                             ->schema([
-                                TextInput::make('footer_telephone')->label('Telephone')->nullable(),
+                                TextInput::make('telepon')->label('Telephone')->nullable(),
                                 TextInput::make('whatsapp_number')->label('WhatsApp Number (e.g. 628...)')->numeric()->nullable(),
-                                TextInput::make('footer_email')->label('Email')->email()->nullable(),
-                                Textarea::make('footer_address')->label('Address')->rows(3)->nullable(),
+                                TextInput::make('email')->label('Email')->email()->nullable(),
+                                Textarea::make('alamat')->label('Address')->rows(3)->nullable(),
                             ]),
                         Tab::make('Academic Home')
                             ->schema([
@@ -116,11 +113,7 @@ class ManageSiteSettings extends Page implements HasSchemas
                                         TextInput::make('facts_label_alumni')->nullable(),
                                     ])->columns(2),
                             ]),
-                         Tab::make('Vision & Mission')
-                            ->schema([
-                                Textarea::make('vision')->rows(5),
-                                Textarea::make('mission')->rows(5),
-                            ]),
+
                         Tab::make('FAQs')
                             ->schema([
                                 Repeater::make('faqs')
@@ -129,7 +122,9 @@ class ManageSiteSettings extends Page implements HasSchemas
                                         Textarea::make('answer')->required(),
                                     ])
                             ]),
-                         Tab::make('Faculties (Deans)')
+                        Tab::make('Structure')
+                            ->schema(fn () => $this->getStructureFields()),
+                         Tab::make('Faculties')
                             ->schema(fn () => $this->getFacultyFields()),
                          Tab::make('Study Programs')
                             ->schema(fn () => $this->getStudyProgramFields()),
@@ -144,14 +139,16 @@ class ManageSiteSettings extends Page implements HasSchemas
         foreach (Faculty::all() as $faculty) {
             $fields[] = Section::make($faculty->name)
                 ->schema([
-                    TextInput::make("dean_{$faculty->slug}_name")->label('Dean Name'),
-                    FileUpload::make("dean_{$faculty->slug}_image")
-                        ->label('Dean Photo')
+                    FileUpload::make("faculty_{$faculty->slug}_image")
+                        ->label('Faculty Photo')
                         ->image()
                         ->disk('public')
                         ->directory('settings')
                         ->visibility('public'),
-                    Textarea::make("dean_{$faculty->slug}_message")->label('Dean Message'),
+                    Textarea::make("faculty_{$faculty->slug}_description")->label('Description')->rows(3),
+                    Textarea::make("faculty_{$faculty->slug}_vision")->label('Vision')->rows(3),
+                    Textarea::make("faculty_{$faculty->slug}_mission")->label('Mission')->rows(3),
+                    Textarea::make("faculty_{$faculty->slug}_cooperation")->label('Cooperation')->rows(3),
                 ])->collapsible()->collapsed();
         }
         return $fields;
@@ -171,6 +168,28 @@ class ManageSiteSettings extends Page implements HasSchemas
                         ->directory('settings')
                         ->visibility('public'),
                     Textarea::make("kaprodi_{$prodi->slug}_message")->label('Kaprodi Message'),
+                    Textarea::make("kaprodi_{$prodi->slug}_vision")->label('Vision')->rows(3),
+                    Textarea::make("kaprodi_{$prodi->slug}_mission")->label('Mission')->rows(3),
+                ])->collapsible()->collapsed();
+        }
+        return $fields;
+    }
+
+    protected function getStructureFields(): array
+    {
+        $fields = [];
+        for ($i = 1; $i <= 3; $i++) {
+            $fields[] = Section::make("Vice Rector $i")
+                ->schema([
+                    TextInput::make("vice_rector_{$i}_name")->label('Name')->nullable(),
+                    FileUpload::make("vice_rector_{$i}_image")
+                        ->label('Photo')
+                        ->image()
+                        ->disk('public')
+                        ->directory('settings')
+                        ->visibility('public'),
+                    Textarea::make("vice_rector_{$i}_expertise")->label('Expertise (Bidang Keahlian)')->rows(2)->nullable(),
+                    Textarea::make("vice_rector_{$i}_education")->label('Education (Pendidikan)')->rows(2)->nullable(),
                 ])->collapsible()->collapsed();
         }
         return $fields;
@@ -181,15 +200,7 @@ class ManageSiteSettings extends Page implements HasSchemas
         $data = $this->form->getState();
 
         // Handle footer_settings specially
-        $footerData = [
-            'telephone' => $data['footer_telephone'] ?? null,
-            'email' => $data['footer_email'] ?? null,
-            'address' => $data['footer_address'] ?? null,
-        ];
-        $data['footer_settings'] = json_encode($footerData);
-        
-        // Remove flattened footer keys
-        unset($data['footer_telephone'], $data['footer_email'], $data['footer_address']);
+
 
         // Handle JSON fields
         if (isset($data['faqs'])) {

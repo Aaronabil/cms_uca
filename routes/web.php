@@ -31,7 +31,10 @@ Route::get('/sejarah-uca', function () {
 })->name('sejarah-uca');
 
 Route::get('/sambutan-rektor', function (){
-    return Inertia::render('TentangUca/SambutanRektor');
+    $page = Page::where('slug', 'sambutan-rektor')->where('status', 'published')->first();
+    return Inertia::render('TentangUca/SambutanRektor', [
+        'page' => $page
+    ]);
 });
 
 Route::get('/visi-misi-dan-tujuan', function (){

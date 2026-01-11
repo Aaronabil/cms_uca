@@ -1,40 +1,20 @@
 import GuestLayout from "@/Layouts/GuestLayout"
 import { Cpu, Zap } from "lucide-react"
-import { Link, Head } from "@inertiajs/react"
+import { Link, Head, usePage } from "@inertiajs/react"
 import AnimatedSection from "@/Components/AnimatedSection"
 
-const members = [
-    {
-        name: 'Pak',
-        role: 'Wakil Rektor 1',
-        avatar: '/warek1.jpg',
-        link: '#',
-        rank: "Guru Besar", // Jabatan Fungsional
-        expertise: "Artificial Intelligence & Data Science", // Bidang Keahlian
-        education: "S3 - Institut Teknologi Bandung"
-    },
-    {
-        name: 'Bu',
-        role: 'Wakil Rektor 2',
-        avatar: '/warek2.jpg',
-        link: '#',
-        rank: "Lektor Kepala",
-        expertise: ["Manajemen Keuangan", "Akuntansi Sektor Publik"],
-        education: "S3 - Universitas Indonesia"
-    },
-    {
-        name: 'Bu',
-        role: 'Wakil Rektor 3',
-        avatar: '/warek3.jpg',
-        link: '#',
-        position: 'object-top',
-        rank: "Lektor",
-        expertise: ["Psikologi Pendidikan", "Konseling"],
-        education: ["S2 - Universitas Negeri Yogyakarta", "S3 - Universitas Pendidikan Indonesia"]
-    },
-]
+export default function SambutanRektor({ page }: { page?: any }) {
+    const { site_settings } = usePage<any>().props;
 
-export default function SambutanRektor() {
+    const members = [1, 2, 3].map(i => ({
+        name: site_settings[`vice_rector_${i}_name`] || `Wakil Rektor ${i}`,
+        role: `Wakil Rektor ${i}`,
+        avatar: site_settings[`vice_rector_${i}_image`] ? (site_settings[`vice_rector_${i}_image`].startsWith('http') ? site_settings[`vice_rector_${i}_image`] : '/storage/' + site_settings[`vice_rector_${i}_image`]) : `/warek${i}.jpg`,
+        expertise: site_settings[`vice_rector_${i}_expertise`],
+        education: site_settings[`vice_rector_${i}_education`],
+        position: i === 3 ? 'object-top' : 'object-center'
+    }));
+
     return (
         <GuestLayout headerVariant="light">
             <Head title="Pimpinan Universitas Cendekia Abditama" />
@@ -47,48 +27,25 @@ export default function SambutanRektor() {
                             </AnimatedSection>
                             <div className="relative space-y-4">
                                 <AnimatedSection delay={400}>
-                                    <h2 className="text-white text-3xl font-medium lg:text-4xl"> Dr. Muhammad Subali, S.Si., M.T..</h2>
+                                    <h2 className="text-white text-3xl font-medium lg:text-4xl"> {page?.title || 'Dr. Muhammad Subali, S.Si., M.T..'}</h2>
                                 </AnimatedSection>
                                 <AnimatedSection delay={600}>
-                                    <p className="text-white">
-                                        Selamat Datang di Official Website Universitas Cendekia Abditama
-                                    </p>
-                                    <p className="text-white text-justify"> Website ini bertujuan untuk memberikan berbagai informasi bagi pemangku kepentingan mengenai informasi layanan akademik, kerjasama, pengembangan bidang pendidikan, riset dan inovasi, fasilitas kampus, layanan informasi dan kehidupan kampus di Universitas Cendekia Abditama.
-                                    </p>
-
-                                    {/* <div className="grid grid-cols-2 gap-3 pt-6 sm:gap-4">
-                                    <div className="space-y-3">
-                                        <div className="flex items-center gap-2">
-                                            <Zap className="size-4" />
-                                            <h3 className="text-sm font-medium">Faaast</h3>
-                                        </div>
-                                        <p className="text-muted-foreground text-sm">It supports an entire helping developers and innovate.</p>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <div className="flex items-center gap-2">
-                                            <Cpu className="size-4" />
-                                            <h3 className="text-sm font-medium">Powerful</h3>
-                                        </div>
-                                        <p className="text-muted-foreground text-sm">It supports an entire helping developers and businesses.</p>
-                                    </div>
-                                </div> */}
-                                    <p className="text-white text-justify">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique sit ab inventore et, magnam pariatur provident laboriosam aperiam odio laudantium consectetur fugiat, accusantium magni temporibus cum cupiditate nihil recusandae assumenda.
-                                    </p>
-                                    <p className="text-white text-justify">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique sit ab inventore et, magnam pariatur provident laboriosam aperiam odio laudantium consectetur fugiat, accusantium magni temporibus cum cupiditate nihil recusandae assumenda.
-                                    </p>
-                                    <p className="text-white text-justify">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique sit ab inventore et, magnam pariatur provident laboriosam aperiam odio laudantium consectetur fugiat, accusantium magni temporibus cum cupiditate nihil recusandae assumenda.
-                                    </p>
-                                    <p className="text-white text-justify">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique sit ab inventore et, magnam pariatur provident laboriosam aperiam odio laudantium consectetur fugiat, accusantium magni temporibus cum cupiditate nihil recusandae assumenda.
-                                    </p>
+                                    {page ? (
+                                        <div className="text-white text-justify space-y-4" dangerouslySetInnerHTML={{ __html: page.content }} />
+                                    ) : (
+                                        <>
+                                            <p className="text-white">
+                                                Selamat Datang di Official Website Universitas Cendekia Abditama
+                                            </p>
+                                            <p className="text-white text-justify"> Website ini bertujuan untuk memberikan berbagai informasi bagi pemangku kepentingan mengenai informasi layanan akademik, kerjasama, pengembangan bidang pendidikan, riset dan inovasi, fasilitas kampus, layanan informasi dan kehidupan kampus di Universitas Cendekia Abditama.
+                                            </p>
+                                        </>
+                                    )}
                                 </AnimatedSection>
                                 <br />
 
                                 <p className="text-white">
-                                    Dr. Muhammad Subali
+                                    {page?.title || 'Dr. Muhammad Subali'}
                                     <br />
                                     <span className="font-bold">Rektor Universitas Cendekia Abditama</span>
                                 </p>
@@ -97,13 +54,8 @@ export default function SambutanRektor() {
                         <div className="relative mt-6 sm:mt-0 lg:mt-44">
                             <AnimatedSection delay={300}>
                                 <div className="relative mx-auto w-full max-w-md pt-4 pr-4">
-                                    {/* Offset Border */}
                                     <div className="absolute top-0 right-0 bottom-4 left-4 rounded-[2.5rem] border-2 border-secondary-foreground" />
-
-                                    {/* Image Container */}
-
                                     <div className="relative rounded-[2.5rem] border-[6px] border-secondary bg-secondary overflow-hidden shadow-2xl">
-
                                         <img
                                             src="/rektor.jpg"
                                             alt="Rektor"
@@ -139,7 +91,7 @@ export default function SambutanRektor() {
                                         key={index}
                                         className="group overflow-hidden">
                                         <img
-                                            className={`h-96 w-full rounded-xl object-cover ${member.position || 'object-center'}`}
+                                            className={`h-96 w-full rounded-xl object-cover ${member.position}`}
                                             src={member.avatar}
                                             alt="team member"
                                             width="826"
@@ -155,51 +107,21 @@ export default function SambutanRektor() {
                                             </div>
 
                                             <div className="mt-4 space-y-3">
-                                                {member.rank && (
-                                                    <div className="text-xs">
-                                                        <span className="font-semibold text-primary block mb-0.5">Jabatan Fungsional</span>
-                                                        <span className="text-muted-foreground">{member.rank}</span>
-                                                    </div>
-                                                )}
+                                                {/* Jabatan Fungsional Removed as per request */}
 
                                                 {member.expertise && (
                                                     <div className="text-xs">
                                                         <span className="font-semibold text-primary block mb-0.5">Bidang Keahlian</span>
-                                                        {Array.isArray(member.expertise) ? (
-                                                            <ul className="list-disc list-inside text-muted-foreground">
-                                                                {member.expertise.map((item, i) => (
-                                                                    <li key={i}>{item}</li>
-                                                                ))}
-                                                            </ul>
-                                                        ) : (
-                                                            <span className="text-muted-foreground">{member.expertise}</span>
-                                                        )}
+                                                        <span className="text-muted-foreground whitespace-pre-line">{member.expertise}</span>
                                                     </div>
                                                 )}
 
                                                 {member.education && (
                                                     <div className="text-xs">
                                                         <span className="font-semibold text-primary block mb-0.5">Pendidikan</span>
-                                                        {Array.isArray(member.education) ? (
-                                                            <ul className="list-disc list-inside text-muted-foreground">
-                                                                {member.education.map((item, i) => (
-                                                                    <li key={i}>{item}</li>
-                                                                ))}
-                                                            </ul>
-                                                        ) : (
-                                                            <span className="text-muted-foreground">{member.education}</span>
-                                                        )}
+                                                        <span className="text-muted-foreground whitespace-pre-line">{member.education}</span>
                                                     </div>
                                                 )}
-
-                                                {/* <div className="pt-2">
-                                                <Link
-                                                    href={member.link}
-                                                    className="text-xs font-medium text-primary hover:underline hover:text-primary/80 flex items-center gap-1">
-                                                    Lihat Profil Lengkap
-                                                    <span aria-hidden="true">&rarr;</span>
-                                                </Link>
-                                            </div> */}
                                             </div>
                                         </div>
                                     </div>

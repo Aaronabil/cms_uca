@@ -58,10 +58,18 @@ class ArticleController extends Controller
                         : null,
         ];
 
+        // Get category ID
+        $categoryId = $article->categories->first()?->id;
+
         // Get related/latest articles for sidebar
         $relatedArticles = Artikel::with(['categories', 'featuredImage'])
             ->where('id', '!=', $article->id)
             ->where('status', 'published')
+            ->when($categoryId, function ($query) use ($categoryId) {
+                return $query->whereHas('categories', function ($q) use ($categoryId) {
+                    $q->where('categories.id', $categoryId);
+                });
+            })
             ->latest('published_at')
             ->take(3)
             ->get()

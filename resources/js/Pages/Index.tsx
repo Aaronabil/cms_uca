@@ -60,7 +60,7 @@ export default function Index({ sambutanRektor, faculties, articles, faqs }: Hom
     const generateStudyProgramDescription = (facultyName: string, studyPrograms: Array<{ name: string }>) => {
         const count = studyPrograms.length;
         if (count === 0) return `Saat ini belum ada program studi di ${facultyName}.`;
-        
+
         const programNames = studyPrograms.map(p => p.name).join(', ');
         return `Saat Ini, Terdapat ${count} Program Studi Di ${facultyName} Yaitu, ${programNames}.`;
     };
@@ -90,7 +90,7 @@ export default function Index({ sambutanRektor, faculties, articles, faqs }: Hom
                                     <AnimatedSection delay={400}>
                                         {/* Pill Badge */}
                                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm mb-8 hover:bg-white/20 transition-colors cursor-pointer group">
-                                            <span className="font-medium">Penerimaan Mahasiswa Baru 2025</span>
+                                            <span className="font-medium">Penerimaan Mahasiswa Baru {new Date().getFullYear()}</span>
                                             <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                                         </div>
 
@@ -106,12 +106,16 @@ export default function Index({ sambutanRektor, faculties, articles, faqs }: Hom
 
                                         {/* Buttons */}
                                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                                            <Button size="lg" className="bg-white text-primary hover:bg-primary hover:text-white font-semibold rounded-full px-8 h-12 text-base">
-                                                Daftar Sekarang
-                                            </Button>
-                                            <Button size="lg" variant="ghost" className="text-white hover:bg-white/10 hover:text-white font-semibold rounded-full px-8 h-12 text-base">
-                                                Tentang Kami
-                                            </Button>
+                                            <a href={site_settings.registration_url || '#'} target="_blank" rel="noopener noreferrer">
+                                                <Button size="lg" className="bg-white text-primary hover:bg-primary hover:text-white font-semibold rounded-full px-8 h-12 text-base">
+                                                    Daftar Sekarang
+                                                </Button>
+                                            </a>
+                                            <Link href="/tentang-uca/sejarah">
+                                                <Button size="lg" variant="ghost" className="text-white hover:bg-white/10 hover:text-white font-semibold rounded-full px-8 h-12 text-base">
+                                                    Tentang Kami
+                                                </Button>
+                                            </Link>
                                         </div>
                                     </AnimatedSection>
                                 </div>
@@ -149,7 +153,7 @@ export default function Index({ sambutanRektor, faculties, articles, faqs }: Hom
                                     </AnimatedSection>
                                     <AnimatedSection delay={600}>
                                         {sambutanRektor && (
-                                            <p className="mt-6 text-white" dangerouslySetInnerHTML={{ __html: sambutanRektor.content }}>
+                                            <p className="mt-6 text-white line-clamp-6" dangerouslySetInnerHTML={{ __html: sambutanRektor.content }}>
                                             </p>
                                         )}
                                         {!sambutanRektor && (
@@ -300,62 +304,62 @@ export default function Index({ sambutanRektor, faculties, articles, faqs }: Hom
                                 </AnimatedSection>
                             </div>
                             {/* <AnimatedSection delay={150}> */}
-                                {/* Grid Layout */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {faculties.map((faculty, index) => (
-                                        <React.Fragment key={faculty.id}>
-                                            {/* Pola Genap: Gambar Kiri, Teks Kanan (Index 0, 2, dst) */}
-                                            {index % 2 === 0 ? (
-                                                <>
-                                                    <div className="relative overflow-hidden rounded-3xl h-[400px]">
-                                                        <img
-                                                            src={faculty.image_url || "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=1740"}
-                                                            alt={faculty.name}
-                                                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                                                        />
+                            {/* Grid Layout */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {faculties.map((faculty, index) => (
+                                    <React.Fragment key={faculty.id}>
+                                        {/* Pola Genap: Gambar Kiri, Teks Kanan (Index 0, 2, dst) */}
+                                        {index % 2 === 0 ? (
+                                            <>
+                                                <div className="relative overflow-hidden rounded-3xl h-[400px]">
+                                                    <img
+                                                        src={faculty.image_url || "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=1740"}
+                                                        alt={faculty.name}
+                                                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                                                    />
+                                                </div>
+                                                <div className="bg-primary rounded-3xl p-8 md:p-12 flex flex-col justify-between h-[400px] group hover:bg-green-900 transition-colors">
+                                                    <div>
+                                                        <span className="inline-block bg-white text-[#153d3d] px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
+                                                            Fakultas
+                                                        </span>
+                                                        <h3 className="text-3xl font-medium leading-snug mb-4">
+                                                            {faculty.name}
+                                                        </h3>
                                                     </div>
-                                                    <div className="bg-primary rounded-3xl p-8 md:p-12 flex flex-col justify-between h-[400px] group hover:bg-green-900 transition-colors">
-                                                        <div>
-                                                            <span className="inline-block bg-white text-[#153d3d] px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
-                                                                Fakultas
-                                                            </span>
-                                                            <h3 className="text-3xl font-medium leading-snug mb-4">
-                                                                {faculty.name}
-                                                            </h3>
-                                                        </div>
-                                                        <p className="text-gray-300 text-sm leading-relaxed">
-                                                            {generateStudyProgramDescription(faculty.name, faculty.study_programs)}
-                                                        </p>
+                                                    <p className="text-gray-300 text-sm leading-relaxed">
+                                                        {generateStudyProgramDescription(faculty.name, faculty.study_programs)}
+                                                    </p>
+                                                </div>
+                                            </>
+                                        ) : (
+                                            /* Pola Ganjil: Teks Kiri, Gambar Kanan (Index 1, 3, dst) */
+                                            <>
+                                                <div className="bg-primary rounded-3xl p-8 md:p-12 flex flex-col justify-between h-[400px] group hover:bg-green-900 transition-colors">
+                                                    <div>
+                                                        <span className="inline-block bg-white text-[#153d3d] px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
+                                                            Fakultas
+                                                        </span>
+                                                        <h3 className="text-3xl font-medium leading-snug mb-4">
+                                                            {faculty.name}
+                                                        </h3>
                                                     </div>
-                                                </>
-                                            ) : (
-                                                /* Pola Ganjil: Teks Kiri, Gambar Kanan (Index 1, 3, dst) */
-                                                <>
-                                                    <div className="bg-primary rounded-3xl p-8 md:p-12 flex flex-col justify-between h-[400px] group hover:bg-green-900 transition-colors">
-                                                        <div>
-                                                            <span className="inline-block bg-white text-[#153d3d] px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
-                                                                Fakultas
-                                                            </span>
-                                                            <h3 className="text-3xl font-medium leading-snug mb-4">
-                                                                {faculty.name}
-                                                            </h3>
-                                                        </div>
-                                                        <p className="text-gray-300 text-sm leading-relaxed">
-                                                            {generateStudyProgramDescription(faculty.name, faculty.study_programs)}
-                                                        </p>
-                                                    </div>
-                                                    <div className="relative overflow-hidden rounded-3xl h-[400px]">
-                                                        <img
-                                                            src={faculty.image_url || "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1686"}
-                                                            alt={faculty.name}
-                                                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                                                        />
-                                                    </div>
-                                                </>
-                                            )}
-                                        </React.Fragment>
-                                    ))}
-                                </div>
+                                                    <p className="text-gray-300 text-sm leading-relaxed">
+                                                        {generateStudyProgramDescription(faculty.name, faculty.study_programs)}
+                                                    </p>
+                                                </div>
+                                                <div className="relative overflow-hidden rounded-3xl h-[400px]">
+                                                    <img
+                                                        src={faculty.image_url || "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1686"}
+                                                        alt={faculty.name}
+                                                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                                                    />
+                                                </div>
+                                            </>
+                                        )}
+                                    </React.Fragment>
+                                ))}
+                            </div>
                             {/* </AnimatedSection> */}
                         </div>
                     </section>
