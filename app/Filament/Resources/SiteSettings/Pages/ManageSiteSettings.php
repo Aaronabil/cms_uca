@@ -37,14 +37,10 @@ class ManageSiteSettings extends Page implements HasSchemas
     {
         $settings = SiteSetting::all()->pluck('setting_value', 'setting_key')->toArray();
 
-        // Handle JSON fields
-        if (isset($settings['faqs'])) {
-            $settings['faqs'] = json_decode($settings['faqs'], true);
-        }
-        
-        if (isset($settings['faqs'])) {
-            $settings['faqs'] = json_decode($settings['faqs'], true);
-        }
+        // // Handle JSON fields
+        if (isset($settings['faqs']) && is_string($settings['faqs'])) {
+        $settings['faqs'] = json_decode($settings['faqs'], true) ?? [];
+    }
 
         $this->form->fill($settings);
     }
