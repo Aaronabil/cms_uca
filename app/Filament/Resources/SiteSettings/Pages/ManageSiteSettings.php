@@ -38,9 +38,11 @@ class ManageSiteSettings extends Page implements HasSchemas
         $settings = SiteSetting::all()->pluck('setting_value', 'setting_key')->toArray();
 
         // // Handle JSON fields
-        if (isset($settings['faqs']) && is_string($settings['faqs'])) {
-        $settings['faqs'] = json_decode($settings['faqs'], true) ?? [];
-    }
+        foreach ($settings as $key => $val) {
+            if (is_string($val) && (str_ends_with($key, '_misi') || $key === 'faqs')) {
+                $settings[$key] = json_decode($val, true) ?? [];
+            }
+        }
 
         $this->form->fill($settings);
     }
@@ -164,8 +166,12 @@ class ManageSiteSettings extends Page implements HasSchemas
                         ->directory('settings')
                         ->visibility('public'),
                     Textarea::make("kaprodi_{$prodi->slug}_message")->label('Kaprodi Message'),
-                    Textarea::make("kaprodi_{$prodi->slug}_vision")->label('Vision')->rows(3),
-                    Textarea::make("kaprodi_{$prodi->slug}_mission")->label('Mission')->rows(3),
+                    Textarea::make("prodi_{$prodi->slug}_visi")->label('Visi')->rows(3),
+                    Repeater::make("prodi_{$prodi->slug}_misi")
+                        ->label('Misi')
+                        ->schema([
+                            TextInput::make('text')->required()->label('Misi Point')
+                        ]),
                 ])->collapsible()->collapsed();
         }
         return $fields;
@@ -194,13 +200,16 @@ class ManageSiteSettings extends Page implements HasSchemas
     public function submit(): void
     {
         $data = $this->form->getState();
-
-        // Handle footer_settings specially
-
-
+        
         // Handle JSON fields
         if (isset($data['faqs'])) {
             $data['faqs'] = json_encode($data['faqs']);
+        }
+        
+        foreach ($data as $key => $value) {
+            if (is_array($value) && str_ends_with($key, '_misi')) {
+                $data[$key] = json_encode(array_values($value));
+            }
         }
 
         foreach ($data as $key => $value) {

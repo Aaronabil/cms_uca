@@ -35,6 +35,25 @@ export default function Prodi({ studyProgram }: { studyProgram: StudyProgramData
 
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
+    // Parse Misi from Site Settings (JSON String -> Array)
+    let misiList = [
+        `Menyelenggarakan pendidikan berkualitas di bidang ${studyProgram.name}.`,
+        "Melaksanakan penelitian yang berkontribusi pada kemajuan ilmu pengetahuan.",
+        "Melakukan pengabdian kepada masyarakat melalui penerapan ilmu."
+    ];
+
+    const settingMisi = site_settings[`prodi_${studyProgram.slug}_misi`];
+    if (settingMisi) {
+        try {
+            const parsed = typeof settingMisi === 'string' ? JSON.parse(settingMisi) : settingMisi;
+            if (Array.isArray(parsed)) {
+                misiList = parsed.map((item: any) => item.text || item);
+            }
+        } catch (e) {
+            // Unhandled error
+        }
+    }
+
     // Data gabungan: Props dari DB + Placeholder Dinamis
     const prodiData = {
         name: studyProgram.name,
@@ -45,12 +64,8 @@ export default function Prodi({ studyProgram }: { studyProgram: StudyProgramData
             message: site_settings[`kaprodi_${studyProgram.slug}_message`] || `Selamat datang di Program Studi ${studyProgram.name}. Kami berkomitmen untuk mencetak lulusan yang kompeten, inovatif, dan berakhlak mulia, siap bersaing di era global.`,
             image: site_settings[`kaprodi_${studyProgram.slug}_image`] || "/kaprodi_ti.jpg"
         },
-        visi: `Menjadi pusat unggulan pendidikan dan penelitian di bidang ${studyProgram.name} yang berbasis nilai-nilai Islam.`,
-        misi: [
-            `Menyelenggarakan pendidikan berkualitas di bidang ${studyProgram.name}.`,
-            "Melaksanakan penelitian yang berkontribusi pada kemajuan ilmu pengetahuan.",
-            "Melakukan pengabdian kepada masyarakat melalui penerapan ilmu."
-        ],
+        visi: site_settings[`prodi_${studyProgram.slug}_visi`] || `Menjadi pusat unggulan pendidikan dan penelitian di bidang ${studyProgram.name} yang berbasis nilai-nilai Islam.`,
+        misi: misiList,
         keunggulan: [
             { title: "Kurikulum Terkini", description: "Kurikulum berbasis industri yang selalu diperbarui sesuai perkembangan zaman." },
             { title: "Fasilitas Lengkap", description: "Laboratorium modern, akses internet cepat, dan ruang belajar nyaman." },

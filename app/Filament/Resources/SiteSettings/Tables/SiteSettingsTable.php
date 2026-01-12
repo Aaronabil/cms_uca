@@ -33,6 +33,10 @@ class SiteSettingsTable
                             $count = count(json_decode($state, true) ?? []);
                             return "{$count} Questions Configured";
                         }
+                        if (str_ends_with($record->setting_key, '_misi')) {
+                            $count = count(json_decode($state, true) ?? []);
+                            return "{$count} Items";
+                        }
                         if ($record->setting_key === 'footer_settings') {
                             $data = json_decode($state, true);
                             return sprintf(
@@ -47,7 +51,7 @@ class SiteSettingsTable
                         }
                         return $state;
                     })
-                    ->color(fn ($record) => $record->setting_key === 'faqs' ? 'primary' : null),
+                    ->color(fn ($record) => $record->setting_key === 'faqs' || str_ends_with($record->setting_key, '_misi') ? 'primary' : null),
                 TextColumn::make('updated_at')
                     ->label('Last Updated')
                     ->dateTime()
@@ -71,12 +75,12 @@ class SiteSettingsTable
                         }
 
                         $keys = [];
-                        // Add Dean keys
-                        $keys[] = "dean_{$faculty->slug}_%";
+                        // Add Faculty keys
+                        $keys[] = "faculty_{$faculty->slug}_%";
                         
-                        // Add Kaprodi keys for each study program
+                        // Add Prodi keys for each study program
                         foreach ($faculty->studyPrograms as $prodi) {
-                            $keys[] = "kaprodi_{$prodi->slug}_%";
+                            $keys[] = "prodi_{$prodi->slug}_%";
                         }
 
                         return $query->where(function (Builder $q) use ($keys) {

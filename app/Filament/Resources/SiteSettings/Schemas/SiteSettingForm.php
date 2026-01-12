@@ -108,9 +108,28 @@ class SiteSettingForm
                         str_ends_with($get('setting_key') ?? '', '_name') ||
                         in_array($get('setting_key'), self::EDITOR_KEYS) ||
                         str_ends_with($get('setting_key') ?? '', '_message') ||
-                        in_array($get('setting_key'), self::CUSTOM_KEYS)
+                        in_array($get('setting_key'), self::CUSTOM_KEYS) ||
+                        str_ends_with($get('setting_key') ?? '', '_misi')
                     )
                     ->afterStateHydrated(fn ($set, $get) => $set('default_value', $get('setting_value'))),
+                
+                Repeater::make('misi_data')
+                    ->label('Misi List')
+                    ->schema([
+                        TextInput::make('text')->required()->label('Misi Point')
+                    ])
+                    ->itemLabel(fn (array $state): ?string => \Illuminate\Support\Str::limit($state['text'] ?? null, 50))
+                    ->columnSpanFull()
+                    ->hidden(fn ($get) => !str_ends_with($get('setting_key') ?? '', '_misi'))
+                    ->afterStateHydrated(function (Repeater $component, $state) {
+                        $record = $component->getRecord();
+                        if ($record && str_ends_with($record->setting_key, '_misi') && !empty($record->setting_value)) {
+                            // Ensure it's decoded as an array
+                            $val = json_decode($record->setting_value, true);
+                            $component->state(is_array($val) ? $val : []);
+                        }
+                    }),
+
                 Section::make('Contact Information')
                     ->schema([
                         TextInput::make('telephone')
@@ -141,6 +160,7 @@ class SiteSettingForm
                     ->schema([
                         TextInput::make('question')
                             ->required(),
+                            # ... (rest of faqs_data)
                         Textarea::make('answer')
                             ->required(),
                     ])

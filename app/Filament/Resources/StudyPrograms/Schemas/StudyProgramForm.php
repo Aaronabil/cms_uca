@@ -34,6 +34,25 @@ class StudyProgramForm
                             ->maxLength(255)
                             ->unique(ignoreRecord: true),
                     ]),
+
+                \Filament\Schemas\Components\Section::make('Visi & Misi')
+                    ->schema([
+                        \Filament\Forms\Components\Textarea::make('visi')
+                            ->label('Visi')
+                            ->rows(3)
+                            ->columnSpanFull(),
+                            
+                        \Filament\Forms\Components\Repeater::make('misi')
+                            ->label('Misi')
+                            ->schema([
+                                \Filament\Forms\Components\TextInput::make('text')
+                                    ->label('Misi Point')
+                                    ->required(),
+                            ])
+                            ->itemLabel(fn (array $state): ?string => \Illuminate\Support\Str::limit($state['text'] ?? null, 50))
+                            ->columnSpanFull(),
+                    ])
+                    ->collapsible(),
             ]);
     }
 }

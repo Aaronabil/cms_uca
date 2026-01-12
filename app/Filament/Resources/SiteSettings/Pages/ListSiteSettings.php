@@ -53,9 +53,9 @@ class ListSiteSettings extends ListRecords
                     'faqs'
                 ])),
             'faculties' => Tab::make('Faculties')
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('setting_key', 'like', 'dean_%')),
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('setting_key', 'like', 'faculty_%')),
             'study_programs' => Tab::make('Study Programs')
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('setting_key', 'like', 'kaprodi_%')),
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('setting_key', 'like', 'prodi_%')),
         ];
     }
 

@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             SiteSettingSeeder::class,
             FacultyStudyProgramSeeder::class,
+            StudyProgramSettingsSeeder::class,
             KaprodiSeeder::class,
             MenuSeeder::class,
             PageSeeder::class,

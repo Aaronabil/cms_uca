@@ -44,6 +44,11 @@ class EditSiteSetting extends EditRecord
             unset($data['editor_value']);
         }
 
+        if (isset($data['misi_data'])) {
+            $data['setting_value'] = json_encode(array_values($data['misi_data']));
+            unset($data['misi_data']);
+        }
+
         return $data;
     }
 }
