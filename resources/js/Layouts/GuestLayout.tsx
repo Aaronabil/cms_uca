@@ -1,19 +1,31 @@
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import { Link } from '@inertiajs/react';
+'use client'
 import { PropsWithChildren } from 'react';
+import FooterSection from '@/Components/Footer';
+import { HeroHeader } from '@/Components/HeroHeader';
+// import ScrollToTopButton from '@/Components/ScrollTopButton';
+import WhatsAppFloatingButton from '@/Components/WhatsAppFloatingButton';
 
-export default function Guest({ children }: PropsWithChildren) {
+type FacultyData = {
+    id: number;
+    name: string;
+    image_url: string;
+    slug: string;
+    study_programs: Array<{ name: string }>;
+};
+
+interface GuestProps extends PropsWithChildren {
+    headerVariant?: 'default' | 'light';
+    faculties?: FacultyData[];
+}
+
+export default function Guest({ children, headerVariant = 'default', faculties = [] }: GuestProps) {
     return (
-        <div className="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0">
-            <div>
-                <Link href="/">
-                    <ApplicationLogo className="h-20 w-20 fill-current text-gray-500" />
-                </Link>
-            </div>
-
-            <div className="mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg">
-                {children}
-            </div>
+        <div className="min-h-screen flex flex-col">
+            <HeroHeader variant={headerVariant} faculties={faculties} />
+            <main className="flex-grow">{children}</main>
+            <WhatsAppFloatingButton />
+            <FooterSection />
         </div>
     );
 }
+
