@@ -1,14 +1,12 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\StudyProgramController;
-use App\Http\Controllers\FacultyController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
-use App\Http\Controllers\ArticleController;
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -25,25 +23,27 @@ use App\Models\Page;
 
 Route::get('/sejarah-uca', function () {
     $page = Page::where('slug', 'sejarah-uca')->where('status', 'published')->firstOrFail();
+
     return Inertia::render('TentangUca/Sejarah', [
-        'page' => $page
+        'page' => $page,
     ]);
 })->name('sejarah-uca');
 
-Route::get('/sambutan-rektor', function (){
+Route::get('/sambutan-rektor', function () {
     $page = Page::where('slug', 'sambutan-rektor')->where('status', 'published')->first();
+
     return Inertia::render('TentangUca/SambutanRektor', [
-        'page' => $page
+        'page' => $page,
     ]);
 });
 
-Route::get('/visi-misi-dan-tujuan', function (){
+Route::get('/visi-misi-dan-tujuan', function () {
     $visiPage = Page::where('slug', 'visi-uca')->where('status', 'published')->firstOrFail();
     $misiPage = Page::where('slug', 'misi-uca')->where('status', 'published')->firstOrFail();
 
     return Inertia::render('TentangUca/VisiMisi', [
         'visiPage' => $visiPage,
-        'misiPage' => $misiPage
+        'misiPage' => $misiPage,
     ]);
 });
 
@@ -51,11 +51,11 @@ Route::get('/visi-misi-dan-tujuan', function (){
 //     return Inertia::render('News/Index');
 // });
 
-Route::get('semua-berita', function (){
+Route::get('semua-berita', function () {
     return redirect()->route('news.index'); // Redirect to the new /news route
 });
 
-Route::get('/fasilitas-kampus', function (){
+Route::get('/fasilitas-kampus', function () {
     return Inertia::render('FasilitasKampus/Index');
 });
 

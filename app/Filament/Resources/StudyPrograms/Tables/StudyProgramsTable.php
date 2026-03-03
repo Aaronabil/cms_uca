@@ -2,13 +2,13 @@
 
 namespace App\Filament\Resources\StudyPrograms\Tables;
 
+use App\Models\StudyProgram;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use App\Models\StudyProgram;
 
 class StudyProgramsTable
 {
@@ -35,13 +35,15 @@ class StudyProgramsTable
                 TextColumn::make('misi')
                     ->label('Misi')
                     ->state(function (StudyProgram $record) {
-                         $json = \App\Models\SiteSetting::where('setting_key', "prodi_{$record->slug}_misi")->value('setting_value');
-                         $arr = json_decode($json, true);
-                         if (is_array($arr) && count($arr) > 0) {
-                             $first = $arr[0]['text'] ?? $arr[0] ?? '';
-                             return $first . (count($arr) > 1 ? '...' : '');
-                         }
-                         return '-';
+                        $json = \App\Models\SiteSetting::where('setting_key', "prodi_{$record->slug}_misi")->value('setting_value');
+                        $arr = json_decode($json, true);
+                        if (is_array($arr) && count($arr) > 0) {
+                            $first = $arr[0]['text'] ?? $arr[0] ?? '';
+
+                            return $first.(count($arr) > 1 ? '...' : '');
+                        }
+
+                        return '-';
                     })
                     ->limit(50)
                     ->toggleable(),

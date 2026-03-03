@@ -38,13 +38,14 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'site_settings' => SiteSetting::all()->mapWithKeys(function ($item) {
-                $isImage = in_array($item->setting_key, ['logo_url']) || 
-                           str_ends_with($item->setting_key, '_image') || 
+                $isImage = in_array($item->setting_key, ['logo_url']) ||
+                           str_ends_with($item->setting_key, '_image') ||
                            str_ends_with($item->setting_key, '_photo');
 
-                if ($isImage && $item->setting_value && !str_starts_with($item->setting_value, '/')) {
+                if ($isImage && $item->setting_value && ! str_starts_with($item->setting_value, '/')) {
                     return [$item->setting_key => \Illuminate\Support\Facades\Storage::url($item->setting_value)];
                 }
+
                 return [$item->setting_key => $item->setting_value];
             }),
             'menus' => Menu::whereNull('parent_id')

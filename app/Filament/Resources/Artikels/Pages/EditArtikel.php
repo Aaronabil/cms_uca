@@ -51,6 +51,7 @@ class EditArtikel extends EditRecord
             $data['image_source'] = 'upload';
             $data['featured_image_upload'] = null;
         }
+
         return $data;
     }
 
@@ -77,10 +78,10 @@ class EditArtikel extends EditRecord
 
             if ($imagePath) {
                 // If there's an old image AND it was a local file (not URL), delete it
-                if ($record->featuredImage && !str_starts_with($record->featuredImage->image_url, 'http')) {
+                if ($record->featuredImage && ! str_starts_with($record->featuredImage->image_url, 'http')) {
                     Storage::disk('public')->delete($record->featuredImage->image_url);
                 }
-                
+
                 // Also delete the record itself if replacing
                 if ($record->featuredImage) {
                     $record->featuredImage->delete();
@@ -95,10 +96,10 @@ class EditArtikel extends EditRecord
                 $record->save();
 
             } elseif ($imagePath === null && $record->featuredImage) {
-                 // Deleting image explicitly (if UI supports clearing both inputs)
-                 if (!str_starts_with($record->featuredImage->image_url, 'http')) {
+                // Deleting image explicitly (if UI supports clearing both inputs)
+                if (! str_starts_with($record->featuredImage->image_url, 'http')) {
                     Storage::disk('public')->delete($record->featuredImage->image_url);
-                 }
+                }
                 $record->featuredImage->delete();
                 $record->featured_image_id = null;
                 $record->save();

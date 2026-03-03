@@ -2,7 +2,6 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Pages\Auth\Login;
 use App\Filament\Widgets\StatsOverview;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -35,7 +34,7 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
             ->globalSearch(true)
             ->favicon(asset('favicon.ico'))
-            ->brandLogo(fn () => new HtmlString('<img src="' . asset('logo-uca-website.png') . '" alt="Logo" class="h-10" />'))
+            ->brandLogo(fn () => new HtmlString('<img src="'.asset('logo-uca-website.png').'" alt="Logo" class="h-10" />'))
             ->darkMode(true)
             ->colors([
                 'primary' => Color::Amber,

@@ -53,9 +53,9 @@ class MenuForm
                             ->afterStateUpdated(function (Set $set, $state) {
                                 $page = Page::find($state);
                                 if ($page) {
-                                    $set('url', '/page/' . $page->slug);
+                                    $set('url', '/page/'.$page->slug);
                                     // Auto-fill nama menu jika masih kosong
-                                    $set('name', $page->title); 
+                                    $set('name', $page->title);
                                 }
                             })
                             ->columnSpanFull(),

@@ -38,7 +38,7 @@ class EditSiteSetting extends EditRecord
             $data['setting_value'] = $data['text_value'];
             unset($data['text_value']);
         }
-        
+
         if (isset($data['editor_value'])) {
             $data['setting_value'] = $data['editor_value'];
             unset($data['editor_value']);

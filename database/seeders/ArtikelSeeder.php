@@ -27,7 +27,7 @@ class ArtikelSeeder extends Seeder
             ['slug' => 'berita'],
             ['category_name' => 'Berita']
         );
-        
+
         $categoryArtikel = Category::firstOrCreate(
             ['slug' => 'artikel'],
             ['category_name' => 'Artikel']
@@ -104,7 +104,7 @@ class ArtikelSeeder extends Seeder
 
         foreach ($articlesData as $data) {
             $slug = Str::slug($data['title']);
-            
+
             // Check existing article
             $artikel = Artikel::where('slug', $slug)->first();
 

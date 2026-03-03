@@ -15,9 +15,6 @@ use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Components\Wizard;
 use Filament\Schemas\Components\Wizard\Step;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 
 class ArtikelForm
@@ -98,12 +95,12 @@ class ArtikelForm
                                 ->required(fn (Get $get) => $get('image_source') === 'url'),
                         ]),
                 ])
-                ->submitAction(
-                    Action::make('submit')
-                        ->label('Simpan Artikel')
-                        ->extraAttributes(['type' => 'submit'])
-                )
-                ->columnSpanFull(),
+                    ->submitAction(
+                        Action::make('submit')
+                            ->label('Simpan Artikel')
+                            ->extraAttributes(['type' => 'submit'])
+                    )
+                    ->columnSpanFull(),
             ]);
     }
 }

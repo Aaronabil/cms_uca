@@ -7,17 +7,17 @@ use App\Models\ArtikelImage;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\CreateRecord\Concerns\HasWizard;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-use Filament\Forms\Components\Radio;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Components\Wizard;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class CreateArtikel extends CreateRecord
@@ -79,7 +79,7 @@ class CreateArtikel extends CreateRecord
                         ->default('draft')
                         ->required(),
                     DateTimePicker::make('published_at'),
-                    
+
                     // Image Source Selection
                     Radio::make('image_source')
                         ->label('Sumber Gambar')
@@ -116,7 +116,7 @@ class CreateArtikel extends CreateRecord
         $source = $data['image_source'] ?? 'upload';
 
         if ($source === 'upload') {
-             if (isset($data['featured_image_upload'])) {
+            if (isset($data['featured_image_upload'])) {
                 $imagePath = is_array($data['featured_image_upload']) ? ($data['featured_image_upload'][0] ?? null) : $data['featured_image_upload'];
             }
         } else {

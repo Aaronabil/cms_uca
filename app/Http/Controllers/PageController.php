@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Page;
+use App\Services\PageService;
 use Inertia\Inertia;
 
 class PageController extends Controller
 {
+    public function __construct(protected PageService $pageService) {}
+
     public function show($slug)
     {
-        $page = Page::where('slug', $slug)
-            ->where('status', 'published')
-            ->firstOrFail();
-
         return Inertia::render('Page/Show', [
-            'page' => $page,
+            'page' => $this->pageService->getPublishedPageBySlug($slug),
         ]);
     }
 }

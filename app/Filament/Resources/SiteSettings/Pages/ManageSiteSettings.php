@@ -11,15 +11,14 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Schemas\Components\Tabs;
-use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Tabs\Tab;
-use Filament\Schemas\Schema;
-use Filament\Schemas\Contracts\HasSchemas;
-use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
-use Illuminate\Support\Facades\Storage;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Schemas\Contracts\HasSchemas;
+use Filament\Schemas\Schema;
 
 class ManageSiteSettings extends Page implements HasSchemas
 {
@@ -118,13 +117,13 @@ class ManageSiteSettings extends Page implements HasSchemas
                                     ->schema([
                                         TextInput::make('question')->required(),
                                         Textarea::make('answer')->required(),
-                                    ])
+                                    ]),
                             ]),
                         Tab::make('Structure')
                             ->schema(fn () => $this->getStructureFields()),
-                         Tab::make('Faculties')
+                        Tab::make('Faculties')
                             ->schema(fn () => $this->getFacultyFields()),
-                         Tab::make('Study Programs')
+                        Tab::make('Study Programs')
                             ->schema(fn () => $this->getStudyProgramFields()),
                     ])->columnSpan('full'),
             ])
@@ -149,6 +148,7 @@ class ManageSiteSettings extends Page implements HasSchemas
                     Textarea::make("faculty_{$faculty->slug}_cooperation")->label('Cooperation')->rows(3),
                 ])->collapsible()->collapsed();
         }
+
         return $fields;
     }
 
@@ -156,7 +156,7 @@ class ManageSiteSettings extends Page implements HasSchemas
     {
         $fields = [];
         foreach (StudyProgram::all() as $prodi) {
-            $fields[] = Section::make($prodi->name . ' (' . $prodi->faculty->name . ')')
+            $fields[] = Section::make($prodi->name.' ('.$prodi->faculty->name.')')
                 ->schema([
                     TextInput::make("kaprodi_{$prodi->slug}_name")->label('Kaprodi Name'),
                     FileUpload::make("kaprodi_{$prodi->slug}_image")
@@ -170,10 +170,11 @@ class ManageSiteSettings extends Page implements HasSchemas
                     Repeater::make("prodi_{$prodi->slug}_misi")
                         ->label('Misi')
                         ->schema([
-                            TextInput::make('text')->required()->label('Misi Point')
+                            TextInput::make('text')->required()->label('Misi Point'),
                         ]),
                 ])->collapsible()->collapsed();
         }
+
         return $fields;
     }
 
@@ -194,18 +195,19 @@ class ManageSiteSettings extends Page implements HasSchemas
                     Textarea::make("vice_rector_{$i}_education")->label('Education (Pendidikan)')->rows(2)->nullable(),
                 ])->collapsible()->collapsed();
         }
+
         return $fields;
     }
 
     public function submit(): void
     {
         $data = $this->form->getState();
-        
+
         // Handle JSON fields
         if (isset($data['faqs'])) {
             $data['faqs'] = json_encode($data['faqs']);
         }
-        
+
         foreach ($data as $key => $value) {
             if (is_array($value) && str_ends_with($key, '_misi')) {
                 $data[$key] = json_encode(array_values($value));
@@ -238,7 +240,7 @@ class ManageSiteSettings extends Page implements HasSchemas
                 ->outlined(),
         ];
     }
-    
+
     protected function getFormActions(): array
     {
         return [

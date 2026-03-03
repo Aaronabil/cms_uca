@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Faculty;
-use App\Models\StudyProgram;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -21,13 +20,15 @@ class FacultyStudyProgramSeeder extends Seeder
                 'name' => 'Ekonomi dan Bisnis Islam',
                 'image_url' => 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=1740',
                 'color' => 'yellow',
-                'description' => "Fakultas Ekonomi dan Bisnis Islam (FEBI) berdedikasi untuk mencetak pemimpin masa depan.",
-                'visi' => "Menjadi universitas terkemuka di tingkat nasional.",
-                'misi' => ["Menyelenggarakan pendidikan tinggi berkualitas.", "Melaksanakan penelitian inovatif."],
+                'description' => 'Fakultas Ekonomi dan Bisnis Islam (FEBI) berdedikasi untuk mencetak pemimpin masa depan.',
+                'visi' => 'Menjadi universitas terkemuka di tingkat nasional.',
+                'misi' => ['Menyelenggarakan pendidikan tinggi berkualitas.', 'Melaksanakan penelitian inovatif.'],
             ]
         );
         $programs = [['name' => 'Akuntansi', 'slug' => 'akuntansi'], ['name' => 'Bisnis Digital', 'slug' => 'bisnis-digital'], ['name' => 'Perbankan Syariah', 'slug' => 'perbankan-syariah'], ['name' => 'Ekonomi Syariah', 'slug' => 'ekonomi-syariah']];
-        foreach ($programs as $p) $febi->studyPrograms()->updateOrCreate(['slug' => $p['slug']], ['name' => $p['name']]);
+        foreach ($programs as $p) {
+            $febi->studyPrograms()->updateOrCreate(['slug' => $p['slug']], ['name' => $p['name']]);
+        }
 
         // 2. FIK (Hijau)
         $fik = Faculty::updateOrCreate(
@@ -36,9 +37,9 @@ class FacultyStudyProgramSeeder extends Seeder
                 'name' => 'Ilmu Keperawatan',
                 'image_url' => 'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1686',
                 'color' => 'green',
-                'description' => "Fakultas Ilmu Keperawatan berkomitmen menghasilkan perawat profesional.",
-                'visi' => "Menjadi pusat pendidikan keperawatan unggulan.",
-                'misi' => ["Menyelenggarakan pendidikan keperawatan.", "Melakukan penelitian."],
+                'description' => 'Fakultas Ilmu Keperawatan berkomitmen menghasilkan perawat profesional.',
+                'visi' => 'Menjadi pusat pendidikan keperawatan unggulan.',
+                'misi' => ['Menyelenggarakan pendidikan keperawatan.', 'Melakukan penelitian.'],
             ]
         );
         $fik->studyPrograms()->updateOrCreate(['slug' => 'keperawatan'], ['name' => 'Keperawatan']);
@@ -50,13 +51,15 @@ class FacultyStudyProgramSeeder extends Seeder
                 'name' => 'Tarbiyah dan Ilmu Keguruan',
                 'image_url' => 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=1740',
                 'color' => 'red',
-                'description' => "Fakultas Tarbiyah dan Ilmu Keguruan mencetak pendidik profesional.",
-                'visi' => "Menjadi fakultas tarbiyah yang unggul.",
-                'misi' => ["Menyelenggarakan pendidikan keguruan.", "Mengembangkan ilmu pendidikan."],
+                'description' => 'Fakultas Tarbiyah dan Ilmu Keguruan mencetak pendidik profesional.',
+                'visi' => 'Menjadi fakultas tarbiyah yang unggul.',
+                'misi' => ['Menyelenggarakan pendidikan keguruan.', 'Mengembangkan ilmu pendidikan.'],
             ]
         );
         $programs = [['name' => 'Pendidikan Agama Islam', 'slug' => 'pai'], ['name' => 'Pendidikan Islam Anak Usia Dini', 'slug' => 'piAUD'], ['name' => 'Manajemen Pendidikan Islam', 'slug' => 'mpi']];
-        foreach ($programs as $p) $ftik->studyPrograms()->updateOrCreate(['slug' => $p['slug']], ['name' => $p['name']]);
+        foreach ($programs as $p) {
+            $ftik->studyPrograms()->updateOrCreate(['slug' => $p['slug']], ['name' => $p['name']]);
+        }
 
         // 4. FT (Oranye)
         $ft = Faculty::updateOrCreate(
@@ -65,13 +68,15 @@ class FacultyStudyProgramSeeder extends Seeder
                 'name' => 'Teknik',
                 'image_url' => 'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1686',
                 'color' => 'orange',
-                'description' => "Fakultas Teknik menyiapkan insinyur masa depan.",
-                'visi' => "Menjadi fakultas teknik terdepan.",
-                'misi' => ["Menyelenggarakan pendidikan teknik.", "Melakukan riset teknologi."],
+                'description' => 'Fakultas Teknik menyiapkan insinyur masa depan.',
+                'visi' => 'Menjadi fakultas teknik terdepan.',
+                'misi' => ['Menyelenggarakan pendidikan teknik.', 'Melakukan riset teknologi.'],
             ]
         );
         $programs = [['name' => 'Teknik Informatika', 'slug' => 'ti'], ['name' => 'Teknik Elektro', 'slug' => 'te']];
-        foreach ($programs as $p) $ft->studyPrograms()->updateOrCreate(['slug' => $p['slug']], ['name' => $p['name']]);
+        foreach ($programs as $p) {
+            $ft->studyPrograms()->updateOrCreate(['slug' => $p['slug']], ['name' => $p['name']]);
+        }
 
         // --- TAMBAHAN (Menggunakan gambar yang SAMA biar aman) ---
 
@@ -82,9 +87,9 @@ class FacultyStudyProgramSeeder extends Seeder
                 'name' => 'Kedokteran',
                 'image_url' => 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=1740',
                 'color' => 'blue',
-                'description' => "Mencetak dokter profesional.",
-                'visi' => "Menjadi Fakultas Kedokteran unggulan.",
-                'misi' => ["Pendidikan berkualitas.", "Penelitian kedokteran."],
+                'description' => 'Mencetak dokter profesional.',
+                'visi' => 'Menjadi Fakultas Kedokteran unggulan.',
+                'misi' => ['Pendidikan berkualitas.', 'Penelitian kedokteran.'],
             ]
         );
         $fk->studyPrograms()->updateOrCreate(['slug' => 'pendidikan-dokter'], ['name' => 'Pendidikan Dokter']);
@@ -97,9 +102,9 @@ class FacultyStudyProgramSeeder extends Seeder
                 'name' => 'Pertanian',
                 'image_url' => 'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1686',
                 'color' => 'brown',
-                'description' => "Mengembangkan inovasi pertanian.",
-                'visi' => "Pusat unggulan agroteknologi.",
-                'misi' => ["Pendidikan pertanian.", "Riset inovatif."],
+                'description' => 'Mengembangkan inovasi pertanian.',
+                'visi' => 'Pusat unggulan agroteknologi.',
+                'misi' => ['Pendidikan pertanian.', 'Riset inovatif.'],
             ]
         );
         $fp->studyPrograms()->updateOrCreate(['slug' => 'agroteknologi'], ['name' => 'Agroteknologi']);
@@ -112,9 +117,9 @@ class FacultyStudyProgramSeeder extends Seeder
                 'name' => 'Hukum',
                 'image_url' => 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=1740',
                 'color' => 'purple',
-                'description' => "Menegakkan keadilan hukum.",
-                'visi' => "Fakultas hukum terkemuka.",
-                'misi' => ["Pendidikan hukum.", "Mencetak sarjana hukum."],
+                'description' => 'Menegakkan keadilan hukum.',
+                'visi' => 'Fakultas hukum terkemuka.',
+                'misi' => ['Pendidikan hukum.', 'Mencetak sarjana hukum.'],
             ]
         );
         $fh->studyPrograms()->updateOrCreate(['slug' => 'ilmu-hukum'], ['name' => 'Ilmu Hukum']);
@@ -126,9 +131,9 @@ class FacultyStudyProgramSeeder extends Seeder
                 'name' => 'Psikologi',
                 'image_url' => 'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1686',
                 'color' => 'pink',
-                'description' => "Memahami perilaku manusia.",
-                'visi' => "Fakultas psikologi responsif.",
-                'misi' => ["Pendidikan psikologi.", "Penelitian psikologi."],
+                'description' => 'Memahami perilaku manusia.',
+                'visi' => 'Fakultas psikologi responsif.',
+                'misi' => ['Pendidikan psikologi.', 'Penelitian psikologi.'],
             ]
         );
         $fpk->studyPrograms()->updateOrCreate(['slug' => 'psikologi'], ['name' => 'Psikologi']);
@@ -140,9 +145,9 @@ class FacultyStudyProgramSeeder extends Seeder
                 'name' => 'Seni dan Desain',
                 'image_url' => 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=1740',
                 'color' => 'gray',
-                'description' => "Wadah kreativitas seni.",
-                'visi' => "Fakultas seni inovatif.",
-                'misi' => ["Pendidikan seni.", "Eksplorasi desain."],
+                'description' => 'Wadah kreativitas seni.',
+                'visi' => 'Fakultas seni inovatif.',
+                'misi' => ['Pendidikan seni.', 'Eksplorasi desain.'],
             ]
         );
         $fsd->studyPrograms()->updateOrCreate(['slug' => 'dkv'], ['name' => 'Desain Komunikasi Visual']);
@@ -154,9 +159,9 @@ class FacultyStudyProgramSeeder extends Seeder
                 'name' => 'Ilmu Sosial dan Politik',
                 'image_url' => 'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1686',
                 'color' => 'teal',
-                'description' => "Mengkaji fenomena sosial.",
-                'visi' => "Fakultas sosial relevan.",
-                'misi' => ["Pendidikan sosial.", "Analisis politik."],
+                'description' => 'Mengkaji fenomena sosial.',
+                'visi' => 'Fakultas sosial relevan.',
+                'misi' => ['Pendidikan sosial.', 'Analisis politik.'],
             ]
         );
         $fisp->studyPrograms()->updateOrCreate(['slug' => 'ilkom'], ['name' => 'Ilmu Komunikasi']);

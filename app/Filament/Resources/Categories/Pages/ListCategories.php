@@ -6,8 +6,8 @@ use App\Filament\Resources\Categories\CategoryResource;
 use Filament\Actions\CreateAction;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Schemas\Components\Utilities\Set;
 use Illuminate\Support\Str;
 
 class ListCategories extends ListRecords

@@ -41,7 +41,7 @@ class StudyProgramForm
                             ->label('Visi')
                             ->rows(3)
                             ->columnSpanFull(),
-                            
+
                         \Filament\Forms\Components\Repeater::make('misi')
                             ->label('Misi')
                             ->schema([

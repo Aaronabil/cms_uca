@@ -3,8 +3,6 @@
 namespace App\Filament\Resources\SiteSettings\Tables;
 
 use App\Models\Faculty;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -31,16 +29,19 @@ class SiteSettingsTable
                     ->formatStateUsing(function (string $state, $record): string {
                         if ($record->setting_key === 'faqs') {
                             $count = count(json_decode($state, true) ?? []);
+
                             return "{$count} Questions Configured";
                         }
                         if (str_ends_with($record->setting_key, '_misi')) {
                             $count = count(json_decode($state, true) ?? []);
+
                             return "{$count} Items";
                         }
                         if ($record->setting_key === 'footer_settings') {
                             $data = json_decode($state, true);
+
                             return sprintf(
-                                "Telepon: %s | Email: %s",
+                                'Telepon: %s | Email: %s',
                                 $data['telephone'] ?? '-',
                                 $data['email'] ?? '-'
                             );
@@ -49,6 +50,7 @@ class SiteSettingsTable
                         if (str_starts_with($record->setting_key, 'kaprodi_') && str_ends_with($record->setting_key, '_image')) {
                             return '(Image Uploaded)';
                         }
+
                         return $state;
                     })
                     ->color(fn ($record) => $record->setting_key === 'faqs' || str_ends_with($record->setting_key, '_misi') ? 'primary' : null),
@@ -70,14 +72,14 @@ class SiteSettingsTable
                         $facultyId = $data['value'];
                         $faculty = Faculty::with('studyPrograms')->find($facultyId);
 
-                        if (!$faculty) {
+                        if (! $faculty) {
                             return $query;
                         }
 
                         $keys = [];
                         // Add Faculty keys
                         $keys[] = "faculty_{$faculty->slug}_%";
-                        
+
                         // Add Prodi keys for each study program
                         foreach ($faculty->studyPrograms as $prodi) {
                             $keys[] = "prodi_{$prodi->slug}_%";

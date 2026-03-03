@@ -65,7 +65,7 @@ class MenuResource extends Resource
                             ->afterStateUpdated(function ($set, $state) {
                                 $page = Page::find($state);
                                 if ($page) {
-                                    $set('url', '/page/' . $page->slug);
+                                    $set('url', '/page/'.$page->slug);
                                     $set('name', $page->title);
                                 }
                             })

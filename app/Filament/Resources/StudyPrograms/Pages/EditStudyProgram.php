@@ -26,9 +26,10 @@ class EditStudyProgram extends EditRecord
 
         $visi = \App\Models\SiteSetting::where('setting_key', "prodi_{$slug}_visi")->value('setting_value');
         $misiJson = \App\Models\SiteSetting::where('setting_key', "prodi_{$slug}_misi")->value('setting_value');
-        
+
         $data['visi'] = $visi;
         $data['misi'] = $misiJson ? json_decode($misiJson, true) : [];
+
         return $data;
     }
 
@@ -43,10 +44,10 @@ class EditStudyProgram extends EditRecord
             );
             unset($data['visi']);
         }
-        
+
         if (isset($data['misi'])) {
-             $misiValue = json_encode(array_values($data['misi']));
-             \App\Models\SiteSetting::updateOrCreate(
+            $misiValue = json_encode(array_values($data['misi']));
+            \App\Models\SiteSetting::updateOrCreate(
                 ['setting_key' => "prodi_{$slug}_misi"],
                 ['setting_value' => $misiValue]
             );
@@ -54,6 +55,7 @@ class EditStudyProgram extends EditRecord
         }
 
         $record->update($data);
+
         return $record;
     }
 }

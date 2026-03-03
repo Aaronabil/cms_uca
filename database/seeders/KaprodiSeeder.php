@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\StudyProgram;
 use App\Models\SiteSetting;
+use App\Models\StudyProgram;
 use Illuminate\Database\Seeder;
 
 class KaprodiSeeder extends Seeder
@@ -14,7 +14,7 @@ class KaprodiSeeder extends Seeder
     public function run(): void
     {
         $prodis = StudyProgram::all();
-        
+
         foreach ($prodis as $prodi) {
             // Key untuk foto kaprodi
             SiteSetting::updateOrCreate(
